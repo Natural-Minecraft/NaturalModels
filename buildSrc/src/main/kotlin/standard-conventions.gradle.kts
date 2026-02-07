@@ -18,6 +18,7 @@ rootProject.dependencies.dokka(project)
 
 dependencies {
     testImplementation(kotlin("test"))
+    shade(kotlin("stdlib"))
 
     compileOnly(libs.bundles.library)
     testImplementation(libs.bundles.library)

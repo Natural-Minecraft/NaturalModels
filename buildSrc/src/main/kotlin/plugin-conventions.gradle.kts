@@ -13,9 +13,7 @@ dependencies {
     compileOnly(project(":api"))
     compileOnly(project(":api:bukkit-api"))
     compileOnly(project(":core"))
-    shade(project(":core:bukkit-core")) {
-        exclude("org.jetbrains.kotlin")
-    }
+    shade(project(":core:bukkit-core"))
 }
 
 tasks {
