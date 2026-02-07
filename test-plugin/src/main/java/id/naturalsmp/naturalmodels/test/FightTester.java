@@ -51,7 +51,7 @@ public final class FightTester implements ModelTester, Listener {
 
     @NotNull
     private static final NamespacedKey KNIGHT_SWORD_KEY = Objects
-            .requireNonNull(NamespacedKey.fromString("knight_sword"));
+            .requireNonNull(NamespacedKey.fromString("naturalmodels_test:knight_sword"));
 
     private final Map<UUID, PlayerSkillCounter> playerCounterMap = new ConcurrentHashMap<>();
     private ItemStack lineItem;

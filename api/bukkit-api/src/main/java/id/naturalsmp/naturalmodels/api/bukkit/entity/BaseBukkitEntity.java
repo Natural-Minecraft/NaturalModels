@@ -23,7 +23,8 @@ import java.util.Objects;
 /**
  * Represents a Bukkit-specific entity adapter.
  * <p>
- * This interface extends {@link BaseEntity} and {@link PersistentDataHolder} to provide
+ * This interface extends {@link BaseEntity} and {@link PersistentDataHolder} to
+ * provide
  * access to the underlying Bukkit entity and its persistent data container.
  * </p>
  *
@@ -32,11 +33,13 @@ import java.util.Objects;
 public interface BaseBukkitEntity extends BaseEntity, PersistentDataHolder {
 
     /**
-     * The namespaced key used for storing tracker data in the entity's persistent data container.
+     * The namespaced key used for storing tracker data in the entity's persistent
+     * data container.
+     * 
      * @since 2.0.0
      */
     @NotNull
-    NamespacedKey TRACKING_ID = Objects.requireNonNull(NamespacedKey.fromString("NaturalModels_tracker"));
+    NamespacedKey TRACKING_ID = Objects.requireNonNull(NamespacedKey.fromString("naturalmodels:tracker"));
 
     /**
      * Returns the underlying Bukkit entity.
@@ -58,7 +61,8 @@ public interface BaseBukkitEntity extends BaseEntity, PersistentDataHolder {
     default @NotNull TransformedItemStack mainHand() {
         if (entity() instanceof LivingEntity livingEntity) {
             var equipment = livingEntity.getEquipment();
-            if (equipment != null) return TransformedItemStack.of(BukkitAdapter.adapt(equipment.getItemInMainHand()));
+            if (equipment != null)
+                return TransformedItemStack.of(BukkitAdapter.adapt(equipment.getItemInMainHand()));
         }
         return TransformedItemStack.empty();
     }
@@ -73,7 +77,8 @@ public interface BaseBukkitEntity extends BaseEntity, PersistentDataHolder {
     default @NotNull TransformedItemStack offHand() {
         if (entity() instanceof LivingEntity livingEntity) {
             var equipment = livingEntity.getEquipment();
-            if (equipment != null) return TransformedItemStack.of(BukkitAdapter.adapt(equipment.getItemInOffHand()));
+            if (equipment != null)
+                return TransformedItemStack.of(BukkitAdapter.adapt(equipment.getItemInOffHand()));
         }
         return TransformedItemStack.empty();
     }
@@ -96,8 +101,9 @@ public interface BaseBukkitEntity extends BaseEntity, PersistentDataHolder {
      */
     default void modelData(@Nullable String modelData) {
         var container = getPersistentDataContainer();
-        if (modelData == null) container.remove(TRACKING_ID);
-        else container.set(TRACKING_ID, PersistentDataType.STRING, modelData);
+        if (modelData == null)
+            container.remove(TRACKING_ID);
+        else
+            container.set(TRACKING_ID, PersistentDataType.STRING, modelData);
     }
 }
-
