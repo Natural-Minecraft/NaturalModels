@@ -36,6 +36,7 @@ val generatePaperLibrary by tasks.registering {
 
 tasks.shadowJar {
     archiveFileName.set("NaturalModels.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("libs"))
     dependsOn(generatePaperLibrary)
     from(libraryDir)
     manifest {
