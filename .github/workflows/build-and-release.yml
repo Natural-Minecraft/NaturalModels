@@ -30,7 +30,7 @@ jobs:
 
       - name: Build with Gradle
         # We use shadowJar to get the all-in-one plugin jar
-        run: ./gradlew :platform:paper:shadowJar
+        run: ./gradlew :platform:paper:shadowJar --no-daemon --build-cache
 
       - name: Get Version
         id: info
