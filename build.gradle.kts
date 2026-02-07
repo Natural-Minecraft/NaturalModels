@@ -40,9 +40,6 @@ tasks {
         }
     }
     build {
-        finalizedBy(
-            javadocJar
-        )
     }
     shadowJar {
         enabled = false
