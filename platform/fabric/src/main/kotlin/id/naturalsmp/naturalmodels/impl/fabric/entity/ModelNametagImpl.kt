@@ -1,0 +1,123 @@
+/**
+ * This source file is part of BetterModel.
+ * Copyright (c) 2024–2026 toxicity188
+ * Licensed under the MIT License.
+ * See LICENSE.md file for full license text.
+ */
+package id.naturalsmp.naturalmodels.impl.fabric.entity
+
+import com.mojang.math.Transformation
+import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone
+import id.naturalsmp.naturalmodels.api.fabric.BetterModelFabric
+import id.naturalsmp.naturalmodels.api.nms.ModelNametag
+import id.naturalsmp.naturalmodels.api.nms.PacketBundler
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer
+import id.naturalsmp.naturalmodels.api.util.EntityUtil
+import id.naturalsmp.naturalmodels.impl.fabric.chat.asVanilla
+import id.naturalsmp.naturalmodels.impl.fabric.network.bundlerOf
+import id.naturalsmp.naturalmodels.impl.fabric.network.bundlerOfNotNull
+import id.naturalsmp.naturalmodels.impl.fabric.network.pack
+import id.naturalsmp.naturalmodels.impl.fabric.network.plusAssign
+import id.naturalsmp.naturalmodels.mixin.DisplayAccessor
+import id.naturalsmp.naturalmodels.util.PLATFORM
+import net.minecraft.network.chat.Component
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket
+import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket
+import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket
+import net.minecraft.world.entity.Display
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.PositionMoveRotation
+import net.minecraft.world.phys.Vec3
+import org.joml.Vector3f
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+
+class ModelNametagImpl(
+    private val bone: RenderedBone
+) : ModelNametag {
+    private companion object {
+        private val emptyVector = Vector3f()
+        private val emptyTransformation = Transformation(
+            Vector3f(-1F / 40F, -0.2F - 1F / 40F, 0F),
+            null,
+            null,
+            null
+        )
+    }
+
+    private val viewedPlayer = ConcurrentHashMap.newKeySet<UUID>()
+    private val display = Display.TextDisplay(
+        EntityType.TEXT_DISPLAY,
+        (PLATFORM as BetterModelFabric).server().overworld()
+    ).apply {
+        entityData[DisplayAccessor.`bettermodel$getDataPosRotInterpolationDurationId`()] = 3
+        setTransformation(emptyTransformation)
+        billboardConstraints = Display.BillboardConstraints.CENTER
+    }
+    private var alwaysVisible = false
+    private var location = BetterModel.platform().adapter().zero()
+
+    override fun component(component: net.kyori.adventure.text.Component?) {
+        display.text = component?.asVanilla() ?: Component.empty()
+    }
+
+    override fun teleport(location: PlatformLocation) {
+        this.location = location
+    }
+
+    override fun alwaysVisible(alwaysVisible: Boolean) {
+        this.alwaysVisible = alwaysVisible
+    }
+
+    override fun send(player: PlatformPlayer) {
+        if (display.text == Component.empty()) return
+        val hb = bone.group.hitBox?.centerPoint() ?: emptyVector
+        val pos = bone.worldPosition(hb, emptyVector, player.uuid())
+        display.snapTo(Vec3(
+            location.x() + pos.x,
+            location.y() + pos.y,
+            location.z() + pos.z
+        ))
+        val inPoint = alwaysVisible || EntityUtil.isCustomNameVisible(player.location(), location)
+        when {
+            inPoint && viewedPlayer.add(player.uuid()) -> bundlerOfNotNull(
+                addPacket,
+                display.entityData.pack()?.let {
+                    ClientboundSetEntityDataPacket(display.id, it)
+                }
+            )
+            inPoint -> bundlerOfNotNull(
+                ClientboundEntityPositionSyncPacket(display.id, PositionMoveRotation.of(display), false),
+                display.entityData.packDirty()?.let {
+                    ClientboundSetEntityDataPacket(display.id, it)
+                }
+            )
+            viewedPlayer.remove(player.uuid()) -> bundlerOf(removePacket)
+            else -> null
+        }?.send(player)
+    }
+
+    override fun remove(bundler: PacketBundler) {
+        bundler += removePacket
+    }
+
+    private val addPacket get() = ClientboundAddEntityPacket(
+        display.id,
+        display.uuid,
+        display.x,
+        display.y,
+        display.z,
+        display.xRot,
+        display.yRot,
+        display.type,
+        0,
+        display.deltaMovement,
+        display.yHeadRot.toDouble()
+    )
+
+    private val removePacket get() = ClientboundRemoveEntitiesPacket(display.id)
+}
+

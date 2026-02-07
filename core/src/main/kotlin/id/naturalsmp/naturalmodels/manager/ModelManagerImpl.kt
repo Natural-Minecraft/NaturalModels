@@ -1,0 +1,317 @@
+/**
+ * This source file is part of BetterModel.
+ * Copyright (c) 2024–2026 toxicity188
+ * Licensed under the MIT License.
+ * See LICENSE.md file for full license text.
+ */
+package id.naturalsmp.naturalmodels.manager
+
+import com.google.gson.JsonArray
+import id.naturalsmp.naturalmodels.api.bone.BoneItemMapper
+import id.naturalsmp.naturalmodels.api.data.ModelAsset
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintElement
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintJson
+import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBlueprint
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer
+import id.naturalsmp.naturalmodels.api.data.renderer.RendererGroup
+import id.naturalsmp.naturalmodels.api.event.ModelAssetsEvent
+import id.naturalsmp.naturalmodels.api.event.ModelImportedEvent
+import id.naturalsmp.naturalmodels.api.manager.ModelManager
+import id.naturalsmp.naturalmodels.api.pack.PackBuilder
+import id.naturalsmp.naturalmodels.api.pack.PackZipper
+import id.naturalsmp.naturalmodels.api.platform.PlatformNamespace
+import id.naturalsmp.naturalmodels.util.*
+import net.kyori.adventure.text.format.NamedTextColor.*
+import java.io.File
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.io.path.extension
+
+object ModelManagerImpl : ModelManager, GlobalManager {
+
+    private lateinit var itemModelNamespace: PlatformNamespace
+    private val generalModelMap = hashMapOf<String, ModelRenderer>()
+    private val generalModelView = generalModelMap.toImmutableView()
+    private val playerModelMap = hashMapOf<String, ModelRenderer>()
+    private val playerModelView = playerModelMap.toImmutableView()
+    private val modelExtensions = setOf("bbmodel", "ajmodel")
+
+    private fun importModels(
+        type: ModelRenderer.Type,
+        pipeline: ReloadPipeline,
+        dir: File
+    ): Sequence<ImportedModel> {
+        val targetAssets = ModelAssetsEvent(type, dir.fileTrees().use { stream ->
+            stream.filter { it.extension.lowercase() in modelExtensions }
+                .map(ModelAsset::of)
+                .toMutableSet()
+        }).apply { call() }
+            .assets
+            .ifEmpty { return emptySequence() }
+            .toList()
+        val modelFileMap = ConcurrentHashMap<String, Pair<ModelAsset, ModelBlueprint>>(targetAssets.size)
+        val typeName = type.name.lowercase()
+        pipeline.apply {
+            status = "Importing $typeName models..."
+            goal = targetAssets.size
+        }.forEachParallel(targetAssets, ModelAsset::sizeAssume) {
+            val index = pipeline.progress()
+            val load = it.toTexturedModel() ?: return@forEachParallel
+            modelFileMap.compute(load.name) { _, v ->
+                if (v != null) {
+                    // A model with the same name already exists from a different file
+                    warn(
+                        "Duplicate $typeName model name '${load.name}'.".toComponent(),
+                        "Duplicated file: $it".toComponent(RED),
+                        "And: ${v.first}".toComponent(RED)
+                    )
+                    if (v.first < it) return@compute v
+                }
+                debugPack {
+                    componentOf(
+                        "$typeName model file successfully loaded: ".toComponent(),
+                        it.toString().toComponent(GREEN),
+                        " ($index/${pipeline.goal})".toComponent(DARK_GRAY)
+                    )
+                }
+                it to load
+            }
+        }
+        return modelFileMap.values
+            .asSequence()
+            .sortedBy { it.first }
+            .map { ImportedModel(it.first.sizeAssume, type,it.second) }
+    }
+
+    private fun loadModels(pipeline: ReloadPipeline, zipper: PackZipper) {
+        ModelPipeline(zipper).use {
+            if (CONFIG.module().model) it.addModelTo(
+                generalModelMap,
+                importModels(ModelRenderer.Type.GENERAL, pipeline, DATA_FOLDER.getOrCreateDirectory("models") { folder ->
+                    File(DATA_FOLDER.parent, "ModelEngine/blueprints")
+                        .takeIf(File::isDirectory)
+                        ?.run {
+                            copyRecursively(folder, overwrite = true)
+                            info("ModelEngine's models are successfully migrated.".toComponent(GREEN))
+                        } ?: run {
+                        if (PLATFORM.version().useModernResource()) folder.addResource("demon_knight.bbmodel")
+                    }
+                })
+            )
+            if (CONFIG.module().playerAnimation) it.addModelTo(
+                playerModelMap,
+                importModels(ModelRenderer.Type.PLAYER, pipeline, DATA_FOLDER.getOrCreateDirectory("players") { folder ->
+                    folder.addResource("steve.bbmodel")
+                })
+            )
+        }
+    }
+
+    private data class ImportedModel(
+        val size: Long,
+        val type: ModelRenderer.Type,
+        val blueprint: ModelBlueprint
+    ) {
+        val jsonSize = size - blueprint.textures.sumOf {
+            it.image.size
+        }
+    }
+
+    private class ModelPipeline(
+        zipper: PackZipper
+    ) : AutoCloseable {
+
+        private var indexer = 1
+        private var estimatedSize = 0L
+        private val textures = zipper.assets().bettermodel().textures()
+
+        private val legacyModel = ModelBuilder(
+            models = zipper.legacy().bettermodel().models().resolve("item"),
+            available = CONFIG.pack().generateLegacyModel,
+            onBuild = { blueprints, size ->
+                val json = blueprints.first()
+                entries += jsonObjectOf(
+                    "predicate" to jsonObjectOf("custom_model_data" to indexer),
+                    "model" to "${CONFIG.namespace()}:item/${json.name}"
+                )
+                models.add(json.jsonName(), size) {
+                    json.buildJson().toByteArray()
+                }
+            },
+            onClose = {
+                val itemName = CONFIG.itemModel().lowercase()
+                jsonObjectOf(
+                    "parent" to "minecraft:item/generated",
+                    "textures" to jsonObjectOf("layer0" to "minecraft:item/$itemName"),
+                    "overrides" to entries
+                ).run {
+                    models.add("${CONFIG.itemNamespace()}.json", estimatedSize) { toByteArray() }
+                    zipper.legacy().minecraft().models().resolve("item").add("$itemName.json", estimatedSize) { toByteArray() }
+                }
+            }
+        )
+
+        private val modernModel = ModelBuilder(
+            models = zipper.modern().bettermodel().models().resolve("modern_item"),
+            available = CONFIG.pack().generateModernModel,
+            onBuild = { blueprints, size ->
+                entries += jsonObjectOf(
+                    "threshold" to indexer,
+                    "model" to blueprints.toModernJson()
+                )
+                blueprints.forEach { json ->
+                    models.add(json.jsonName(), size / blueprints.size) {
+                        json.buildJson().toByteArray()
+                    }
+                }
+            },
+            onClose = {
+                zipper.modern().bettermodel().items().add("${CONFIG.itemNamespace()}.json", estimatedSize) {
+                    jsonObjectOf("model" to jsonObjectOf(
+                        "type" to "range_dispatch",
+                        "property" to "custom_model_data",
+                        "fallback" to jsonObjectOf(
+                            "type" to "minecraft:empty"
+                        ),
+                        "entries" to entries
+                    )).toByteArray()
+                }
+            }
+        )
+
+        override fun close() {
+            modernModel.close()
+            legacyModel.close()
+        }
+
+        fun addModelTo(
+            targetMap: MutableMap<String, ModelRenderer>,
+            model: Sequence<ImportedModel>
+        ) {
+            model.forEach { addModelTo(targetMap, it) }
+        }
+
+        private fun addModelTo(
+            targetMap: MutableMap<String, ModelRenderer>,
+            importedModel: ImportedModel
+        ) {
+            val size = importedModel.jsonSize
+            val blueprint = importedModel.blueprint
+            val hasTexture = blueprint.hasTexture()
+            targetMap[blueprint.name] = blueprint.toRenderer(importedModel.type) render@ { group ->
+                if (!hasTexture) return@render null
+                listOfNotNull(
+                    modernModel.ifAvailable {
+                        group.buildModernJson(obfuscator, blueprint)
+                            ?.let { build(it, size / it.size) }
+                    },
+                    legacyModel.ifAvailable {
+                        group.buildLegacyJson(PLATFORM.version().useModernResource(), obfuscator, blueprint)
+                            ?.let { build(listOf(it), size) }
+                    }
+                ).run {
+                    if (isNotEmpty()) indexer++ else null
+                }
+            }.apply {
+                debugPack {
+                    componentOf(
+                        "This model was successfully imported: ".toComponent(),
+                        blueprint.name.toComponent(GREEN)
+                    )
+                }
+                callEvent { ModelImportedEvent(blueprint, this) }
+            }
+            if (hasTexture) blueprint.buildImage(textures.obfuscator()).forEach { image ->
+                textures.add(image.pngName(), image.estimatedSize()) {
+                    image.toByteArray()
+                }
+                image.mcmeta()?.let { meta ->
+                    textures.add(image.mcmetaName(), -1) {
+                        meta.toByteArray()
+                    }
+                }
+            }
+            estimatedSize += size
+        }
+
+        inner class ModelBuilder(
+            val models: PackBuilder,
+            private val available: Boolean,
+            private val onBuild: ModelBuilder.(List<BlueprintJson>, Long) -> Unit,
+            private val onClose: ModelBuilder.() -> Unit
+        ) : AutoCloseable {
+            val entries = jsonArrayOf()
+            val obfuscator = textures.obfuscator().withModels(models.obfuscator())
+
+            inline fun <T> ifAvailable(block: ModelBuilder.() -> T): T? {
+                return if (available) block() else null
+            }
+
+            fun build(list: List<BlueprintJson>, size: Long) {
+                onBuild(list, size)
+            }
+
+            override fun close() {
+                ifAvailable {
+                    if (!entries.isEmpty) onClose()
+                }
+            }
+        }
+
+        private fun List<BlueprintJson>.toModernJson() = if (size == 1) first().toModernJson() else jsonObjectOf(
+            "type" to "minecraft:composite",
+            "models" to fold(JsonArray(size)) { array, element -> array.apply { add(element.toModernJson()) } }
+        )
+
+        private fun BlueprintJson.toModernJson() = jsonObjectOf(
+            "type" to "minecraft:model",
+            "model" to "${CONFIG.namespace()}:modern_item/${name}",
+            "tints" to jsonArrayOf(
+                jsonObjectOf(
+                    "type" to "minecraft:custom_model_data",
+                    "default" to 0xFFFFFF
+                )
+            )
+        )
+
+        private fun ModelBlueprint.toRenderer(type: ModelRenderer.Type, builder: (BlueprintElement.Group) -> Int?): ModelRenderer {
+            fun BlueprintElement.Bone.parse(): RendererGroup {
+                if (this !is BlueprintElement.Group) return RendererGroup(1.0F, null, this, emptyMap(), null)
+                return RendererGroup(
+                    scale(),
+                    if (name.toItemMapper() !== BoneItemMapper.EMPTY) null else builder(this)?.let { i ->
+                        CONFIG.item().get().modelData(i, itemModelNamespace)
+                    },
+                    this,
+                    children.filterIsInstance<BlueprintElement.Bone>()
+                        .associate { it.name() to it.parse() },
+                    hitBox(),
+                )
+            }
+            return ModelRenderer(
+                name,
+                type,
+                elements.filterIsInstance<BlueprintElement.Bone>()
+                    .associate { it.name() to it.parse() },
+                animations
+            )
+        }
+    }
+
+    override fun start() {
+    }
+
+    override fun reload(pipeline: ReloadPipeline, zipper: PackZipper) {
+        itemModelNamespace = PlatformNamespace(CONFIG.namespace(), CONFIG.itemNamespace())
+        generalModelMap.clear()
+        playerModelMap.clear()
+        loadModels(pipeline, zipper)
+    }
+
+    override fun model(name: String): ModelRenderer? = generalModelView[name]
+    override fun models(): Collection<ModelRenderer> = generalModelView.values
+    override fun modelKeys(): Set<String> = generalModelView.keys
+    override fun limb(name: String): ModelRenderer? = playerModelView[name]
+    override fun limbs(): Collection<ModelRenderer> = playerModelView.values
+    override fun limbKeys(): Set<String> = playerModelView.keys
+}
+
