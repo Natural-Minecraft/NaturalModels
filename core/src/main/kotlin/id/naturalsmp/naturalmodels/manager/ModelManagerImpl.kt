@@ -122,10 +122,10 @@ object ModelManagerImpl : ModelManager, GlobalManager {
 
         private var indexer = 1
         private var estimatedSize = 0L
-        private val textures = zipper.assets().NaturalModels().textures()
+        private val textures = zipper.assets().naturalModels().textures()
 
         private val legacyModel = ModelBuilder(
-            models = zipper.legacy().NaturalModels().models().resolve("item"),
+            models = zipper.legacy().naturalModels().models().resolve("item"),
             available = CONFIG.pack().generateLegacyModel,
             onBuild = { blueprints, size ->
                 val json = blueprints.first()
@@ -151,7 +151,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
         )
 
         private val modernModel = ModelBuilder(
-            models = zipper.modern().NaturalModels().models().resolve("modern_item"),
+            models = zipper.modern().naturalModels().models().resolve("modern_item"),
             available = CONFIG.pack().generateModernModel,
             onBuild = { blueprints, size ->
                 entries += jsonObjectOf(
@@ -165,7 +165,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
                 }
             },
             onClose = {
-                zipper.modern().NaturalModels().items().add("${CONFIG.itemNamespace()}.json", estimatedSize) {
+                zipper.modern().naturalModels().items().add("${CONFIG.itemNamespace()}.json", estimatedSize) {
                     jsonObjectOf("model" to jsonObjectOf(
                         "type" to "range_dispatch",
                         "property" to "custom_model_data",

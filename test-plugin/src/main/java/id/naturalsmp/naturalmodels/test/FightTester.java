@@ -50,7 +50,8 @@ import static java.lang.Math.*;
 public final class FightTester implements ModelTester, Listener {
 
     @NotNull
-    private static final NamespacedKey KNIGHT_SWORD_KEY = Objects.requireNonNull(NamespacedKey.fromString("knight_sword"));
+    private static final NamespacedKey KNIGHT_SWORD_KEY = Objects
+            .requireNonNull(NamespacedKey.fromString("knight_sword"));
 
     private final Map<UUID, PlayerSkillCounter> playerCounterMap = new ConcurrentHashMap<>();
     private ItemStack lineItem;
@@ -62,22 +63,24 @@ public final class FightTester implements ModelTester, Listener {
         this.lineItem = createLine();
         Bukkit.getPluginManager().registerEvents(this, test);
         var command = test.getCommand("knightsword");
-        if (command != null) command.setExecutor((sender, command1, label, args) -> {
-            if (sender instanceof Player player) giveKnightSword(player);
-            return true;
-        });
+        if (command != null)
+            command.setExecutor((sender, command1, label, args) -> {
+                if (sender instanceof Player player)
+                    giveKnightSword(player);
+                return true;
+            });
         NaturalModelsBukkit.platform().eventBus().subscribe(test, PluginStartReloadEvent.class, event -> {
             var path = event.zipper()
-                .modern()
-                .NaturalModels();
+                    .modern()
+                    .naturalModels();
             loadItem(path, "knight_sword");
             loadItem(path, "knight_line");
         });
         NaturalModelsBukkit.platform().eventBus().subscribe(test, ModelAssetsEvent.class, event -> {
-            if (event.type() == ModelRenderer.Type.PLAYER) event.addAsset(ModelAsset.of(
-                "knight",
-                () -> Objects.requireNonNull(test.getResource("knight.bbmodel"))
-            ));
+            if (event.type() == ModelRenderer.Type.PLAYER)
+                event.addAsset(ModelAsset.of(
+                        "knight",
+                        () -> Objects.requireNonNull(test.getResource("knight.bbmodel"))));
         });
     }
 
@@ -102,16 +105,18 @@ public final class FightTester implements ModelTester, Listener {
         var player = event.getPlayer();
         var uuid = player.getUniqueId();
         switch (event.getAction()) {
-            case LEFT_CLICK_AIR, LEFT_CLICK_BLOCK -> {}
+            case LEFT_CLICK_AIR, LEFT_CLICK_BLOCK -> {
+            }
             default -> {
                 return;
             }
         }
-        if (!player.getInventory().getItemInMainHand().getPersistentDataContainer().has(KNIGHT_SWORD_KEY)) return;
+        if (!player.getInventory().getItemInMainHand().getPersistentDataContainer().has(KNIGHT_SWORD_KEY))
+            return;
         playerCounterMap.computeIfAbsent(uuid, u -> new PlayerSkillCounter(player)
-            .skill("left_attack_1")
-            .skill("left_attack_2")
-            .skill("left_attack_3")).execute();
+                .skill("left_attack_1")
+                .skill("left_attack_2")
+                .skill("left_attack_3")).execute();
     }
 
     private void giveKnightSword(@NotNull Player player) {
@@ -120,9 +125,8 @@ public final class FightTester implements ModelTester, Listener {
             meta.displayName(MiniMessage.miniMessage().deserialize("<gradient:#FF6A00:#FFD800><b>Knight Sword"));
             meta.setUnbreakable(true);
             meta.setItemModel(new NamespacedKey(
-                (Plugin) NaturalModels.platform(),
-                "knight_sword"
-            ));
+                    (Plugin) NaturalModels.platform(),
+                    "knight_sword"));
             meta.addItemFlags(ItemFlag.values());
             meta.getPersistentDataContainer().set(KNIGHT_SWORD_KEY, PersistentDataType.BOOLEAN, true);
         });
@@ -132,9 +136,8 @@ public final class FightTester implements ModelTester, Listener {
     private static @NotNull ItemStack createLine() {
         var line = new ItemStack(Material.PAPER);
         line.editMeta(meta -> meta.setItemModel(new NamespacedKey(
-            (Plugin) NaturalModels.platform(),
-            "knight_line"
-        )));
+                (Plugin) NaturalModels.platform(),
+                "knight_line")));
         return line;
     }
 
@@ -150,55 +153,59 @@ public final class FightTester implements ModelTester, Listener {
         private LineDrawer lineDrawer;
         private long nextCooldown;
 
-        @NotNull PlayerSkillCounter skill(@NotNull String name) {
+        @NotNull
+        PlayerSkillCounter skill(@NotNull String name) {
             skillQueue.add(name);
             return this;
         }
 
         void execute() {
-            if (nextCooldown > System.currentTimeMillis()) return;
+            if (nextCooldown > System.currentTimeMillis())
+                return;
             var dequeue = skillQueue.poll();
-            if (dequeue != null) execute(dequeue);
+            if (dequeue != null)
+                execute(dequeue);
         }
+
         private void execute(@NotNull String target) {
             NaturalModels.limb("knight")
-                .map(limb -> limb.getOrCreate(BukkitAdapter.adapt(player)))
-                .ifPresent(tracker -> {
-                    var drawer = tracker.bone("sword_point");
-                    if (drawer == null) {
-                        tracker.close();
-                        return;
-                    }
-                    lineDrawer = new LineDrawer(player, drawer, 30);
-                    Runnable cancel = () -> {
-                        tracker.close();
-                        cancelDrawer();
-                        playerCounterMap.remove(player.getUniqueId());
-                    };
-                    var animation = tracker.renderer().animation(target).orElse(null);
-                    if (animation == null) cancel.run();
-                    else {
-                        tracker.animate(b -> true, animation, AnimationModifier.DEFAULT, AnimationEventHandler.start().onAnimationRemove(cancel));
-                        nextCooldown = (long) ((animation.length() - 0.25) * 1000) + System.currentTimeMillis();
-                        playSound();
-                    }
-                });
+                    .map(limb -> limb.getOrCreate(BukkitAdapter.adapt(player)))
+                    .ifPresent(tracker -> {
+                        var drawer = tracker.bone("sword_point");
+                        if (drawer == null) {
+                            tracker.close();
+                            return;
+                        }
+                        lineDrawer = new LineDrawer(player, drawer, 30);
+                        Runnable cancel = () -> {
+                            tracker.close();
+                            cancelDrawer();
+                            playerCounterMap.remove(player.getUniqueId());
+                        };
+                        var animation = tracker.renderer().animation(target).orElse(null);
+                        if (animation == null)
+                            cancel.run();
+                        else {
+                            tracker.animate(b -> true, animation, AnimationModifier.DEFAULT,
+                                    AnimationEventHandler.start().onAnimationRemove(cancel));
+                            nextCooldown = (long) ((animation.length() - 0.25) * 1000) + System.currentTimeMillis();
+                            playSound();
+                        }
+                    });
         }
 
         private void playSound() {
             var loc = player.getLocation();
             player.playSound(
-                loc,
-                Sound.ENTITY_BREEZE_SHOOT,
-                0.75F,
-                0.5F
-            );
+                    loc,
+                    Sound.ENTITY_BREEZE_SHOOT,
+                    0.75F,
+                    0.5F);
             player.playSound(
-                loc,
-                Sound.ENTITY_DROWNED_SHOOT,
-                2.0F,
-                0.75F
-            );
+                    loc,
+                    Sound.ENTITY_DROWNED_SHOOT,
+                    2.0F,
+                    0.75F);
         }
 
         private void cancelDrawer() {
@@ -210,10 +217,9 @@ public final class FightTester implements ModelTester, Listener {
     }
 
     private record DrawerFrame(
-        float yaw,
-        @NotNull Location location,
-        Vector3f vector
-    ) {
+            float yaw,
+            @NotNull Location location,
+            Vector3f vector) {
     }
 
     private class LineDrawer {
@@ -225,30 +231,30 @@ public final class FightTester implements ModelTester, Listener {
 
         LineDrawer(@NotNull Player player, @NotNull RenderedBone bone, int count) {
             players = Stream.concat(
-                Stream.of(BukkitAdapter.adapt(player)),
-                player.getTrackedBy().stream().map(BukkitAdapter::adapt)
-            ).toList();
+                    Stream.of(BukkitAdapter.adapt(player)),
+                    player.getTrackedBy().stream().map(BukkitAdapter::adapt)).toList();
             task = Bukkit.getAsyncScheduler().runAtFixedRate((Plugin) NaturalModels.platform(), task -> {
                 queuedTask.removeIf(BooleanSupplier::getAsBoolean);
                 var c = counter.incrementAndGet();
-                if (c >= count) return;
+                if (c >= count)
+                    return;
                 var before = after;
                 after = new DrawerFrame(
-                    bone.rotation().radianY(),
-                    player.getLocation(),
-                    bone.hitBoxPosition().rotateY(bone.rotation().radianY())
-                );
-                if (before == null) return;
+                        bone.rotation().radianY(),
+                        player.getLocation(),
+                        bone.hitBoxPosition().rotateY(bone.rotation().radianY()));
+                if (before == null)
+                    return;
                 var delta = toDeltaVector(
-                    relativeLocation(before.location, before.vector, before.yaw),
-                    relativeLocation(after.location, after.vector, after.yaw),
-                    (float) toRadians(after.location.getYaw())
-                );
+                        relativeLocation(before.location, before.vector, before.yaw),
+                        relativeLocation(after.location, after.vector, after.yaw),
+                        (float) toRadians(after.location.getYaw()));
                 var yaw = atan2(delta.x, delta.z);
                 var pitch = atan2(-delta.y, sqrt(fma(delta.x, delta.x, delta.z * delta.z)));
-                createDisplay(relativeLocation(before.location, before.vector, before.yaw), delta.length(), new Quaternionf()
-                    .rotateLocalX((float) pitch)
-                    .rotateLocalY((float) yaw));
+                createDisplay(relativeLocation(before.location, before.vector, before.yaw), delta.length(),
+                        new Quaternionf()
+                                .rotateLocalX((float) pitch)
+                                .rotateLocalY((float) yaw));
             }, 50, 10, TimeUnit.MILLISECONDS);
         }
 
@@ -257,7 +263,8 @@ public final class FightTester implements ModelTester, Listener {
             queuedTask.removeIf(BooleanSupplier::getAsBoolean);
         }
 
-        @NotNull Location relativeLocation(@NotNull Location location, @NotNull Vector3f vector3f, float originYaw) {
+        @NotNull
+        Location relativeLocation(@NotNull Location location, @NotNull Vector3f vector3f, float originYaw) {
             var loc = location.clone();
             loc.setPitch(0);
             loc.add(new Vector(vector3f.x, vector3f.y, vector3f.z).rotateAroundY(-originYaw));
@@ -265,17 +272,17 @@ public final class FightTester implements ModelTester, Listener {
         }
 
         void createDisplay(@NotNull Location start, float length, @NotNull Quaternionf quaternionf) {
-            if (length <= 0.1) return;
+            if (length <= 0.1)
+                return;
             start.getWorld().spawnParticle(
-                Particle.DUST,
-                start,
-                3,
-                0.2,
-                0.2,
-                0.2,
-                0,
-                new Particle.DustOptions(Color.YELLOW, 1)
-            );
+                    Particle.DUST,
+                    start,
+                    3,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0,
+                    new Particle.DustOptions(Color.YELLOW, 1));
             var display = NaturalModels.nms().create(BukkitAdapter.adapt(start), 0, d -> {
                 d.item(BukkitAdapter.adapt(lineItem));
                 d.brightness(15, 15);
@@ -285,12 +292,11 @@ public final class FightTester implements ModelTester, Listener {
             display.spawn(bundler);
             display.sendEntityData(true, bundler);
             transformer.transform(
-                0,
-                new Vector3f(),
-                new Vector3f(1, 1, length),
-                quaternionf,
-                bundler
-            );
+                    0,
+                    new Vector3f(),
+                    new Vector3f(1, 1, length),
+                    quaternionf,
+                    bundler);
             players.forEach(bundler::send);
             var displayCounter = new AtomicInteger();
             queuedTask.add(() -> {
@@ -305,4 +311,3 @@ public final class FightTester implements ModelTester, Listener {
         }
     }
 }
-
