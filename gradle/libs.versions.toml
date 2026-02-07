@@ -97,7 +97,6 @@ core = [
 
 manifestLibrary = [
     "kotlin",
-    "bStats",
     "molangCompiler",
     "cloud-paper",
     "cloud-core",
@@ -110,7 +109,8 @@ manifestLibrary = [
 
 shadedLibrary = [
     "armormodel",
-    "libby"
+    "libby",
+    "bStats"
 ]
 
 [plugins]
