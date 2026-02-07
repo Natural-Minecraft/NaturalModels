@@ -98,9 +98,6 @@ core = [
 manifestLibrary = [
     "kotlin",
     "molangCompiler",
-    "cloud-paper",
-    "cloud-core",
-    "geantyref",
     "adventure-api",
     "adventure-examination",
     "adventure-option",
@@ -110,7 +107,10 @@ manifestLibrary = [
 shadedLibrary = [
     "armormodel",
     "libby",
-    "bStats"
+    "bStats",
+    "cloud-paper",
+    "cloud-core",
+    "geantyref"
 ]
 
 [plugins]
