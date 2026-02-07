@@ -46,8 +46,12 @@ object CompatibilityManager : GlobalManager {
         Bukkit.getPluginManager().run {
             compatibilities.entries.removeIf { (k, v) ->
                 if (isPluginEnabled(k)) {
-                    v().start()
-                    k.hookMessage()
+                    try {
+                        v().start()
+                        k.hookMessage()
+                    } catch (e: Exception) {
+                        Bukkit.getLogger().warning("[NaturalModels] Failed to hook $k: ${e.message}")
+                    }
                     true
                 } else false
             }
@@ -57,8 +61,12 @@ object CompatibilityManager : GlobalManager {
             fun PluginEnableEvent.enable() {
                 val name = plugin.name
                 compatibilities.remove(name)?.let {
-                    it().start()
-                    name.hookMessage()
+                    try {
+                        it().start()
+                        name.hookMessage()
+                    } catch (e: Exception) {
+                        Bukkit.getLogger().warning("[NaturalModels] Failed to hook $name: ${e.message}")
+                    }
                 }
             }
         })

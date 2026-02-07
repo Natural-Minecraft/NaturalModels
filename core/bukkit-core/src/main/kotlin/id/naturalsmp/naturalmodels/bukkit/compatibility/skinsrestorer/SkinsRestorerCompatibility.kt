@@ -21,14 +21,21 @@ import java.util.concurrent.CompletableFuture
 
 class SkinsRestorerCompatibility : Compatibility {
 
-    private val manager by lazy {
-        SkinsRestorerProvider.get()
-    }
+    private var manager: net.skinsrestorer.api.SkinsRestorer? = null
 
     override fun start() {
-        manager.eventBus.subscribe(PLATFORM, SkinApplyEvent::class.java) {
-            val player = it.getPlayer(Player::class.java)
-            SkinManagerImpl.removeCache(ModelProfile.of(player.wrap()))
+        try {
+            manager = SkinsRestorerProvider.get()
+        } catch (e: IllegalStateException) {
+            info("SkinsRestorer API is not enabled! Skipping hook.".toComponent(org.bukkit.ChatColor.YELLOW.name.lowercase().toComponent()))
+            return
+        }
+        
+        manager?.let { m ->
+            m.eventBus.subscribe(PLATFORM, SkinApplyEvent::class.java) {
+                val player = it.getPlayer(Player::class.java)
+                SkinManagerImpl.removeCache(ModelProfile.of(player.wrap()))
+            }
         }
         ProfileManagerImpl.supplier {
             SkinsRestorerProfile(it)
