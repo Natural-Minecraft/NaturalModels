@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.blueprint;
+package id.naturalsmp.naturalmodels.api.data.blueprint;
 
-import kr.toxicity.model.api.animation.*;
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.script.BlueprintScript;
+import id.naturalsmp.naturalmodels.api.animation.*;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.script.BlueprintScript;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -66,3 +66,4 @@ public record BlueprintAnimation(
         return type.create(emptyAnimator);
     }
 }
+

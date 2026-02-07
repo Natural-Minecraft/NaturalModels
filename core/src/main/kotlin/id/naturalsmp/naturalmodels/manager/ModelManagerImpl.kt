@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -122,10 +122,10 @@ object ModelManagerImpl : ModelManager, GlobalManager {
 
         private var indexer = 1
         private var estimatedSize = 0L
-        private val textures = zipper.assets().bettermodel().textures()
+        private val textures = zipper.assets().NaturalModels().textures()
 
         private val legacyModel = ModelBuilder(
-            models = zipper.legacy().bettermodel().models().resolve("item"),
+            models = zipper.legacy().NaturalModels().models().resolve("item"),
             available = CONFIG.pack().generateLegacyModel,
             onBuild = { blueprints, size ->
                 val json = blueprints.first()
@@ -151,7 +151,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
         )
 
         private val modernModel = ModelBuilder(
-            models = zipper.modern().bettermodel().models().resolve("modern_item"),
+            models = zipper.modern().NaturalModels().models().resolve("modern_item"),
             available = CONFIG.pack().generateModernModel,
             onBuild = { blueprints, size ->
                 entries += jsonObjectOf(
@@ -165,7 +165,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
                 }
             },
             onClose = {
-                zipper.modern().bettermodel().items().add("${CONFIG.itemNamespace()}.json", estimatedSize) {
+                zipper.modern().NaturalModels().items().add("${CONFIG.itemNamespace()}.json", estimatedSize) {
                     jsonObjectOf("model" to jsonObjectOf(
                         "type" to "range_dispatch",
                         "property" to "custom_model_data",
@@ -314,4 +314,5 @@ object ModelManagerImpl : ModelManager, GlobalManager {
     override fun limbs(): Collection<ModelRenderer> = playerModelView.values
     override fun limbKeys(): Set<String> = playerModelView.keys
 }
+
 

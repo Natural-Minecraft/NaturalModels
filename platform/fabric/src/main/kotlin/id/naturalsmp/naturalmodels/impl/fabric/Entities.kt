@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.impl.fabric
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.impl.fabric.entity.EntityHook
 import id.naturalsmp.naturalmodels.impl.fabric.world.entityMap
 import id.naturalsmp.naturalmodels.mixin.AvatarAccessor
@@ -25,7 +25,7 @@ import org.joml.Vector3f
 
 fun Entity.toTracker(model: String?) = toRegistry()?.tracker(model)
 
-fun Entity.toRegistry() = BetterModel.registryOrNull(uuid)
+fun Entity.toRegistry() = NaturalModels.registryOrNull(uuid)
 
 val Entity.isWalking: Boolean
     get() {
@@ -51,10 +51,10 @@ val Entity.seenBy: Set<ServerPlayerConnection>
 
 var Entity.modelData: String?
     get() {
-        return (this as EntityHook).`bettermodel$getModelData`()
+        return (this as EntityHook).`NaturalModels$getModelData`()
     }
     set(value) {
-        (this as EntityHook).`bettermodel$setModelData`(value)
+        (this as EntityHook).`NaturalModels$setModelData`(value)
     }
 
 fun Entity.passengerPosition(dest: Vector3f): Vector3f {
@@ -75,7 +75,7 @@ private fun Entity.checkEntityWalkingState(): Boolean {
 }
 
 private fun Mob.isRangedAttacking(): Boolean {
-    return (this as MobAccessor).`bettermodel$getGoalSelector`().availableGoals.any { wrapper ->
+    return (this as MobAccessor).`NaturalModels$getGoalSelector`().availableGoals.any { wrapper ->
         wrapper.isRunning && wrapper.goal.isRangedAttackGoal()
     }
 }
@@ -88,7 +88,7 @@ private fun Goal.isRangedAttackGoal(): Boolean {
 
 fun Avatar.getCustomisation(): Int {
     return entityData.get(
-        AvatarAccessor.`bettermodel$getDataPlayerModeCustomisation`()
+        AvatarAccessor.`NaturalModels$getDataPlayerModeCustomisation`()
     ).toInt()
 }
 
@@ -115,4 +115,5 @@ fun ServerPlayer.zMovement(): Float {
         else -> -1.0f
     }
 }
+
 

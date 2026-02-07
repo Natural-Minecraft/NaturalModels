@@ -2,8 +2,8 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "bettermodel:item/knight_line",
-		"particle": "bettermodel:item/knight_line"
+		"0": "NaturalModels:item/knight_line",
+		"particle": "NaturalModels:item/knight_line"
 	},
 	"elements": [
 		{

@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -36,4 +36,5 @@ class BukkitScheduler : BukkitModelScheduler {
     override fun asyncTaskLater(delay: Long, runnable: Runnable) = Bukkit.getScheduler().runTaskLaterAsynchronously(PLUGIN, runnable, delay).wrap()
     override fun asyncTaskTimer(delay: Long, period: Long, runnable: Runnable) = Bukkit.getScheduler().runTaskTimerAsynchronously(PLUGIN, runnable, delay, period).wrap()
 }
+
 

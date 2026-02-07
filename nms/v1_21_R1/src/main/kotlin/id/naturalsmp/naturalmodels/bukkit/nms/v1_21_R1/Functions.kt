@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -10,8 +10,8 @@ import io.netty.buffer.Unpooled
 import io.papermc.paper.adventure.PaperAdventure
 import io.papermc.paper.configuration.GlobalConfiguration
 import it.unimi.dsi.fastutil.ints.IntSet
-import id.naturalsmp.naturalmodels.api.BetterModel
-import id.naturalsmp.naturalmodels.api.bukkit.BetterModelBukkit
+import id.naturalsmp.naturalmodels.api.NaturalModels
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit
 import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.minecraft.network.FriendlyByteBuf
@@ -38,7 +38,7 @@ import org.joml.Vector3f
 import java.util.*
 
 internal inline fun <reified T, reified R> createAdaptedFieldGetter(noinline paperGetter: (T) -> R): (T) -> R {
-    return if (BetterModelBukkit.IS_PAPER) paperGetter else createAdaptedFieldGetter()
+    return if (NaturalModelsBukkit.IS_PAPER) paperGetter else createAdaptedFieldGetter()
 }
 internal inline fun <reified T, reified R> createAdaptedFieldGetter(): (T) -> R {
     return T::class.java.declaredFields.first {
@@ -66,13 +66,13 @@ internal fun <H, T> dirtyChecked(hash: () -> H, function: (H) -> T, equalityChec
     }
 }
 
-internal val CONFIG get() = BetterModel.config()
+internal val CONFIG get() = NaturalModels.config()
 internal val EMPTY_ITEM = VanillaItemStack.EMPTY
 internal fun BukkitItemStack.asVanilla() = CraftItemStack.asNMSCopy(this)
 internal fun VanillaItemStack.asBukkit() = CraftItemStack.asCraftMirror(this)
 
 internal val ONLINE_MODE by lazy(LazyThreadSafetyMode.NONE) {
-    if (BetterModelBukkit.IS_PAPER) GlobalConfiguration.get().proxies.isProxyOnlineMode else Bukkit.getOnlineMode()
+    if (NaturalModelsBukkit.IS_PAPER) GlobalConfiguration.get().proxies.isProxyOnlineMode else Bukkit.getOnlineMode()
 }
 
 internal fun List<Int>.toIntSet(): IntSet = IntSet.of(*toIntArray())
@@ -142,7 +142,7 @@ internal val Entity.isFlying: Boolean
     }
 
 internal val CraftEntity.vanillaEntity: Entity
-    get() = if (BetterModelBukkit.IS_PAPER) handleRaw else handle
+    get() = if (NaturalModelsBukkit.IS_PAPER) handleRaw else handle
 
 internal inline fun <T> useByteBuf(block: (FriendlyByteBuf) -> T): T {
     val buffer = FriendlyByteBuf(Unpooled.buffer())
@@ -193,15 +193,16 @@ internal fun Entity.toFakeAddPacket() = ClientboundAddEntityPacket(
 
 internal fun Player.toCustomisation() = entityData.get(Player.DATA_PLAYER_MODE_CUSTOMISATION).toInt()
 
-internal fun VanillaComponent.asAdventure() = if (BetterModelBukkit.IS_PAPER) {
+internal fun VanillaComponent.asAdventure() = if (NaturalModelsBukkit.IS_PAPER) {
     PaperAdventure.asAdventure(this)
 } else {
     GsonComponentSerializer.gson().deserialize(CraftChatMessage.toJSON(this))
 }
 
-internal fun AdventureComponent.asVanilla() = if (BetterModelBukkit.IS_PAPER) {
+internal fun AdventureComponent.asVanilla() = if (NaturalModelsBukkit.IS_PAPER) {
     PaperAdventure.asVanilla(this)
 } else {
     CraftChatMessage.fromJSON(GsonComponentSerializer.gson().serialize(this))
 }
+
 

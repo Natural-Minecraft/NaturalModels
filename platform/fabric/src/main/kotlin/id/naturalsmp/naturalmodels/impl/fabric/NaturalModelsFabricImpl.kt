@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -9,14 +9,14 @@ package id.naturalsmp.naturalmodels.impl.fabric
 import com.vdurmont.semver4j.Semver
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils
 import eu.pb4.polymer.resourcepack.api.ResourcePackBuilder
-import id.naturalsmp.naturalmodels.BetterModelEvaluatorImpl
-import id.naturalsmp.naturalmodels.BetterModelEventBusImpl
-import id.naturalsmp.naturalmodels.BetterModelPlatformImpl
+import id.naturalsmp.naturalmodels.NaturalModelsEvaluatorImpl
+import id.naturalsmp.naturalmodels.NaturalModelsEventBusImpl
+import id.naturalsmp.naturalmodels.NaturalModelsPlatformImpl
 import id.naturalsmp.naturalmodels.api.*
-import id.naturalsmp.naturalmodels.api.BetterModelPlatform.ReloadResult.*
+import id.naturalsmp.naturalmodels.api.NaturalModelsPlatform.ReloadResult.*
 import id.naturalsmp.naturalmodels.api.event.PluginEndReloadEvent
 import id.naturalsmp.naturalmodels.api.event.PluginStartReloadEvent
-import id.naturalsmp.naturalmodels.api.fabric.BetterModelFabric
+import id.naturalsmp.naturalmodels.api.fabric.NaturalModelsFabric
 import id.naturalsmp.naturalmodels.api.fabric.platform.FabricAdapter
 import id.naturalsmp.naturalmodels.api.fabric.scheduler.FabricModelScheduler
 import id.naturalsmp.naturalmodels.api.manager.*
@@ -25,9 +25,9 @@ import id.naturalsmp.naturalmodels.api.pack.PackResult
 import id.naturalsmp.naturalmodels.api.pack.PackZipper
 import id.naturalsmp.naturalmodels.api.platform.PlatformAdapter
 import id.naturalsmp.naturalmodels.api.version.MinecraftVersion
-import id.naturalsmp.naturalmodels.impl.fabric.attachment.BetterModelAttachments
+import id.naturalsmp.naturalmodels.impl.fabric.attachment.NaturalModelsAttachments
 import id.naturalsmp.naturalmodels.impl.fabric.command.startFabricCommand
-import id.naturalsmp.naturalmodels.impl.fabric.config.BetterModelConfigImpl
+import id.naturalsmp.naturalmodels.impl.fabric.config.NaturalModelsConfigImpl
 import id.naturalsmp.naturalmodels.impl.fabric.config.toConfig
 import id.naturalsmp.naturalmodels.impl.fabric.manager.EntityManager
 import id.naturalsmp.naturalmodels.impl.fabric.manager.PlayerManagerImpl
@@ -56,7 +56,7 @@ import java.util.jar.JarFile
 import kotlin.io.path.exists
 import kotlin.system.measureTimeMillis
 
-class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterModelFabric {
+class NaturalModelsFabricImpl : ModInitializer, NaturalModelsPlatformImpl, NaturalModelsFabric {
     private lateinit var server: MinecraftServer
 
     private val configDir: Path = FabricLoader.getInstance()
@@ -70,7 +70,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
             File(javaClass.getProtectionDomain().codeSource.location.toURI())
         )
 
-    private lateinit var config: BetterModelConfigImpl
+    private lateinit var config: NaturalModelsConfigImpl
 
     private val worldVersion: WorldVersion = DetectedVersion.tryDetectVersion()
     private val minecraftVersion: MinecraftVersion = MinecraftVersion.parse(worldVersion.id())
@@ -86,9 +86,9 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
         .orElseThrow()
 
     private val nms by lazy {
-        BetterModelNMSImpl()
+        NaturalModelsNMSImpl()
     }
-    private val logger = BetterModelLoggerImpl()
+    private val logger = NaturalModelsLoggerImpl()
 
     private var reloadStartTask: (PackZipper) -> Unit = { zipper ->
         callEvent {
@@ -96,7 +96,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
         }
     }
 
-    private var reloadEndTask: (BetterModelPlatform.ReloadResult) -> Unit = { result ->
+    private var reloadEndTask: (NaturalModelsPlatform.ReloadResult) -> Unit = { result ->
         callEvent {
             PluginEndReloadEvent(result)
         }
@@ -118,7 +118,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
     }
 
     override fun onInitialize() {
-        BetterModel.register(this)
+        NaturalModels.register(this)
         startFabricCommand()
         ServerLifecycleEvents.SERVER_STARTING.register { server ->
             this.server = server
@@ -146,7 +146,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
             if (initialLoad.compareAndSet(false, true)) reload { loadLog(it) }
         }
 
-        BetterModelAttachments.init()
+        NaturalModelsAttachments.init()
         FabricModelSchedulerImpl.init()
 
         ServerLifecycleEvents.SERVER_STOPPED.register {
@@ -172,7 +172,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
             }
         }
         packResult.meta().overlays?.entries?.forEach { entry ->
-            if (entry.directory == "bettermodel_legacy") {
+            if (entry.directory == "NaturalModels_legacy") {
                 return@forEach
             }
 
@@ -225,9 +225,9 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
 
     override fun dataFolder(): File = configDir.toFile()
 
-    override fun jarType(): BetterModelPlatform.JarType = BetterModelPlatform.JarType.FABRIC
+    override fun jarType(): NaturalModelsPlatform.JarType = NaturalModelsPlatform.JarType.FABRIC
 
-    override fun reload(info: ReloadInfo): BetterModelPlatform.ReloadResult {
+    override fun reload(info: ReloadInfo): NaturalModelsPlatform.ReloadResult {
         if (!isLoadingProvider.compareAndSet(false, true)) {
             return OnReload.INSTANCE
         }
@@ -273,7 +273,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
             }
     }
 
-    private fun loadOrSaveConfig(): BetterModelConfigImpl {
+    private fun loadOrSaveConfig(): NaturalModelsConfigImpl {
         return configDir.resolve("config.yml").run {
             if (!exists()) saveResource("config.yml")
             toConfig()
@@ -282,7 +282,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
 
     override fun isSnapshot(): Boolean = !worldVersion.stable()
 
-    override fun config(): BetterModelConfig = config
+    override fun config(): NaturalModelsConfig = config
 
     override fun version(): MinecraftVersion = minecraftVersion
 
@@ -308,7 +308,7 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
         }
     }
 
-    override fun addReloadEndHandler(consumer: Consumer<BetterModelPlatform.ReloadResult>) {
+    override fun addReloadEndHandler(consumer: Consumer<NaturalModelsPlatform.ReloadResult>) {
         val oldHandler = reloadEndTask
         reloadEndTask = { result ->
             oldHandler(result)
@@ -316,11 +316,11 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
         }
     }
 
-    override fun logger(): BetterModelLogger = logger
+    override fun logger(): NaturalModelsLogger = logger
 
-    override fun evaluator(): BetterModelEvaluator = BetterModelEvaluatorImpl()
+    override fun evaluator(): NaturalModelsEvaluator = NaturalModelsEvaluatorImpl()
 
-    override fun eventBus(): BetterModelEventBus = BetterModelEventBusImpl()
+    override fun eventBus(): NaturalModelsEventBus = NaturalModelsEventBusImpl()
 
     override fun server(): MinecraftServer = server
 
@@ -330,4 +330,5 @@ class BetterModelFabricImpl : ModInitializer, BetterModelPlatformImpl, BetterMod
 
     override fun isEnabled(): Boolean = true
 }
+
 

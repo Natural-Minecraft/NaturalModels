@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug to help us improve BetterModel
+about: Report a bug to help us improve NaturalModels
 title: "[Bug] "
 labels: bug
 assignees: toxicity188
@@ -8,7 +8,7 @@ assignees: toxicity188
 ---
 
 ### ✔️ Pre-check
-- [ ] Tested with the **latest snapshot** of BetterModel from [Modrinth](https://modrinth.com/plugin/bettermodel)
+- [ ] Tested with the **latest snapshot** of NaturalModels from [Modrinth](https://modrinth.com/plugin/NaturalModels)
 - [ ] Confirmed the issue occurs **without** other optional/experimental plugins or clients (see Disclaimer below)
 
 ---
@@ -48,3 +48,4 @@ The following environments are not supported, and issues occurring under these c
 - Closed-source mods/plugins (Optifine, ItemsAdder, Nexo, etc.)
 - Hybrid server platforms (e.g., Arclight)
 ```
+

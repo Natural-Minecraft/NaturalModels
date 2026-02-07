@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.platform;
+package id.naturalsmp.naturalmodels.api.bukkit.platform;
 
-import kr.toxicity.model.api.platform.PlatformOfflinePlayer;
+import id.naturalsmp.naturalmodels.api.platform.PlatformOfflinePlayer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,3 +30,4 @@ public record BukkitOfflinePlayer(@NotNull OfflinePlayer source) implements Plat
         return source.getName();
     }
 }
+

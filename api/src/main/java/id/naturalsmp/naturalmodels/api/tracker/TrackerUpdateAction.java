@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.tracker;
+package id.naturalsmp.naturalmodels.api.tracker;
 
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.platform.PlatformBillboard;
-import kr.toxicity.model.api.util.TransformedItemStack;
-import kr.toxicity.model.api.util.function.BonePredicate;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.platform.PlatformBillboard;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.util.function.BonePredicate;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -484,3 +484,4 @@ public sealed interface TrackerUpdateAction extends BiPredicate<RenderedBone, Bo
         }
     }
 }
+

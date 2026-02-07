@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.nms;
+package id.naturalsmp.naturalmodels.api.nms;
 
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,3 +63,4 @@ public interface ModelNametag {
      */
     void remove(@NotNull PacketBundler bundler);
 }
+

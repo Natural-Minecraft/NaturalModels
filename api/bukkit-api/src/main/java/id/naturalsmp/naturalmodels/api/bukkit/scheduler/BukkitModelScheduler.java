@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.scheduler;
+package id.naturalsmp.naturalmodels.api.bukkit.scheduler;
 
-import kr.toxicity.model.api.scheduler.ModelScheduler;
-import kr.toxicity.model.api.scheduler.ModelTask;
+import id.naturalsmp.naturalmodels.api.scheduler.ModelScheduler;
+import id.naturalsmp.naturalmodels.api.scheduler.ModelTask;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,3 +44,4 @@ public interface BukkitModelScheduler extends ModelScheduler {
      */
     @Nullable ModelTask taskLater(@NotNull Location location, long delay, @NotNull Runnable runnable);
 }
+

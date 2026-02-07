@@ -1,6 +1,6 @@
-# BetterModel Configuration
+# NaturalModels Configuration
 #
-# This file contains all the configuration options for the BetterModel plugin.
+# This file contains all the configuration options for the NaturalModels plugin.
 # For detailed information on each option, please refer to the official documentation.
 
 # Debugging options for development and troubleshooting.
@@ -37,7 +37,7 @@ pack:
   # Obfuscates model and texture names in the resource pack to prevent easy extraction.
   use-obfuscation: false
 
-# Toggles metrics collection via bStats (https://bstats.org/plugin/bukkit/BetterModel/24237).
+# Toggles metrics collection via bStats (https://bstats.org/plugin/bukkit/NaturalModels/24237).
 # Disabling this helps us less to improve the plugin.
 metrics: true
 
@@ -59,8 +59,8 @@ max-sight: -1
 # Minimum distance (in blocks) before animation packets are sent.
 min-sight: 5
 
-# The namespace used for resource pack assets (e.g., assets/bettermodel/...).
-namespace: "bettermodel"
+# The namespace used for resource pack assets (e.g., assets/NaturalModels/...).
+namespace: "NaturalModels"
 
 # The format of the generated resource pack.
 # 'zip': A standard .zip file.
@@ -68,7 +68,7 @@ namespace: "bettermodel"
 pack-type: zip
 
 # The location where the resource pack file or folder will be generated, relative to the server root.
-build-folder-location: BetterModel/build
+build-folder-location: NaturalModels/build
 
 # If enabled, models attached to invisible mobs will also be invisible.
 follow-mob-invisibility: true
@@ -102,3 +102,4 @@ packet-bundling-size: 16
 # Enables strict loading mode. If true, the plugin will fail to load models with unsupported features.
 # If false, it will attempt to load them by ignoring unsupported parts, which may cause visual issues.
 enable-strict-loading: false
+

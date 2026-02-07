@@ -2,12 +2,12 @@
 
 ![](https://github.com/user-attachments/assets/89e191ba-ed4f-44ab-bb98-634cfe568dca)
 
-# BetterModel
+# NaturalModels
 *- Modern Bedrock model engine for Minecraft Java Edition -*
 
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/plugin/bettermodel)
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg)](https://hangar.papermc.io/toxicity188/BetterModel)
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg)](https://github.com/toxicity188/BetterModel)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/plugin/NaturalModels)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg)](https://hangar.papermc.io/toxicity188/NaturalModels)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg)](https://github.com/toxicity188/NaturalModels)
 
 </div>
 
@@ -18,9 +18,9 @@
 * * *
 <sub>(In BlockBench / In Minecraft)</sub>
 
-# ✨ What is BetterModel?
+# ✨ What is NaturalModels?
 
-**BetterModel** is a server-based engine that provides runtime BlockBench model rendering & animating for Minecraft Java Edition.  
+**NaturalModels** is a server-based engine that provides runtime BlockBench model rendering & animating for Minecraft Java Edition.  
 
 It implements **fully server-side 3D models** by using an item display entity packet.
 
@@ -38,34 +38,34 @@ The main reason I created it is:
 - To provide a more flexible API—MEG is closed-source with a very limited API, which makes extending or integrating difficult.
 - To restore vanilla behavior-MEG breaks several vanilla entity features and physics, which this project aims to fix.
 
-Also, you can refer [my document](https://github.com/toxicity188/BetterModel/wiki/Compare-with-ModelEngine) to compare both ModelEngine and BetterModel.
+Also, you can refer [my document](https://github.com/toxicity188/NaturalModels/wiki/Compare-with-ModelEngine) to compare both ModelEngine and NaturalModels.
 
 ## 🌎 Generic BlockBench model with animation
 ![](https://github.com/user-attachments/assets/b4e69aef-a446-4ac3-b84e-eb42fe4f069d)
 * * *
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/youtube-singular_vector.svg)](https://youtu.be/f3U7Lmo3aA8?si=SnglL0YKn20CrR7Y)  
-BetterModel supports Generic BlockBench models with full animation.
+NaturalModels supports Generic BlockBench models with full animation.
 
 #### Custom hitbox
 * * *
 ![](https://github.com/user-attachments/assets/94aee9ed-9c2f-4975-92c4-3ea84ae31d24)
 * * *
-BetterModel provides **custom hitbox** both client and server. (tracking animation rotation)
+NaturalModels provides **custom hitbox** both client and server. (tracking animation rotation)
 
 #### MythicMobs support
 * * *
 ![](https://github.com/user-attachments/assets/eb2d64ef-7b6e-4306-8c31-d92d0266dbac)
 * * *
-Like MEG, BetterModel supports **MythicMobs**, you can use some MEG's mechanics in BetterModel too.
+Like MEG, NaturalModels supports **MythicMobs**, you can use some MEG's mechanics in NaturalModels too.
 
 ## 💡 Player model with animation
 ![](https://github.com/user-attachments/assets/0c13bec2-898f-4d9a-a709-10e0571337f3)
 ![](https://github.com/user-attachments/assets/034dd64c-6889-4a01-961d-e69679b1c71b)
 * * *
-BetterModel supports **player model with using user's custom skin without textures**.
+NaturalModels supports **player model with using user's custom skin without textures**.
 
 ## 📚 Official wiki
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/ghpages_vector.svg)](https://github.com/toxicity188/BetterModel/wiki)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/ghpages_vector.svg)](https://github.com/toxicity188/NaturalModels/wiki)
 
 ## 🏗️ Supported environment
 
@@ -87,9 +87,10 @@ BetterModel supports **player model with using user's custom skin without textur
 [![](https://discord.com/api/guilds/1012718460297551943/widget.png?style=banner2)](https://discord.com/invite/rePyFESDbk)
 
 ## 📊 Project Stats (plugin)
-[![](https://bstats.org/signatures/bukkit/BetterModel.svg)](https://bstats.org/plugin/bukkit/BetterModel/24237)
+[![](https://bstats.org/signatures/bukkit/NaturalModels.svg)](https://bstats.org/plugin/bukkit/NaturalModels/24237)
 
 ## 💖 Support my project
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/buymeacoffee-singular_vector.svg)](https://buymeacoffee.com/toxicity188)
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/toxicity188)
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/paypal-singular_vector.svg)](https://www.paypal.com/paypalme/toxicity188?country.x=KR&locale.x=en_US)
+

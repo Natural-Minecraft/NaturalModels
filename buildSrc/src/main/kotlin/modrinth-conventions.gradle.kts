@@ -7,7 +7,7 @@ val classifier = project.name
 
 modrinth {
     token = System.getenv("MODRINTH_API_TOKEN")
-    projectId = "bettermodel"
+    projectId = "NaturalModels"
     syncBodyFrom = rootProject.file("BANNER.md").readText()
     val log = System.getenv("COMMIT_MESSAGE")
     if (log != null) {
@@ -21,7 +21,7 @@ modrinth {
         rootProject.layout.buildDirectory.file("libs/${rootProject.name}-$versionString-javadoc.jar")
     )
     versionNumber = versionString
-    versionName = "BetterModel $versionString for ${classifier.replaceFirstChar { it.uppercase() }}"
+    versionName = "NaturalModels $versionString for ${classifier.replaceFirstChar { it.uppercase() }}"
 //    uploadFile.set(tasks.shadowJar)
 //    gameVersions = SUPPORTED_VERSIONS
 //    dependencies {
@@ -31,3 +31,4 @@ modrinth {
 //        )
 //    }
 }
+

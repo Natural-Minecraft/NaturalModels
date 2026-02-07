@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.platform;
+package id.naturalsmp.naturalmodels.api.bukkit.platform;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.platform.PlatformItemStack;
-import kr.toxicity.model.api.platform.PlatformNamespace;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.platform.PlatformNamespace;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +41,7 @@ public record BukkitItemStack(@NotNull ItemStack source) implements PlatformItem
         var meta = source.getItemMeta();
         if (meta == null) return this;
         meta.setCustomModelData(customModelData);
-        if (BetterModel.platform().version().useItemModelName()) meta.setItemModel(namespace == null ? null : new NamespacedKey(namespace.namespace(), namespace.path()));
+        if (NaturalModels.platform().version().useItemModelName()) meta.setItemModel(namespace == null ? null : new NamespacedKey(namespace.namespace(), namespace.path()));
         source.setItemMeta(meta);
         return this;
     }
@@ -51,3 +51,4 @@ public record BukkitItemStack(@NotNull ItemStack source) implements PlatformItem
         return BukkitAdapter.adapt(source.clone());
     }
 }
+

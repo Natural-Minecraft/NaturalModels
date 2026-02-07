@@ -1,31 +1,31 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.tracker;
+package id.naturalsmp.naturalmodels.api.tracker;
 
-import kr.toxicity.model.api.animation.*;
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.bone.BoneTags;
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.config.DebugConfig;
-import kr.toxicity.model.api.data.blueprint.BlueprintAnimation;
-import kr.toxicity.model.api.data.renderer.ModelRenderer;
-import kr.toxicity.model.api.data.renderer.RenderPipeline;
-import kr.toxicity.model.api.data.renderer.RenderSource;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.event.*;
-import kr.toxicity.model.api.nms.*;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.script.TimeScript;
-import kr.toxicity.model.api.util.EntityUtil;
-import kr.toxicity.model.api.util.EventUtil;
-import kr.toxicity.model.api.util.LogUtil;
-import kr.toxicity.model.api.util.MathUtil;
-import kr.toxicity.model.api.util.function.BonePredicate;
+import id.naturalsmp.naturalmodels.api.animation.*;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.bone.BoneTags;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.config.DebugConfig;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimation;
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderPipeline;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderSource;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.event.*;
+import id.naturalsmp.naturalmodels.api.nms.*;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.script.TimeScript;
+import id.naturalsmp.naturalmodels.api.util.EntityUtil;
+import id.naturalsmp.naturalmodels.api.util.EventUtil;
+import id.naturalsmp.naturalmodels.api.util.LogUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.function.BonePredicate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.ApiStatus;
@@ -62,7 +62,7 @@ public abstract class Tracker implements AutoCloseable {
         public Thread newThread(@NotNull Runnable r) {
             var thread = new Thread(r);
             thread.setDaemon(true);
-            thread.setName("BetterModel-Worker-" + integer.getAndIncrement());
+            thread.setName("NaturalModels-Worker-" + integer.getAndIncrement());
             thread.setUncaughtExceptionHandler((t, e) -> LogUtil.handleException("Exception has occurred in " + t.getName(), e));
             return thread;
         }
@@ -1096,3 +1096,4 @@ public abstract class Tracker implements AutoCloseable {
         }
     }
 }
+

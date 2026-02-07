@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api;
+package id.naturalsmp.naturalmodels.api;
 
-import kr.toxicity.model.api.data.renderer.ModelRenderer;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.nms.NMS;
-import kr.toxicity.model.api.nms.PlayerChannelHandler;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.tracker.EntityTrackerRegistry;
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.nms.NMS;
+import id.naturalsmp.naturalmodels.api.nms.PlayerChannelHandler;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,27 +20,27 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.*;
 
 /**
- * The main entry point for the BetterModel API.
+ * The main entry point for the NaturalModels API.
  * <p>
  * This class provides static access to the platform instance, configuration, model managers,
- * NMS handlers, and entity registries. It serves as a service provider for interacting with the BetterModel engine.
+ * NMS handlers, and entity registries. It serves as a service provider for interacting with the NaturalModels engine.
  * </p>
  *
  * @since 1.15.2
  */
-public final class BetterModel {
+public final class NaturalModels {
 
     /**
      * Private initializer to prevent instantiation.
      */
-    private BetterModel() {
+    private NaturalModels() {
         throw new RuntimeException();
     }
 
     /**
      * The singleton platform instance.
      */
-    private static BetterModelPlatform instance;
+    private static NaturalModelsPlatform instance;
 
     /**
      * Returns the platform configuration manager.
@@ -48,7 +48,7 @@ public final class BetterModel {
      * @return the configuration manager
      * @since 1.15.2
      */
-    public static @NotNull BetterModelConfig config() {
+    public static @NotNull NaturalModelsConfig config() {
         return platform().config();
     }
 
@@ -214,14 +214,14 @@ public final class BetterModel {
     }
 
     /**
-     * Returns the singleton instance of the BetterModel platform.
+     * Returns the singleton instance of the NaturalModels platform.
      *
      * @return the platform instance
      * @throws NullPointerException if the platform has not been initialized
      * @since 2.0.0
      */
-    public static @NotNull BetterModelPlatform platform() {
-        return Objects.requireNonNull(instance, "BetterModel hasn't been initialized yet!");
+    public static @NotNull NaturalModelsPlatform platform() {
+        return Objects.requireNonNull(instance, "NaturalModels hasn't been initialized yet!");
     }
 
     /**
@@ -240,7 +240,7 @@ public final class BetterModel {
      * @return the event bus
      * @since 2.0.0
      */
-    public static @NotNull BetterModelEventBus eventBus() {
+    public static @NotNull NaturalModelsEventBus eventBus() {
         return platform().eventBus();
     }
 
@@ -255,9 +255,10 @@ public final class BetterModel {
      * @since 1.15.2
      */
     @ApiStatus.Internal
-    public static void register(@NotNull BetterModelPlatform instance) {
+    public static void register(@NotNull NaturalModelsPlatform instance) {
         Objects.requireNonNull(instance, "instance cannot be null.");
-        if (BetterModel.instance == instance) throw new RuntimeException("Duplicated instance.");
-        BetterModel.instance = instance;
+        if (NaturalModels.instance == instance) throw new RuntimeException("Duplicated instance.");
+        NaturalModels.instance = instance;
     }
 }
+

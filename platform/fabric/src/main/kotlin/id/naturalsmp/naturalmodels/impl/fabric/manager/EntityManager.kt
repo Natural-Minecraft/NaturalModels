@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.impl.fabric.manager
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
 import id.naturalsmp.naturalmodels.api.fabric.entity.BaseFabricEntity
 import id.naturalsmp.naturalmodels.api.nms.HitBox
@@ -114,24 +114,24 @@ object EntityManager : GlobalManager {
 
     private fun registerLifecycleEvents() {
         ServerEntityWorldChangeEvents.AFTER_ENTITY_CHANGE_WORLD.register { oldEntity, newEntity, _, _ ->
-            BetterModel.registryOrNull(oldEntity.uuid)?.let { registry ->
+            NaturalModels.registryOrNull(oldEntity.uuid)?.let { registry ->
                 (registry.entity() as BaseFabricEntity).entity(newEntity)
             }
         }
 
         // same as EntityAddToWorldEvent, EntitySpawnEvent
         ServerEntityEvents.ENTITY_LOAD.register { entity, _ ->
-            BetterModel.registryOrNull(entity.uuid)?.refresh()
+            NaturalModels.registryOrNull(entity.uuid)?.refresh()
         }
 
         // same as EntityRemoveFromWorldEvent, EntityRemoveEvent
         ServerEntityEvents.ENTITY_UNLOAD.register { entity, _ ->
-            BetterModel.registryOrNull(entity.uuid)?.despawn()
+            NaturalModels.registryOrNull(entity.uuid)?.despawn()
         }
 
         // same as PlayerChangedWorldEvent
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register { player, _, _ ->
-            BetterModel.registryOrNull(player.uuid)?.let { registry ->
+            NaturalModels.registryOrNull(player.uuid)?.let { registry ->
                 registry.despawn()
                 registry.refresh()
             }
@@ -140,7 +140,7 @@ object EntityManager : GlobalManager {
         // same as PlayerQuitEvent
         ServerPlayerEvents.LEAVE.register { player ->
             val fabricPlayer = player.connection.wrap()
-            BetterModel.registryOrNull(fabricPlayer.uuid())?.close()
+            NaturalModels.registryOrNull(fabricPlayer.uuid())?.close()
 
             PLATFORM.scheduler().asyncTask {
                 EntityTrackerRegistry.registries { registry ->
@@ -202,7 +202,7 @@ object EntityManager : GlobalManager {
             }
 
             if (entity is ServerPlayer) {
-                BetterModel.registryOrNull(entity.uuid)?.despawn()
+                NaturalModels.registryOrNull(entity.uuid)?.despawn()
             }
         }
     }
@@ -274,9 +274,10 @@ object EntityManager : GlobalManager {
     }
 
     private fun Entity.eachTracker(block: (EntityTracker) -> Unit) {
-        BetterModel.registryOrNull(uuid)?.trackers()?.forEach { tracker ->
+        NaturalModels.registryOrNull(uuid)?.trackers()?.forEach { tracker ->
             block(tracker)
         }
     }
 }
+
 

@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.script
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.script.AnimationScript
 import id.naturalsmp.naturalmodels.api.tracker.Tracker
 import id.naturalsmp.naturalmodels.api.tracker.TrackerUpdateAction
@@ -20,12 +20,12 @@ class RemapScript(
 
     private val newModel by lazy {
         model.toPackName().let {
-            BetterModel.modelOrNull(it)
+            NaturalModels.modelOrNull(it)
         }
     }
     private val filter by lazy {
         map?.let {
-            BetterModel.modelOrNull(it.toPackName())?.flatten()?.map { group ->
+            NaturalModels.modelOrNull(it.toPackName())?.flatten()?.map { group ->
                 group.name()
             }?.toSet()
         }
@@ -46,4 +46,5 @@ class RemapScript(
 
     override fun isSync(): Boolean = false
 }
+
 

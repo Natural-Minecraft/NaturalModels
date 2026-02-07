@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.animation;
+package id.naturalsmp.naturalmodels.api.animation;
 
-import kr.toxicity.model.api.bone.BoneMovement;
+import id.naturalsmp.naturalmodels.api.bone.BoneMovement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -117,3 +117,4 @@ public interface AnimationProgress extends Timed {
         }
     }
 }
+

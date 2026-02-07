@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.manager;
+package id.naturalsmp.naturalmodels.api.manager;
 
-import kr.toxicity.model.api.profile.ModelProfile;
-import kr.toxicity.model.api.skin.SkinData;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfile;
+import id.naturalsmp.naturalmodels.api.skin.SkinData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -56,3 +56,4 @@ public interface SkinManager {
      */
     void removeCache(@NotNull ModelProfile profile);
 }
+

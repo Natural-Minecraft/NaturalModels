@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api;
+package id.naturalsmp.naturalmodels.api;
 
-import kr.toxicity.model.api.event.ModelEvent;
-import kr.toxicity.model.api.event.ModelEventApplication;
-import kr.toxicity.model.api.event.ModelEventListener;
+import id.naturalsmp.naturalmodels.api.event.ModelEvent;
+import id.naturalsmp.naturalmodels.api.event.ModelEventApplication;
+import id.naturalsmp.naturalmodels.api.event.ModelEventListener;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ import java.util.function.Supplier;
  *
  * @since 2.0.0
  */
-public interface BetterModelEventBus {
+public interface NaturalModelsEventBus {
 
     /**
      * Subscribes a consumer to a specific event type.
@@ -104,3 +104,4 @@ public interface BetterModelEventBus {
         }
     }
 }
+

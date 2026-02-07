@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -26,7 +26,7 @@ object FabricModelSchedulerImpl : FabricModelScheduler, FabricRegionHolder {
         override fun newThread(r: Runnable): Thread {
             val thread = Thread(r)
             thread.setDaemon(true)
-            thread.setName("BetterModel-Async-Scheduler-" + integer.getAndIncrement())
+            thread.setName("NaturalModels-Async-Scheduler-" + integer.getAndIncrement())
             thread.setUncaughtExceptionHandler { t: Thread, e: Throwable -> LogUtil.handleException("Exception has occurred in " + t.name, e) }
             return thread
         }
@@ -137,4 +137,5 @@ object FabricModelSchedulerImpl : FabricModelScheduler, FabricRegionHolder {
         }
     }
 }
+
 

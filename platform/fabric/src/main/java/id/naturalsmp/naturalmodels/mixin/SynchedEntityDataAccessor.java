@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,11 +16,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(value = SynchedEntityData.class)
 public interface SynchedEntityDataAccessor {
     @Accessor(value = "itemsById")
-    @NotNull SynchedEntityData.DataItem<?>[] bettermodel$getItemsById();
+    @NotNull SynchedEntityData.DataItem<?>[] NaturalModels$getItemsById();
 
     @Accessor(value = "isDirty")
-    void bettermodel$setDirty(boolean dirty);
+    void NaturalModels$setDirty(boolean dirty);
 
     @Invoker(value = "getItem")
-    <T> SynchedEntityData.@NotNull DataItem<T> bettermodel$getItem(@NotNull EntityDataAccessor<T> key);
+    <T> SynchedEntityData.@NotNull DataItem<T> NaturalModels$getItem(@NotNull EntityDataAccessor<T> key);
 }
+

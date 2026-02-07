@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.entity;
+package id.naturalsmp.naturalmodels.api.bukkit.entity;
 
-import kr.toxicity.model.api.bukkit.platform.BukkitAdapter;
-import kr.toxicity.model.api.bukkit.platform.BukkitEntity;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter;
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitEntity;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -36,7 +36,7 @@ public interface BaseBukkitEntity extends BaseEntity, PersistentDataHolder {
      * @since 2.0.0
      */
     @NotNull
-    NamespacedKey TRACKING_ID = Objects.requireNonNull(NamespacedKey.fromString("bettermodel_tracker"));
+    NamespacedKey TRACKING_ID = Objects.requireNonNull(NamespacedKey.fromString("NaturalModels_tracker"));
 
     /**
      * Returns the underlying Bukkit entity.
@@ -100,3 +100,4 @@ public interface BaseBukkitEntity extends BaseEntity, PersistentDataHolder {
         else container.set(TRACKING_ID, PersistentDataType.STRING, modelData);
     }
 }
+

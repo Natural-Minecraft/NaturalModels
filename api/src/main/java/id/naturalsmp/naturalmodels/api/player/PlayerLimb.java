@@ -1,20 +1,20 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.player;
+package id.naturalsmp.naturalmodels.api.player;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.armor.PlayerArmor;
-import kr.toxicity.model.api.bone.BoneItemMapper;
-import kr.toxicity.model.api.bone.BoneRenderContext;
-import kr.toxicity.model.api.nms.Profiled;
-import kr.toxicity.model.api.platform.PlatformItemTransform;
-import kr.toxicity.model.api.skin.SkinData;
-import kr.toxicity.model.api.util.MathUtil;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.armor.PlayerArmor;
+import id.naturalsmp.naturalmodels.api.bone.BoneItemMapper;
+import id.naturalsmp.naturalmodels.api.bone.BoneRenderContext;
+import id.naturalsmp.naturalmodels.api.nms.Profiled;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemTransform;
+import id.naturalsmp.naturalmodels.api.skin.SkinData;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -208,12 +208,12 @@ public enum PlayerLimb {
      * @return item
      */
     public @NotNull TransformedItemStack createItem(@NotNull BoneRenderContext context) {
-        if (BetterModel.platform().skinManager().supported()) {
+        if (NaturalModels.platform().skinManager().supported()) {
             return skinMapper.apply(context.skin(), context.source() instanceof Profiled profiled ? profiled.armors() : PlayerArmor.EMPTY);
         }
         var profile = context.skin().profile();
         var isSlim = profile.skin().slim();
-        return TransformedItemStack.of(position, isSlim ? slimOffset : offset, isSlim ? slimScale : scale, BetterModel.nms().createPlayerHead(profile));
+        return TransformedItemStack.of(position, isSlim ? slimOffset : offset, isSlim ? slimScale : scale, NaturalModels.nms().createPlayerHead(profile));
     }
 
     /**
@@ -236,3 +236,4 @@ public enum PlayerLimb {
         }
     }
 }
+

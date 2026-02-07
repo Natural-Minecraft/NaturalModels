@@ -1,29 +1,29 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit;
+package id.naturalsmp.naturalmodels.api.bukkit;
 
-import kr.toxicity.model.api.BetterModelEventBus;
-import kr.toxicity.model.api.bukkit.event.BukkitEventApplication;
-import kr.toxicity.model.api.event.ModelEvent;
-import kr.toxicity.model.api.event.ModelEventListener;
+import id.naturalsmp.naturalmodels.api.NaturalModelsEventBus;
+import id.naturalsmp.naturalmodels.api.bukkit.event.BukkitEventApplication;
+import id.naturalsmp.naturalmodels.api.event.ModelEvent;
+import id.naturalsmp.naturalmodels.api.event.ModelEventListener;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 /**
- * A Bukkit-specific extension of the {@link BetterModelEventBus}.
+ * A Bukkit-specific extension of the {@link NaturalModelsEventBus}.
  * <p>
  * This interface provides convenience methods for subscribing to events using a Bukkit {@link Plugin} instance.
  * </p>
  *
  * @since 2.0.0
  */
-public interface BukkitModelEventBus extends BetterModelEventBus {
+public interface BukkitModelEventBus extends NaturalModelsEventBus {
 
     /**
      * Subscribes a consumer to a specific event type, associated with a Bukkit plugin.
@@ -40,3 +40,4 @@ public interface BukkitModelEventBus extends BetterModelEventBus {
         return subscribe(BukkitEventApplication.of(plugin), eventClass, consumer);
     }
 }
+

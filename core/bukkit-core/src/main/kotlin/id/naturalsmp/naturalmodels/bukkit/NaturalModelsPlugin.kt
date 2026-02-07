@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -7,11 +7,11 @@
 package id.naturalsmp.naturalmodels.bukkit
 
 import com.vdurmont.semver4j.Semver
-import id.naturalsmp.naturalmodels.api.BetterModelConfig
-import id.naturalsmp.naturalmodels.api.BetterModelEvaluator
-import id.naturalsmp.naturalmodels.api.BetterModelLogger
-import id.naturalsmp.naturalmodels.api.BetterModelPlatform.ReloadResult
-import id.naturalsmp.naturalmodels.api.BetterModelPlatform.ReloadResult.*
+import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
+import id.naturalsmp.naturalmodels.api.NaturalModelsEvaluator
+import id.naturalsmp.naturalmodels.api.NaturalModelsLogger
+import id.naturalsmp.naturalmodels.api.NaturalModelsPlatform.ReloadResult
+import id.naturalsmp.naturalmodels.api.NaturalModelsPlatform.ReloadResult.*
 import id.naturalsmp.naturalmodels.api.bukkit.BukkitModelEventBus
 import id.naturalsmp.naturalmodels.api.bukkit.scheduler.BukkitModelScheduler
 import id.naturalsmp.naturalmodels.api.manager.*
@@ -40,17 +40,17 @@ import java.util.function.Consumer
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
-abstract class BetterModelPlugin : AbstractBetterModelPlugin() {
+abstract class NaturalModelsPlugin : AbstractNaturalModelsPlugin() {
 
-    private lateinit var props: BetterModelProperties
+    private lateinit var props: NaturalModelsProperties
 
     override fun onLoad() {
         super.onLoad()
         props = runCatching {
-            BetterModelProperties(this)
+            NaturalModelsProperties(this)
         }.getOrElse {
             warn(
-                "Unable to start BetterModel.".toComponent(),
+                "Unable to start NaturalModels.".toComponent(),
                 "Reason: ${it.message ?: "Unknown"}".toComponent(RED),
                 "Stack trace: ${it.stackTraceToString()}".toComponent(RED),
                 "Plugin will be automatically disabled.".toComponent(DARK_RED)
@@ -75,10 +75,10 @@ abstract class BetterModelPlugin : AbstractBetterModelPlugin() {
                     player.audience().infoNotNull(
                         result.release
                             ?.takeIf { props.semver < it.versionNumber() }
-                            ?.let { version -> componentOf("New BetterModel release found: ") { append(version.toURLComponent()) } },
+                            ?.let { version -> componentOf("New NaturalModels release found: ") { append(version.toURLComponent()) } },
                         result.snapshot
                             ?.takeIf { props.semver < it.versionNumber() }
-                            ?.let { version -> componentOf("New BetterModel snapshot found: ") { append(version.toURLComponent()) } }
+                            ?.let { version -> componentOf("New NaturalModels snapshot found: ") { append(version.toURLComponent()) } }
                     )
                 }
             }
@@ -115,7 +115,7 @@ abstract class BetterModelPlugin : AbstractBetterModelPlugin() {
     override fun reload(info: ReloadInfo): ReloadResult {
         if (!onReload.compareAndSet(false, true)) return OnReload.INSTANCE
         return runCatching {
-            if (!info.skipConfig) props.config = BetterModelConfigImpl(PluginConfiguration.CONFIG.create())
+            if (!info.skipConfig) props.config = NaturalModelsConfigImpl(PluginConfiguration.CONFIG.create())
             val zipper = PackZipper.zipper().also(props.reloadStartTask)
             ReloadPipeline(
                 config().indicator().options.toIndicator(info)
@@ -160,9 +160,9 @@ abstract class BetterModelPlugin : AbstractBetterModelPlugin() {
     }
 
     override fun dataFolder(): File = dataFolder
-    override fun logger(): BetterModelLogger = logger
+    override fun logger(): NaturalModelsLogger = logger
     override fun scheduler(): BukkitModelScheduler = props.scheduler
-    override fun evaluator(): BetterModelEvaluator = props.evaluator
+    override fun evaluator(): NaturalModelsEvaluator = props.evaluator
     override fun eventBus(): BukkitModelEventBus = props.eventbus
     override fun modelManager(): ModelManager = ModelManagerImpl
     override fun playerManager(): PlayerManager = PlayerManagerImpl
@@ -170,7 +170,7 @@ abstract class BetterModelPlugin : AbstractBetterModelPlugin() {
     override fun skinManager(): SkinManager = SkinManagerImpl
     override fun profileManager(): ProfileManager = ProfileManagerImpl
 
-    override fun config(): BetterModelConfig = props.config
+    override fun config(): NaturalModelsConfig = props.config
     override fun version(): MinecraftVersion = props.version
     override fun semver(): Semver = props.semver
     override fun nms(): NMS = props.nms
@@ -194,4 +194,5 @@ abstract class BetterModelPlugin : AbstractBetterModelPlugin() {
         }
     }
 }
+
 

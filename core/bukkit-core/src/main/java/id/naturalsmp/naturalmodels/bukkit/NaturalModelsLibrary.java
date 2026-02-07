@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.bukkit;
+package id.naturalsmp.naturalmodels.bukkit;
 
-import kr.toxicity.model.api.bukkit.BetterModelBukkit;
-import kr.toxicity.model.api.util.function.BooleanConstantSupplier;
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit;
+import id.naturalsmp.naturalmodels.api.util.function.BooleanConstantSupplier;
 import net.byteflux.libby.Library;
 import net.byteflux.libby.relocation.Relocation;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 @SuppressWarnings("unused")
-public final class BetterModelLibrary {
+public final class NaturalModelsLibrary {
 
     private static final String KOTLIN_RELOCATED = "_kotlin".substring(1);
     private static final List<LibraryData> LIBRARY_DATA = new ArrayList<>();
@@ -60,7 +60,7 @@ public final class BetterModelLibrary {
     public static final LibraryData GEANTYREF = register(
         "io{}leangen{}geantyref",
         "geantyref",
-        builder -> builder.predicate(BooleanConstantSupplier.of(!BetterModelBukkit.IS_PAPER))
+        builder -> builder.predicate(BooleanConstantSupplier.of(!NaturalModelsBukkit.IS_PAPER))
     );
     public static final LibraryData MOLANG_COMPILER = register(
         "gg{}moonflower",
@@ -81,7 +81,7 @@ public final class BetterModelLibrary {
                 "adventure-text-serializer-json",
                 "adventure-text-serializer-json-legacy-impl"
             )
-            .predicate(BooleanConstantSupplier.of(!BetterModelBukkit.IS_PAPER))
+            .predicate(BooleanConstantSupplier.of(!NaturalModelsBukkit.IS_PAPER))
     );
     public static final LibraryData EXAMINATION_API = register(
         "net{}kyori",
@@ -90,12 +90,12 @@ public final class BetterModelLibrary {
             .subModules(
                 "examination-string"
             )
-            .predicate(BooleanConstantSupplier.of(!BetterModelBukkit.IS_PAPER))
+            .predicate(BooleanConstantSupplier.of(!NaturalModelsBukkit.IS_PAPER))
     );
     public static final LibraryData OPTION = register(
         "net{}kyori",
         "option",
-        builder -> builder.predicate(BooleanConstantSupplier.of(!BetterModelBukkit.IS_PAPER))
+        builder -> builder.predicate(BooleanConstantSupplier.of(!NaturalModelsBukkit.IS_PAPER))
     );
     public static final LibraryData ADVENTURE_PLATFORM = register(
         "net{}kyori",
@@ -107,11 +107,11 @@ public final class BetterModelLibrary {
                 "adventure-platform-viaversion",
                 "adventure-text-serializer-bungeecord"
             )
-            .predicate(BooleanConstantSupplier.of(!BetterModelBukkit.IS_PAPER))
+            .predicate(BooleanConstantSupplier.of(!NaturalModelsBukkit.IS_PAPER))
     );
 
-    public void load(@NotNull AbstractBetterModelPlugin plugin) {
-        var manager = new BetterModelLibraryManager(plugin);
+    public void load(@NotNull AbstractNaturalModelsPlugin plugin) {
+        var manager = new NaturalModelsLibraryManager(plugin);
         manager.addRepository("https://maven-central.storage-download.googleapis.com/maven2/");
         manager.addRepository("https://maven.blamejared.com/");
         manager.addMavenCentral();
@@ -185,7 +185,7 @@ public final class BetterModelLibrary {
             return predicate.getAsBoolean();
         }
 
-        private @NotNull Stream<Library> toLibby(@NotNull AbstractBetterModelPlugin plugin) {
+        private @NotNull Stream<Library> toLibby(@NotNull AbstractNaturalModelsPlugin plugin) {
             var version = plugin.attributes().getValue("library-" + versionRef);
             return Stream.concat(
                 Stream.of(artifact),
@@ -201,3 +201,4 @@ public final class BetterModelLibrary {
         }
     }
 }
+

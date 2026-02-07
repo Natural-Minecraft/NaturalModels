@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -28,7 +28,7 @@ public record TransformedItemStack(@NotNull Vector3f position, @NotNull Vector3f
      * @return empty transformed item
      */
     public static @NotNull TransformedItemStack empty() {
-        return of(BetterModel.platform().adapter().air());
+        return of(NaturalModels.platform().adapter().air());
     }
 
     /**
@@ -57,7 +57,7 @@ public record TransformedItemStack(@NotNull Vector3f position, @NotNull Vector3f
      * @return air item
      */
     public @NotNull TransformedItemStack asAir() {
-        return of(position, offset, scale, BetterModel.platform().adapter().air());
+        return of(position, offset, scale, NaturalModels.platform().adapter().air());
     }
 
     /**
@@ -99,3 +99,4 @@ public record TransformedItemStack(@NotNull Vector3f position, @NotNull Vector3f
         );
     }
 }
+

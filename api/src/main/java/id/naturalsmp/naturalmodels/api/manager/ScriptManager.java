@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.manager;
+package id.naturalsmp.naturalmodels.api.manager;
 
-import kr.toxicity.model.api.script.AnimationScript;
-import kr.toxicity.model.api.script.ScriptBuilder;
+import id.naturalsmp.naturalmodels.api.script.AnimationScript;
+import id.naturalsmp.naturalmodels.api.script.ScriptBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,3 +38,4 @@ public interface ScriptManager {
      */
     void addBuilder(@NotNull String name, @NotNull ScriptBuilder script);
 }
+

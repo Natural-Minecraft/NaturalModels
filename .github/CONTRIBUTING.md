@@ -2,7 +2,7 @@
 
 Thanks for considering contributing!
 
-* **Step 1.** Forks BetterModel to your repository.
+* **Step 1.** Forks NaturalModels to your repository.
 * **Step 2.** Commits your change.
 * **Step 3.** Opens pull request at 'dev' branch.
 * **Step 4.** Waits for merging or reviewing

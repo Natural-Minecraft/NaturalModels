@@ -1,7 +1,7 @@
 {
 	"textures": {
-		"0": "bettermodel:item/knight_sword",
-		"particle": "bettermodel:item/knight_sword"
+		"0": "NaturalModels:item/knight_sword",
+		"particle": "NaturalModels:item/knight_sword"
 	},
 	"elements": [
 		{

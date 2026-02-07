@@ -1,31 +1,31 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.raw;
+package id.naturalsmp.naturalmodels.api.data.raw;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.AnimationIterator;
-import kr.toxicity.model.api.animation.AnimationProgress;
-import kr.toxicity.model.api.animation.VectorPoint;
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.data.blueprint.AnimationGenerator;
-import kr.toxicity.model.api.data.blueprint.BlueprintAnimation;
-import kr.toxicity.model.api.data.blueprint.BlueprintAnimator;
-import kr.toxicity.model.api.data.blueprint.BlueprintElement;
-import kr.toxicity.model.api.script.AnimationScript;
-import kr.toxicity.model.api.script.BlueprintScript;
-import kr.toxicity.model.api.script.TimeScript;
-import kr.toxicity.model.api.util.InterpolationUtil;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.AnimationIterator;
+import id.naturalsmp.naturalmodels.api.animation.AnimationProgress;
+import id.naturalsmp.naturalmodels.api.animation.VectorPoint;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.data.blueprint.AnimationGenerator;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimation;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimator;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintElement;
+import id.naturalsmp.naturalmodels.api.script.AnimationScript;
+import id.naturalsmp.naturalmodels.api.script.BlueprintScript;
+import id.naturalsmp.naturalmodels.api.script.TimeScript;
+import id.naturalsmp.naturalmodels.api.util.InterpolationUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static kr.toxicity.model.api.util.CollectionUtil.associate;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.associate;
 
 /**
  * Represents a raw animation definition from a model file.
@@ -93,7 +93,7 @@ public record ModelAnimation(
         var get = animator.stream()
             .filter(f -> f.point().hasScript())
             .map(d -> AnimationScript.of(Arrays.stream(placeholder.parseVariable(d.point().script()).split("\n"))
-                .map(BetterModel.platform().scriptManager()::build)
+                .map(NaturalModels.platform().scriptManager()::build)
                 .filter(Objects::nonNull)
                 .toList()
             ).time(d.time()))
@@ -162,3 +162,4 @@ public record ModelAnimation(
         );
     }
 }
+

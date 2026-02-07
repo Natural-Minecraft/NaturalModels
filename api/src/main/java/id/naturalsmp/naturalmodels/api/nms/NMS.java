@@ -1,24 +1,24 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.nms;
+package id.naturalsmp.naturalmodels.api.nms;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.data.blueprint.ModelBoundingBox;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.entity.BasePlayer;
-import kr.toxicity.model.api.mount.MountController;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.platform.PlatformItemStack;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.profile.ModelProfile;
-import kr.toxicity.model.api.tracker.EntityTrackerRegistry;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.entity.BasePlayer;
+import id.naturalsmp.naturalmodels.api.mount.MountController;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfile;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -170,7 +170,7 @@ public interface NMS {
      */
     default void hide(@NotNull PlayerChannelHandler channel, @NotNull EntityTrackerRegistry registry, @NotNull BooleanSupplier condition) {
         if (registry.entity() instanceof BasePlayer) {
-            var plugin = BetterModel.platform();
+            var plugin = NaturalModels.platform();
             plugin.scheduler().asyncTaskLater(plugin.config().playerHideDelay(), () -> {
                 if (condition.getAsBoolean()) hide(channel, registry);
             });
@@ -257,3 +257,4 @@ public interface NMS {
      */
     boolean isProxyOnlineMode();
 }
+

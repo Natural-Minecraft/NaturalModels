@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -56,4 +56,5 @@ fun Audience.info(vararg messages: ComponentLike) = sendMessage(componentWithLin
 fun Audience.warn(vararg messages: ComponentLike) = sendMessage(componentWithLineOf(*messages.map { componentOf(WARN, it) }.toTypedArray()))
 fun Audience.info(message: ComponentLike) = sendMessage(componentOf(INFO, message))
 fun Audience.warn(message: ComponentLike) = sendMessage(componentOf(WARN, message))
+
 

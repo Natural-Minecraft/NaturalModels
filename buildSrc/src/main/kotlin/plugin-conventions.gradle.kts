@@ -29,7 +29,7 @@ tasks {
                 "Dev-Build" to (BUILD_NUMBER ?: -1),
                 "Version" to versionString,
                 "Author" to "toxicity188",
-                "Url" to "https://github.com/toxicity188/BetterModel",
+                "Url" to "https://github.com/toxicity188/NaturalModels",
                 "Created-By" to "Gradle $gradle",
                 "Build-Jdk" to "${System.getProperty("java.vendor")} ${System.getProperty("java.version")}",
                 "Build-OS" to "${System.getProperty("os.arch")} ${System.getProperty("os.name")}"
@@ -65,3 +65,4 @@ modrinth {
         )
     }
 }
+

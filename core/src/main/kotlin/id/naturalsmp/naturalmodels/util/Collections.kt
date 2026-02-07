@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -30,7 +30,7 @@ class ParallelIOThreadPool : AutoCloseable {
     private val pool = Executors.newFixedThreadPool(available) {
         Thread(it).apply {
             isDaemon = true
-            name = "BetterModel-IO-Worker-${integer.andIncrement}"
+            name = "NaturalModels-IO-Worker-${integer.andIncrement}"
             uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { thread, exception ->
                 exception.handleException("A error has been occurred in ${thread.name}")
             }
@@ -78,4 +78,5 @@ class ParallelIOThreadPool : AutoCloseable {
         ).join()
     }
 }
+
 

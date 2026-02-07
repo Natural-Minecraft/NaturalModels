@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -7,9 +7,9 @@
 package id.naturalsmp.naturalmodels.impl.fabric.entity
 
 import com.mojang.math.Transformation
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.bone.RenderedBone
-import id.naturalsmp.naturalmodels.api.fabric.BetterModelFabric
+import id.naturalsmp.naturalmodels.api.fabric.NaturalModelsFabric
 import id.naturalsmp.naturalmodels.api.nms.ModelNametag
 import id.naturalsmp.naturalmodels.api.nms.PacketBundler
 import id.naturalsmp.naturalmodels.api.platform.PlatformLocation
@@ -51,14 +51,14 @@ class ModelNametagImpl(
     private val viewedPlayer = ConcurrentHashMap.newKeySet<UUID>()
     private val display = Display.TextDisplay(
         EntityType.TEXT_DISPLAY,
-        (PLATFORM as BetterModelFabric).server().overworld()
+        (PLATFORM as NaturalModelsFabric).server().overworld()
     ).apply {
-        entityData[DisplayAccessor.`bettermodel$getDataPosRotInterpolationDurationId`()] = 3
+        entityData[DisplayAccessor.`NaturalModels$getDataPosRotInterpolationDurationId`()] = 3
         setTransformation(emptyTransformation)
         billboardConstraints = Display.BillboardConstraints.CENTER
     }
     private var alwaysVisible = false
-    private var location = BetterModel.platform().adapter().zero()
+    private var location = NaturalModels.platform().adapter().zero()
 
     override fun component(component: net.kyori.adventure.text.Component?) {
         display.text = component?.asVanilla() ?: Component.empty()
@@ -120,4 +120,5 @@ class ModelNametagImpl(
 
     private val removePacket get() = ClientboundRemoveEntitiesPacket(display.id)
 }
+
 

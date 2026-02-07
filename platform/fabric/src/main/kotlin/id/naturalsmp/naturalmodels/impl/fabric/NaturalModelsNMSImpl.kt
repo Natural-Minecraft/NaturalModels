@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -14,7 +14,7 @@ import id.naturalsmp.naturalmodels.api.bone.RenderedBone
 import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox
 import id.naturalsmp.naturalmodels.api.entity.BaseEntity
 import id.naturalsmp.naturalmodels.api.entity.BasePlayer
-import id.naturalsmp.naturalmodels.api.fabric.BetterModelFabric
+import id.naturalsmp.naturalmodels.api.fabric.NaturalModelsFabric
 import id.naturalsmp.naturalmodels.api.mount.MountController
 import id.naturalsmp.naturalmodels.api.nms.*
 import id.naturalsmp.naturalmodels.api.platform.PlatformEntity
@@ -47,7 +47,7 @@ import net.minecraft.world.item.component.DyedItemColor
 import net.minecraft.world.item.component.ResolvableProfile
 import java.util.function.Consumer
 
-class BetterModelNMSImpl : NMS {
+class NaturalModelsNMSImpl : NMS {
     override fun create(
         location: PlatformLocation,
         yOffset: Double,
@@ -58,7 +58,7 @@ class BetterModelNMSImpl : NMS {
 
         val itemDisplay = Display.ItemDisplay(type, level).apply {
             billboardConstraints = Display.BillboardConstraints.FIXED
-            entityData[DisplayAccessor.`bettermodel$getDataPosRotInterpolationDurationId`()] = 3
+            entityData[DisplayAccessor.`NaturalModels$getDataPosRotInterpolationDurationId`()] = 3
             itemTransform = ItemDisplayContext.FIXED
             snapTo(location.x(), location.y(), location.z(), location.yaw(), 0.0f)
         }
@@ -121,7 +121,7 @@ class BetterModelNMSImpl : NMS {
         val target = registry.entity().handle() as? Entity ?: return
         val list = bundlerOf()
         target.entityData.pack(
-            valueFilter = { it.id == EntityAccessor.`bettermodel$getDataSharedFlagsId`().id }
+            valueFilter = { it.id == EntityAccessor.`NaturalModels$getDataSharedFlagsId`().id }
         )?.let {
             list += ClientboundSetEntityDataPacket(target.id, it).toRegistryDataPacket(channel.uuid(), registry)
         }
@@ -182,7 +182,7 @@ class BetterModelNMSImpl : NMS {
             set(DataComponents.PROFILE, ResolvableProfile.createResolved(gameProfile))
         }.wrap()
 
-    override fun isProxyOnlineMode(): Boolean = (PLATFORM as BetterModelFabric).server().usesAuthentication()
+    override fun isProxyOnlineMode(): Boolean = (PLATFORM as NaturalModelsFabric).server().usesAuthentication()
 
     override fun createSkinItem(model: String, floats: List<Float>, flags: List<Boolean>, strings: List<String>, colors: List<Int>): TransformedItemStack {
         return ItemStack(Items.PLAYER_HEAD).run {
@@ -192,4 +192,5 @@ class BetterModelNMSImpl : NMS {
         }
     }
 }
+
 

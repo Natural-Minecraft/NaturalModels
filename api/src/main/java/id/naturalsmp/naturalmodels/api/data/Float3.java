@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data;
+package id.naturalsmp.naturalmodels.api.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializer;
-import kr.toxicity.model.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
@@ -191,3 +191,4 @@ public record Float3(
     }
 
 }
+

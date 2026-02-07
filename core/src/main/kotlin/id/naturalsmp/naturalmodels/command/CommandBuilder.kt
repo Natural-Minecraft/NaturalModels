@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -28,7 +28,7 @@ class CommandBuilder(
 
         val prefix = listOf(
             emptyComponentOf(),
-            "------ BetterModel ${PLATFORM.semver()} ------".toComponent(GRAY),
+            "------ NaturalModels ${PLATFORM.semver()} ------".toComponent(GRAY),
             emptyComponentOf()
         )
 
@@ -40,12 +40,12 @@ class CommandBuilder(
                     append(spaceComponentOf())
                     append("[Wiki]".toComponent {
                         color(AQUA)
-                        toURLComponent("https://github.com/toxicity188/BetterModel/wiki")
+                        toURLComponent("https://github.com/toxicity188/NaturalModels/wiki")
                     })
                     append(spaceComponentOf())
                     append("[Download]".toComponent {
                         color(GREEN)
-                        toURLComponent("https://modrinth.com/plugin/bettermodel/versions")
+                        toURLComponent("https://modrinth.com/plugin/NaturalModels/versions")
                     })
                     append(spaceComponentOf())
                     append("[Discord]".toComponent {
@@ -139,4 +139,5 @@ class CommandBuilder(
         *info.aliases.toTypedArray()
     ) //.meta(BukkitCommandMeta.BUKKIT_DESCRIPTION, info.description.textDescription())
 }
+
 

@@ -1,30 +1,30 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.tracker;
+package id.naturalsmp.naturalmodels.api.tracker;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.AnimationIterator;
-import kr.toxicity.model.api.animation.AnimationModifier;
-import kr.toxicity.model.api.bone.BoneTags;
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.data.renderer.RenderPipeline;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.entity.BasePlayer;
-import kr.toxicity.model.api.event.CreateEntityTrackerEvent;
-import kr.toxicity.model.api.event.DismountModelEvent;
-import kr.toxicity.model.api.event.MountModelEvent;
-import kr.toxicity.model.api.nms.HitBox;
-import kr.toxicity.model.api.nms.HitBoxListener;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.util.EventUtil;
-import kr.toxicity.model.api.util.FunctionUtil;
-import kr.toxicity.model.api.util.MathUtil;
-import kr.toxicity.model.api.util.function.BonePredicate;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.AnimationIterator;
+import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.bone.BoneTags;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderPipeline;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.entity.BasePlayer;
+import id.naturalsmp.naturalmodels.api.event.CreateEntityTrackerEvent;
+import id.naturalsmp.naturalmodels.api.event.DismountModelEvent;
+import id.naturalsmp.naturalmodels.api.event.MountModelEvent;
+import id.naturalsmp.naturalmodels.api.nms.HitBox;
+import id.naturalsmp.naturalmodels.api.nms.HitBoxListener;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.util.EventUtil;
+import id.naturalsmp.naturalmodels.api.util.FunctionUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.function.BonePredicate;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -93,7 +93,7 @@ public class EntityTracker extends Tracker {
             .ifPresent(bone -> {
                 var box = bone.getGroup().getHitBox();
                 if (box == null) return;
-                var shadow = BetterModel.nms().create(entity.location(), d -> {
+                var shadow = NaturalModels.nms().create(entity.location(), d -> {
                     if (entity instanceof BasePlayer) d.moveDuration(1);
                 });
                 var baseScale = (float) (box.x() + box.z()) / 4F;
@@ -169,7 +169,7 @@ public class EntityTracker extends Tracker {
      * @since 1.15.2
      */
     public void updateBaseEntity() {
-        BetterModel.platform().scheduler().asyncTaskLater(1, () -> {
+        NaturalModels.platform().scheduler().asyncTaskLater(1, () -> {
             updateBaseEntity0();
             forceUpdate(true);
         });
@@ -397,3 +397,4 @@ public class EntityTracker extends Tracker {
         return pipeline.getParent().type().isCanBeSaved();
     }
 }
+

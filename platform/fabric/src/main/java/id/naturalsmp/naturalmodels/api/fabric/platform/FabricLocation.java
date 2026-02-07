@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.fabric.platform;
+package id.naturalsmp.naturalmodels.api.fabric.platform;
 
-import kr.toxicity.model.api.fabric.BetterModelFabric;
-import kr.toxicity.model.api.fabric.scheduler.FabricModelScheduler;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformWorld;
-import kr.toxicity.model.api.scheduler.ModelTask;
+import id.naturalsmp.naturalmodels.api.fabric.NaturalModelsFabric;
+import id.naturalsmp.naturalmodels.api.fabric.scheduler.FabricModelScheduler;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformWorld;
+import id.naturalsmp.naturalmodels.api.scheduler.ModelTask;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -186,6 +186,7 @@ public record FabricLocation(@Nullable Level level, double x, double y, double z
     }
 
     private @NotNull FabricModelScheduler scheduler() {
-        return BetterModelFabric.platform().scheduler();
+        return NaturalModelsFabric.platform().scheduler();
     }
 }
+

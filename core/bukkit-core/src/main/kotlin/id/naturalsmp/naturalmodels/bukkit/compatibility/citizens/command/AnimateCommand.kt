@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.bukkit.compatibility.citizens.command
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.animation.AnimationIterator
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
 import id.naturalsmp.naturalmodels.bukkit.util.wrap
@@ -50,9 +50,10 @@ class AnimateCommand {
                 AnimationIterator.Type.valueOf(uppercase())
             }?.getOrNull() ?: AnimationIterator.Type.PLAY_ONCE)
             .build()
-        BetterModel.registryOrNull(targetNpc.entity.uniqueId)?.trackers()?.forEach {
+        NaturalModels.registryOrNull(targetNpc.entity.uniqueId)?.trackers()?.forEach {
             it.animate(animation, modifier)
         }
     }
 }
+
 

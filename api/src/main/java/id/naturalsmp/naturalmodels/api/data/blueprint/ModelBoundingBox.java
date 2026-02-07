@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.blueprint;
+package id.naturalsmp.naturalmodels.api.data.blueprint;
 
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaterniond;
@@ -273,3 +273,4 @@ public record ModelBoundingBox(
         return Math.sqrt(Math.pow(x(), 2) + Math.pow(y(), 2) + Math.pow(z(), 2));
     }
 }
+

@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.fabric.platform;
+package id.naturalsmp.naturalmodels.api.fabric.platform;
 
-import kr.toxicity.model.api.platform.PlatformItemStack;
-import kr.toxicity.model.api.platform.PlatformNamespace;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.platform.PlatformNamespace;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -69,3 +69,4 @@ public record FabricItemStack(@NotNull ItemStack source) implements PlatformItem
         return FabricAdapter.adapt(source.copy());
     }
 }
+

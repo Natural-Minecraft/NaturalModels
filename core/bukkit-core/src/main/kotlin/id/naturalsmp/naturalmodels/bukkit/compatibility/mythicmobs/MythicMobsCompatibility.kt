@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -10,7 +10,7 @@ import io.lumine.mythic.bukkit.MythicBukkit
 import io.lumine.mythic.bukkit.events.MythicConditionLoadEvent
 import io.lumine.mythic.bukkit.events.MythicMechanicLoadEvent
 import io.lumine.mythic.bukkit.events.MythicTargeterLoadEvent
-import id.naturalsmp.naturalmodels.api.bukkit.BetterModelBukkit
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit
 import id.naturalsmp.naturalmodels.api.bukkit.entity.BaseBukkitEntity
 import id.naturalsmp.naturalmodels.api.script.AnimationScript
 import id.naturalsmp.naturalmodels.api.tracker.EntityTracker
@@ -34,7 +34,7 @@ class MythicMobsCompatibility : Compatibility {
     override fun start() {
         ScriptManagerImpl.addBuilder("mm") { name ->
             val args = name.args() ?: return@addBuilder AnimationScript.EMPTY
-            AnimationScript.of(BetterModelBukkit.IS_FOLIA) script@ { tracker ->
+            AnimationScript.of(NaturalModelsBukkit.IS_FOLIA) script@ { tracker ->
                 if (!CONFIG.module().model) return@script
                 if (tracker !is EntityTracker) return@script
                 val entity = (tracker.registry().entity() as? BaseBukkitEntity ?: return@script).entity()
@@ -97,4 +97,5 @@ class MythicMobsCompatibility : Compatibility {
         })
     }
 }
+
 

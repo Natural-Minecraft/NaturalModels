@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -33,4 +33,5 @@ fun PlatformPlayer.unwarp(): Player = (this as BukkitPlayer).source()
 fun PlatformLocation.unwarp(): Location = (this as BukkitLocation).source()
 fun PlatformWorld.unwarp(): World = (this as BukkitWorld).source()
 fun PlatformItemStack.unwarp(): ItemStack = (this as BukkitItemStack).source()
+
 

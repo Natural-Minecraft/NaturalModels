@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels
 
-import id.naturalsmp.naturalmodels.api.BetterModelEventBus
+import id.naturalsmp.naturalmodels.api.NaturalModelsEventBus
 import id.naturalsmp.naturalmodels.api.event.CancellableEvent
 import id.naturalsmp.naturalmodels.api.event.ModelEvent
 import id.naturalsmp.naturalmodels.api.event.ModelEventApplication
@@ -19,9 +19,9 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 import java.util.function.Supplier
 
-class BetterModelEventBusImpl(
-    private val externalCallback: (Class<out ModelEvent>, Supplier<out ModelEvent>) -> BetterModelEventBus.Result = { _, _ -> BetterModelEventBus.Result.NO_EVENT_HANDLER }
-) : BetterModelEventBus {
+class NaturalModelsEventBusImpl(
+    private val externalCallback: (Class<out ModelEvent>, Supplier<out ModelEvent>) -> NaturalModelsEventBus.Result = { _, _ -> NaturalModelsEventBus.Result.NO_EVENT_HANDLER }
+) : NaturalModelsEventBus {
 
     private val subscribers = ConcurrentHashMap<Class<*>, BusManager>()
 
@@ -31,14 +31,14 @@ class BetterModelEventBusImpl(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ModelEvent> call(eventClass: Class<out T>, eventSupplier: Supplier<T>): BetterModelEventBus.Result {
+    override fun <T : ModelEvent> call(eventClass: Class<out T>, eventSupplier: Supplier<T>): NaturalModelsEventBus.Result {
         return subscribers[eventClass]?.let { manager ->
             eventSupplier
                 .get()
                 .also(manager)
                 .also { externalCallback(eventClass) { it } }
                 .let { event ->
-                    if (event !is CancellableEvent || !event.isCancelled()) BetterModelEventBus.Result.SUCCESS else BetterModelEventBus.Result.FAIL
+                    if (event !is CancellableEvent || !event.isCancelled()) NaturalModelsEventBus.Result.SUCCESS else NaturalModelsEventBus.Result.FAIL
                 }
         } ?: run {
             externalCallback(eventClass) { eventSupplier.get() }
@@ -105,4 +105,5 @@ class BetterModelEventBusImpl(
         }
     }
 }
+
 

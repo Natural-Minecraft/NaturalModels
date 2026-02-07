@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.tracker;
+package id.naturalsmp.naturalmodels.api.tracker;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
@@ -14,20 +14,20 @@ import it.unimi.dsi.fastutil.ints.Int2ReferenceMap;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.config.DebugConfig;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.entity.BasePlayer;
-import kr.toxicity.model.api.nms.HitBox;
-import kr.toxicity.model.api.nms.ModelDisplay;
-import kr.toxicity.model.api.nms.PacketBundler;
-import kr.toxicity.model.api.nms.PlayerChannelHandler;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.util.CollectionUtil;
-import kr.toxicity.model.api.util.LogUtil;
-import kr.toxicity.model.api.util.lock.DuplexLock;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.config.DebugConfig;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.entity.BasePlayer;
+import id.naturalsmp.naturalmodels.api.nms.HitBox;
+import id.naturalsmp.naturalmodels.api.nms.ModelDisplay;
+import id.naturalsmp.naturalmodels.api.nms.PacketBundler;
+import id.naturalsmp.naturalmodels.api.nms.PlayerChannelHandler;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.util.CollectionUtil;
+import id.naturalsmp.naturalmodels.api.util.LogUtil;
+import id.naturalsmp.naturalmodels.api.util.lock.DuplexLock;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.ApiStatus;
@@ -288,7 +288,7 @@ public final class EntityTrackerRegistry {
     }
 
     private void initialLoad() {
-        if (BetterModel.platform().adapter().isRegionSafe() && loaded.compareAndSet(false, true)) {
+        if (NaturalModels.platform().adapter().isRegionSafe() && loaded.compareAndSet(false, true)) {
             load();
             refreshPlayer();
         }
@@ -296,7 +296,7 @@ public final class EntityTrackerRegistry {
 
     private void refreshPlayer() {
         entity.trackedBy()
-            .map(p -> BetterModel.player(p.uuid()).orElse(null))
+            .map(p -> NaturalModels.player(p.uuid()).orElse(null))
             .filter(Objects::nonNull)
             .forEach(this::registerPlayer);
     }
@@ -411,7 +411,7 @@ public final class EntityTrackerRegistry {
      * @since 1.15.2
      */
     public void load(@NotNull Stream<TrackerData> stream) {
-        stream.forEach(parsed -> BetterModel.model(parsed.id()).ifPresent(model -> model.create(entity, parsed.modifier(), parsed::applyAs)));
+        stream.forEach(parsed -> NaturalModels.model(parsed.id()).ifPresent(model -> model.create(entity, parsed.modifier(), parsed::applyAs)));
         save();
     }
 
@@ -437,7 +437,7 @@ public final class EntityTrackerRegistry {
     }
 
     private void runSync(@NotNull Runnable runnable) {
-        if (BetterModel.platform().adapter().isTickThread()) {
+        if (NaturalModels.platform().adapter().isTickThread()) {
             runnable.run();
         } else entity.platform().task(runnable);
     }
@@ -510,19 +510,19 @@ public final class EntityTrackerRegistry {
         return spawn(player, true);
     }
     private boolean spawn(@NotNull PlatformPlayer player, boolean shouldNotSpawned) {
-        var handler = BetterModel.platform()
+        var handler = NaturalModels.platform()
             .playerManager()
             .player(player.uuid());
         if (handler == null) return false;
         var cache = registerPlayer(handler);
         if (trackerMap.isEmpty()) return false;
-        var bundler = BetterModel.nms().createBundler(10);
+        var bundler = NaturalModels.nms().createBundler(10);
         for (EntityTracker value : trackers()) {
             if (shouldNotSpawned && value.isSpawned(player)) continue;
             if (value.canBeSpawnedAt(player)) value.spawn(player, bundler);
         }
         if (bundler.isEmpty()) return false;
-        BetterModel.nms().mount(this, bundler);
+        NaturalModels.nms().mount(this, bundler);
         cache.spawn(bundler);
         return true;
     }
@@ -640,12 +640,12 @@ public final class EntityTrackerRegistry {
 
         private void hide() {
             reapplyHideOption();
-            BetterModel.nms().hide(channelHandler, EntityTrackerRegistry.this);
+            NaturalModels.nms().hide(channelHandler, EntityTrackerRegistry.this);
         }
 
         private void spawn(@NotNull PacketBundler bundler) {
             reapplyHideOption();
-            bundler.send(channelHandler.player(), () -> BetterModel.nms().hide(channelHandler, EntityTrackerRegistry.this, () -> viewedPlayerMap.containsKey(channelHandler.uuid())));
+            bundler.send(channelHandler.player(), () -> NaturalModels.nms().hide(channelHandler, EntityTrackerRegistry.this, () -> viewedPlayerMap.containsKey(channelHandler.uuid())));
         }
 
         private synchronized void reapplyHideOption() {
@@ -656,3 +656,4 @@ public final class EntityTrackerRegistry {
         }
     }
 }
+

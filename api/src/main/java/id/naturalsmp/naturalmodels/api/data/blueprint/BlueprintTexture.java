@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.blueprint;
+package id.naturalsmp.naturalmodels.api.data.blueprint;
 
 import com.google.gson.JsonObject;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.data.raw.ModelResolution;
-import kr.toxicity.model.api.pack.PackObfuscator;
-import kr.toxicity.model.api.util.json.JsonObjectBuilder;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.data.raw.ModelResolution;
+import id.naturalsmp.naturalmodels.api.pack.PackObfuscator;
+import id.naturalsmp.naturalmodels.api.util.json.JsonObjectBuilder;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -91,7 +91,7 @@ public record BlueprintTexture(
      * @since 1.15.2
      */
     public @NotNull String packNamespace(@NotNull PackObfuscator obfuscator) {
-        return BetterModel.config().namespace() + ":item/" + packName(obfuscator);
+        return NaturalModels.config().namespace() + ":item/" + packName(obfuscator);
     }
 
     /**
@@ -116,3 +116,4 @@ public record BlueprintTexture(
         return resolution.width() == width && resolution.height() == height ? resolution : new ModelResolution(uvWidth, uvHeight);
     }
 }
+

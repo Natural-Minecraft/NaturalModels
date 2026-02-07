@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.blueprint;
+package id.naturalsmp.naturalmodels.api.data.blueprint;
 
 import it.unimi.dsi.fastutil.floats.*;
-import kr.toxicity.model.api.animation.VectorPoint;
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.util.InterpolationUtil;
-import kr.toxicity.model.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.animation.VectorPoint;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.util.InterpolationUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static kr.toxicity.model.api.util.CollectionUtil.*;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.*;
 
 /**
  * Generates animation data by interpolating keyframes and calculating bone movements.
@@ -220,3 +220,4 @@ public final class AnimationGenerator {
         }
     }
 }
+

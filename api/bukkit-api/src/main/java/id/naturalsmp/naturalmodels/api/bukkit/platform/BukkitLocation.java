@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.platform;
+package id.naturalsmp.naturalmodels.api.bukkit.platform;
 
-import kr.toxicity.model.api.bukkit.BetterModelBukkit;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformWorld;
-import kr.toxicity.model.api.scheduler.ModelTask;
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformWorld;
+import id.naturalsmp.naturalmodels.api.scheduler.ModelTask;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,11 +59,12 @@ public record BukkitLocation(@NotNull Location source) implements PlatformLocati
 
     @Override
     public @Nullable ModelTask task(@NotNull Runnable runnable) {
-        return BetterModelBukkit.platform().scheduler().task(source, runnable);
+        return NaturalModelsBukkit.platform().scheduler().task(source, runnable);
     }
 
     @Override
     public @Nullable ModelTask taskLater(long delay, @NotNull Runnable runnable) {
-        return BetterModelBukkit.platform().scheduler().taskLater(source, delay, runnable);
+        return NaturalModelsBukkit.platform().scheduler().taskLater(source, delay, runnable);
     }
 }
+

@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -25,4 +25,5 @@ fun PlatformEntity.unwarp(): Entity = (this as FabricEntity).source()
 fun PlatformLivingEntity.unwarp(): LivingEntity = (this as FabricLivingEntity).source()
 fun PlatformPlayer.unwarp(): ServerPlayerConnection = (this as FabricPlayer).source()
 fun PlatformItemStack.unwarp(): ItemStack = (this as FabricItemStack).source()
+
 

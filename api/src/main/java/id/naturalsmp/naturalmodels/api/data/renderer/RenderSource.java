@@ -1,19 +1,19 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.renderer;
+package id.naturalsmp.naturalmodels.api.data.renderer;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.armor.PlayerArmor;
-import kr.toxicity.model.api.bone.BoneRenderContext;
-import kr.toxicity.model.api.nms.Profiled;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.player.PlayerSkinParts;
-import kr.toxicity.model.api.profile.ModelProfile;
-import kr.toxicity.model.api.tracker.*;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.armor.PlayerArmor;
+import id.naturalsmp.naturalmodels.api.bone.BoneRenderContext;
+import id.naturalsmp.naturalmodels.api.nms.Profiled;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.player.PlayerSkinParts;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfile;
+import id.naturalsmp.naturalmodels.api.tracker.*;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,8 +67,8 @@ public sealed interface RenderSource<T extends Tracker> {
      * @since 1.15.2
      */
     @ApiStatus.Internal
-    static @NotNull RenderSource.Entity of(@NotNull kr.toxicity.model.api.entity.BaseEntity entity, @NotNull ModelProfile.Uncompleted profile) {
-        return entity instanceof kr.toxicity.model.api.entity.BasePlayer player ? new ProfiledPlayer(player, profile) : new ProfiledEntity(entity, profile);
+    static @NotNull RenderSource.Entity of(@NotNull id.naturalsmp.naturalmodels.api.entity.BaseEntity entity, @NotNull ModelProfile.Uncompleted profile) {
+        return entity instanceof id.naturalsmp.naturalmodels.api.entity.BasePlayer player ? new ProfiledPlayer(player, profile) : new ProfiledEntity(entity, profile);
     }
 
     /**
@@ -79,8 +79,8 @@ public sealed interface RenderSource<T extends Tracker> {
      * @since 1.15.2
      */
     @ApiStatus.Internal
-    static @NotNull RenderSource.Entity of(@NotNull kr.toxicity.model.api.entity.BaseEntity entity) {
-        return entity instanceof kr.toxicity.model.api.entity.BasePlayer player ? new BasePlayer(player) : new BaseEntity(entity);
+    static @NotNull RenderSource.Entity of(@NotNull id.naturalsmp.naturalmodels.api.entity.BaseEntity entity) {
+        return entity instanceof id.naturalsmp.naturalmodels.api.entity.BasePlayer player ? new BasePlayer(player) : new BaseEntity(entity);
     }
 
     /**
@@ -138,7 +138,7 @@ public sealed interface RenderSource<T extends Tracker> {
          * @return the entity
          * @since 1.15.2
          */
-        @NotNull kr.toxicity.model.api.entity.BaseEntity entity();
+        @NotNull id.naturalsmp.naturalmodels.api.entity.BaseEntity entity();
 
         /**
          * Gets or creates an entity tracker for this source.
@@ -198,17 +198,17 @@ public sealed interface RenderSource<T extends Tracker> {
 
         @Override
         public @NotNull CompletableFuture<BoneRenderContext> completeContext() {
-            return BetterModel.platform().skinManager().complete(profile).thenApply(skin -> new BoneRenderContext(this, skin));
+            return NaturalModels.platform().skinManager().complete(profile).thenApply(skin -> new BoneRenderContext(this, skin));
         }
     }
 
     /**
-     * A basic implementation of {@link Entity} wrapping a {@link kr.toxicity.model.api.entity.BaseEntity}.
+     * A basic implementation of {@link Entity} wrapping a {@link id.naturalsmp.naturalmodels.api.entity.BaseEntity}.
      *
      * @param entity the entity
      * @since 1.15.2
      */
-    record BaseEntity(@NotNull kr.toxicity.model.api.entity.BaseEntity entity) implements Entity {
+    record BaseEntity(@NotNull id.naturalsmp.naturalmodels.api.entity.BaseEntity entity) implements Entity {
 
         @NotNull
         @Override
@@ -234,13 +234,13 @@ public sealed interface RenderSource<T extends Tracker> {
     }
 
     /**
-     * A profiled implementation of {@link Entity} wrapping a {@link kr.toxicity.model.api.entity.BaseEntity} and a model profile.
+     * A profiled implementation of {@link Entity} wrapping a {@link id.naturalsmp.naturalmodels.api.entity.BaseEntity} and a model profile.
      *
      * @param entity the entity
      * @param profile the model profile
      * @since 1.15.2
      */
-    record ProfiledEntity(@NotNull kr.toxicity.model.api.entity.BaseEntity entity, @NotNull ModelProfile.Uncompleted profile) implements Entity {
+    record ProfiledEntity(@NotNull id.naturalsmp.naturalmodels.api.entity.BaseEntity entity, @NotNull ModelProfile.Uncompleted profile) implements Entity {
 
         @NotNull
         @Override
@@ -260,17 +260,17 @@ public sealed interface RenderSource<T extends Tracker> {
 
         @Override
         public @NotNull CompletableFuture<BoneRenderContext> completeContext() {
-            return BetterModel.platform().skinManager().complete(profile).thenApply(skin -> new BoneRenderContext(this, skin));
+            return NaturalModels.platform().skinManager().complete(profile).thenApply(skin -> new BoneRenderContext(this, skin));
         }
     }
 
     /**
-     * A basic implementation of {@link Entity} wrapping a {@link kr.toxicity.model.api.entity.BasePlayer}.
+     * A basic implementation of {@link Entity} wrapping a {@link id.naturalsmp.naturalmodels.api.entity.BasePlayer}.
      *
      * @param entity the player entity
      * @since 1.15.2
      */
-    record BasePlayer(@NotNull kr.toxicity.model.api.entity.BasePlayer entity) implements Entity, Profiled {
+    record BasePlayer(@NotNull id.naturalsmp.naturalmodels.api.entity.BasePlayer entity) implements Entity, Profiled {
 
         @NotNull
         @Override
@@ -290,7 +290,7 @@ public sealed interface RenderSource<T extends Tracker> {
 
         @Override
         public @NotNull CompletableFuture<BoneRenderContext> completeContext() {
-            return BetterModel.platform().skinManager().complete(profile().asUncompleted()).thenApply(skin -> new BoneRenderContext(this, skin));
+            return NaturalModels.platform().skinManager().complete(profile().asUncompleted()).thenApply(skin -> new BoneRenderContext(this, skin));
         }
 
         @Override
@@ -310,13 +310,13 @@ public sealed interface RenderSource<T extends Tracker> {
     }
 
     /**
-     * A profiled implementation of {@link Entity} wrapping a {@link kr.toxicity.model.api.entity.BasePlayer} and a model profile.
+     * A profiled implementation of {@link Entity} wrapping a {@link id.naturalsmp.naturalmodels.api.entity.BasePlayer} and a model profile.
      *
      * @param entity the player entity
      * @param externalProfile the external model profile
      * @since 1.15.2
      */
-    record ProfiledPlayer(@NotNull kr.toxicity.model.api.entity.BasePlayer entity, @NotNull ModelProfile.Uncompleted externalProfile) implements Entity, Profiled {
+    record ProfiledPlayer(@NotNull id.naturalsmp.naturalmodels.api.entity.BasePlayer entity, @NotNull ModelProfile.Uncompleted externalProfile) implements Entity, Profiled {
         @NotNull
         @Override
         public EntityTracker create(@NotNull RenderPipeline pipeline, @NotNull TrackerModifier modifier, @NotNull Consumer<EntityTracker> preUpdateConsumer) {
@@ -335,7 +335,7 @@ public sealed interface RenderSource<T extends Tracker> {
 
         @Override
         public @NotNull CompletableFuture<BoneRenderContext> completeContext() {
-            return BetterModel.platform().skinManager().complete(externalProfile).thenApply(skin -> new BoneRenderContext(this, skin));
+            return NaturalModels.platform().skinManager().complete(externalProfile).thenApply(skin -> new BoneRenderContext(this, skin));
         }
 
         @Override
@@ -354,3 +354,4 @@ public sealed interface RenderSource<T extends Tracker> {
         }
     }
 }
+

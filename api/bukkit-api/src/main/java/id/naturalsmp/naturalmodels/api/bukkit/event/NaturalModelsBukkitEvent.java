@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.event;
+package id.naturalsmp.naturalmodels.api.bukkit.event;
 
-import kr.toxicity.model.api.event.ModelEvent;
+import id.naturalsmp.naturalmodels.api.event.ModelEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -20,13 +20,13 @@ import java.util.function.Supplier;
 /**
  * A wrapper class that adapts {@link ModelEvent} to Bukkit's {@link Event} system.
  * <p>
- * This allows Bukkit plugins to listen for BetterModel events using the standard Bukkit event API.
+ * This allows Bukkit plugins to listen for NaturalModels events using the standard Bukkit event API.
  * The underlying {@link ModelEvent} is lazily initialized when accessed.
  * </p>
  *
  * @since 2.0.0
  */
-public final class BetterModelBukkitEvent extends Event {
+public final class NaturalModelsBukkitEvent extends Event {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
@@ -35,14 +35,14 @@ public final class BetterModelBukkitEvent extends Event {
     private volatile ModelEvent source;
 
     /**
-     * Creates a new BetterModelBukkitEvent.
+     * Creates a new NaturalModelsBukkitEvent.
      *
      * @param eventClass the class of the model event
      * @param supplier a supplier that creates the model event
      * @since 2.0.0
      */
     @ApiStatus.Internal
-    public BetterModelBukkitEvent(@NotNull Class<? extends ModelEvent> eventClass, @NotNull Supplier<? extends ModelEvent> supplier) {
+    public NaturalModelsBukkitEvent(@NotNull Class<? extends ModelEvent> eventClass, @NotNull Supplier<? extends ModelEvent> supplier) {
         super(!Bukkit.isPrimaryThread());
         this.eventClass = eventClass;
         this.supplier = supplier;
@@ -122,3 +122,4 @@ public final class BetterModelBukkitEvent extends Event {
         return HANDLER_LIST;
     }
 }
+

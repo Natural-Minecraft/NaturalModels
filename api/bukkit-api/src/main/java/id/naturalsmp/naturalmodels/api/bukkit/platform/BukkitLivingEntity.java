@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.platform;
+package id.naturalsmp.naturalmodels.api.bukkit.platform;
 
-import kr.toxicity.model.api.platform.PlatformLivingEntity;
-import kr.toxicity.model.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLivingEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,3 +44,4 @@ public class BukkitLivingEntity extends BukkitEntity implements PlatformLivingEn
         return BukkitAdapter.adapt(source().getEyeLocation());
     }
 }
+

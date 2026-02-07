@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import it.unimi.dsi.fastutil.floats.FloatCollection;
-import kr.toxicity.model.api.BetterModel;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -271,7 +271,7 @@ public final class CollectionUtil {
      */
     @NotNull
     public static <T> Predicate<T> filterWithWarning(@NotNull Predicate<T> predicate, @NotNull Function<T, String> lazyLogFunction) {
-        var logger = BetterModel.platform().logger();
+        var logger = NaturalModels.platform().logger();
         return t -> {
             var testedValue = predicate.test(t);
             if (!testedValue) logger.warn(LogUtil.toLog(lazyLogFunction.apply(t), NamedTextColor.YELLOW));
@@ -353,3 +353,4 @@ public final class CollectionUtil {
         float apply(T t);
     }
 }
+

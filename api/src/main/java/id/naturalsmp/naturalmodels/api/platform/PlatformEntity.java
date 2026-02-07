@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.platform;
+package id.naturalsmp.naturalmodels.api.platform;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.scheduler.ModelTask;
-import kr.toxicity.model.api.tracker.EntityTracker;
-import kr.toxicity.model.api.tracker.EntityTrackerRegistry;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.scheduler.ModelTask;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTracker;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,7 +60,7 @@ public interface PlatformEntity extends PlatformRegionHolder {
      * @since 2.0.0
      */
     default @NotNull Optional<EntityTrackerRegistry> registry() {
-        return BetterModel.registry(uuid());
+        return NaturalModels.registry(uuid());
     }
 
     /**
@@ -74,3 +74,4 @@ public interface PlatformEntity extends PlatformRegionHolder {
         return registry().map(registry -> registry.tracker(name));
     }
 }
+

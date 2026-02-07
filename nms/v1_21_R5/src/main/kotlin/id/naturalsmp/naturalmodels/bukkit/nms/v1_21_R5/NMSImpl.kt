@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -12,9 +12,9 @@ import com.mojang.authlib.properties.Property
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.bone.RenderedBone
-import id.naturalsmp.naturalmodels.api.bukkit.BetterModelBukkit
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit
 import id.naturalsmp.naturalmodels.api.bukkit.entity.BaseBukkitEntity
 import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox
 import id.naturalsmp.naturalmodels.api.entity.BaseEntity
@@ -65,7 +65,7 @@ import java.util.function.Consumer
 class NMSImpl : NMS {
 
     companion object {
-        private const val INJECT_NAME = "bettermodel_channel_handler"
+        private const val INJECT_NAME = "NaturalModels_channel_handler"
 
         //Spigot
         private val getGameProfile: (Player) -> GameProfile = createAdaptedFieldGetter { it.gameProfile }
@@ -78,7 +78,7 @@ class NMSImpl : NMS {
         @Suppress("UNCHECKED_CAST")
         private val ServerLevel.levelGetter
             get(): LevelEntityGetter<Entity> {
-                return if (BetterModelBukkit.IS_PAPER) {
+                return if (NaturalModelsBukkit.IS_PAPER) {
                     `moonrise$getEntityLookup`()
                 } else {
                     spigotChunkAccess?.get(this)?.let {
@@ -86,7 +86,7 @@ class NMSImpl : NMS {
                     } ?: throw RuntimeException("LevelEntityGetter")
                 }
             }
-        private val getEntityById: (LevelEntityGetter<Entity>, Int) -> Entity? = if (BetterModelBukkit.IS_PAPER) { g, i ->
+        private val getEntityById: (LevelEntityGetter<Entity>, Int) -> Entity? = if (NaturalModelsBukkit.IS_PAPER) { g, i ->
             (g as EntityLookup)[i]
         } else LevelEntityGetterAdapter::class.java.declaredFields.first {
             net.minecraft.world.level.entity.EntityLookup::class.java.isAssignableFrom(it.type)
@@ -153,7 +153,7 @@ class NMSImpl : NMS {
         private val playerModel get() = connection.player.id.toRegistry()
 
         private fun Int.toPlayerEntity() = toEntity(connection.player.level())
-        private fun Entity.toRegistry() = BetterModel.registryOrNull(uuid)
+        private fun Entity.toRegistry() = NaturalModels.registryOrNull(uuid)
         private inline fun Int.toRegistry(
             ifHitBox: (Entity) -> Unit = {}
         ) = (EntityTrackerRegistry.registry(this) ?: toPlayerEntity()?.let {
@@ -188,7 +188,7 @@ class NMSImpl : NMS {
                     val entity = id.toPlayerEntity() ?: return this
                     if (entity is HitBox) return entity.toFakeAddPacket()
                     val wrap = entity.bukkitEntity.wrap()
-                    BetterModel.registry(wrap).ifPresent {
+                    NaturalModels.registry(wrap).ifPresent {
                         wrap.taskLater(1) {
                             it.spawn(player.wrap())
                         }
@@ -250,7 +250,7 @@ class NMSImpl : NMS {
         }
 
         override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-            fun EntityTrackerRegistry.updatePlayerLimb() = BetterModel.platform().scheduler().asyncTaskLater(1) {
+            fun EntityTrackerRegistry.updatePlayerLimb() = NaturalModels.platform().scheduler().asyncTaskLater(1) {
                 if (isClosed) return@asyncTaskLater
                 player.handle.containerMenu.sendAllDataToRemote()
                 trackers().forEach { tracker ->
@@ -397,4 +397,5 @@ class NMSImpl : NMS {
 
     override fun isProxyOnlineMode(): Boolean = ONLINE_MODE
 }
+
 

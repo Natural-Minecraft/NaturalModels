@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data;
+package id.naturalsmp.naturalmodels.api.data;
 
 import com.google.gson.JsonParseException;
-import kr.toxicity.model.api.data.raw.ModelData;
-import kr.toxicity.model.api.data.raw.ModelLoadResult;
-import kr.toxicity.model.api.util.PackUtil;
+import id.naturalsmp.naturalmodels.api.data.raw.ModelData;
+import id.naturalsmp.naturalmodels.api.data.raw.ModelLoadResult;
+import id.naturalsmp.naturalmodels.api.util.PackUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
@@ -175,3 +175,4 @@ public record ModelAsset(
         @NotNull InputStream get() throws IOException;
     }
 }
+

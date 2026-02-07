@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -9,9 +9,9 @@ package id.naturalsmp.naturalmodels.impl.fabric.entity
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.entity.BasePlayer
-import id.naturalsmp.naturalmodels.api.fabric.BetterModelFabric
+import id.naturalsmp.naturalmodels.api.fabric.NaturalModelsFabric
 import id.naturalsmp.naturalmodels.api.nms.HitBox
 import id.naturalsmp.naturalmodels.api.nms.PlayerChannelHandler
 import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry
@@ -62,7 +62,7 @@ class PlayerChannelHandlerImpl(
 
     private fun getPlayerEntity(id: Int) = getEntity(id, connection.player.level())
 
-    private fun Entity.toRegistry() = BetterModel.registryOrNull(uuid)
+    private fun Entity.toRegistry() = NaturalModels.registryOrNull(uuid)
 
     private inline fun Int.toRegistry(ifHitBox: (Entity) -> Unit = {}) =
         (EntityTrackerRegistry.registry(this) ?: getPlayerEntity(this)?.let {
@@ -79,7 +79,7 @@ class PlayerChannelHandlerImpl(
         )
 
         handle.entityData.pack(
-            valueFilter = { it.id == EntityAccessor.`bettermodel$getDataSharedFlagsId`().id }
+            valueFilter = { it.id == EntityAccessor.`NaturalModels$getDataSharedFlagsId`().id }
         )?.let {
             list.add(ClientboundSetEntityDataPacket(handle.id, it))
         }
@@ -105,7 +105,7 @@ class PlayerChannelHandlerImpl(
     private fun <T : ClientGamePacketListener> Packet<in T>.handle(): Packet<in T>? {
         when (this) {
             is ClientboundBundlePacket -> {
-                return if ((this as BetterModelBundlePacket).`bettermodel$isBetterModelPacket`()) this else ClientboundBundlePacket(subPackets().mapNotNull {
+                return if ((this as NaturalModelsBundlePacket).`NaturalModels$isNaturalModelsPacket`()) this else ClientboundBundlePacket(subPackets().mapNotNull {
                     it.handle()
                 })
             }
@@ -114,7 +114,7 @@ class PlayerChannelHandlerImpl(
                 val entity = getPlayerEntity(id) ?: return this
                 if (entity is HitBox) return entity.toFakeAddPacket()
                 val wrap = entity.wrap()
-                BetterModel.registry(wrap).ifPresent {
+                NaturalModels.registry(wrap).ifPresent {
                     wrap.taskLater(1) {
                         it.spawn(connection.wrap())
                     }
@@ -190,7 +190,7 @@ class PlayerChannelHandlerImpl(
     }
 
     override fun channelRead(ctx: ChannelHandlerContext, msg: Any) {
-        fun EntityTrackerRegistry.updatePlayerLimb() = BetterModel.platform().scheduler().asyncTaskLater(1) {
+        fun EntityTrackerRegistry.updatePlayerLimb() = NaturalModels.platform().scheduler().asyncTaskLater(1) {
             if (isClosed) return@asyncTaskLater
             player.containerMenu.sendAllDataToRemote()
             trackers().forEach { tracker ->
@@ -227,17 +227,18 @@ class PlayerChannelHandlerImpl(
     }
 
     companion object {
-        private const val INJECT_NAME = "bettermodel_channel_handler"
+        private const val INJECT_NAME = "NaturalModels_channel_handler"
 
         private val hitBoxData by lazy {
             Display.ItemDisplay(
                 EntityType.ITEM_DISPLAY,
-                (PLATFORM as BetterModelFabric).server().overworld()
+                (PLATFORM as NaturalModelsFabric).server().overworld()
             ).run {
-                entityData.set(DisplayAccessor.`bettermodel$getDataPosRotInterpolationDurationId`(), 3)
+                entityData.set(DisplayAccessor.`NaturalModels$getDataPosRotInterpolationDurationId`(), 3)
                 entityData.nonDefaultValues!!
             }
         }
     }
 }
+
 

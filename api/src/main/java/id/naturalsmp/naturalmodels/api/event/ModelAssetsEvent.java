@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.event;
+package id.naturalsmp.naturalmodels.api.event;
 
-import kr.toxicity.model.api.data.ModelAsset;
-import kr.toxicity.model.api.data.renderer.ModelRenderer;
+import id.naturalsmp.naturalmodels.api.data.ModelAsset;
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -34,3 +34,4 @@ public record ModelAssetsEvent(@NotNull ModelRenderer.Type type, @NotNull Set<Mo
         if (!assets.add(asset)) throw new IllegalArgumentException("Asset " + asset.name() + " already exists.");
     }
 }
+

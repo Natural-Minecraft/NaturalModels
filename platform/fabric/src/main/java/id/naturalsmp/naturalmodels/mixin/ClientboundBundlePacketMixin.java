@@ -1,28 +1,29 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
-import kr.toxicity.model.impl.fabric.network.BetterModelBundlePacket;
+import id.naturalsmp.naturalmodels.impl.fabric.network.NaturalModelsBundlePacket;
 import net.minecraft.network.protocol.game.ClientboundBundlePacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = ClientboundBundlePacket.class)
-public abstract class ClientboundBundlePacketMixin implements BetterModelBundlePacket {
+public abstract class ClientboundBundlePacketMixin implements NaturalModelsBundlePacket {
     @Unique
-    private boolean bettermodel$isBetterModelPacket;
+    private boolean NaturalModels$isNaturalModelsPacket;
 
     @Override
-    public boolean bettermodel$isBetterModelPacket() {
-        return bettermodel$isBetterModelPacket;
+    public boolean NaturalModels$isNaturalModelsPacket() {
+        return NaturalModels$isNaturalModelsPacket;
     }
 
     @Override
-    public void bettermodel$setBetterModelPacket(boolean isBetterModel) {
-        bettermodel$isBetterModelPacket = isBetterModel;
+    public void NaturalModels$setNaturalModelsPacket(boolean isNaturalModels) {
+        NaturalModels$isNaturalModelsPacket = isNaturalModels;
     }
 }
+

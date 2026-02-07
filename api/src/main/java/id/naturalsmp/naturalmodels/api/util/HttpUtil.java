@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,8 +13,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.vdurmont.semver4j.Semver;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.version.MinecraftVersion;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.version.MinecraftVersion;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -59,15 +59,15 @@ public final class HttpUtil {
     }
 
     /**
-     * Searches BetterModel's latest version
+     * Searches NaturalModels's latest version
      * @return latest version
      */
     public static @NotNull LatestVersion versionList() {
-        return versionList(BetterModel.platform().version());
+        return versionList(NaturalModels.platform().version());
     }
 
     /**
-     * Searches BetterModel's latest version compatible with current server
+     * Searches NaturalModels's latest version compatible with current server
      * @param version server version
      * @return latest version
      */
@@ -75,7 +75,7 @@ public final class HttpUtil {
         return client(client -> {
             try (var stream = client.send(HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("https://api.modrinth.com/v2/project/bettermodel/version"))
+                .uri(URI.create("https://api.modrinth.com/v2/project/NaturalModels/version"))
                 .build(), HttpResponse.BodyHandlers.ofInputStream()).body();
                  var reader = new InputStreamReader(stream);
                  var jsonReader = new JsonReader(reader)
@@ -91,7 +91,7 @@ public final class HttpUtil {
                     .toList());
             }
         }).orElse(e -> {
-            LogUtil.handleException("Unable to get BetterModel's version info.", e);
+            LogUtil.handleException("Unable to get NaturalModels's version info.", e);
             return new LatestVersion(null, null);
         });
     }
@@ -139,7 +139,7 @@ public final class HttpUtil {
          * @return text component
          */
         public @NotNull Component toURLComponent() {
-            var url = "https://modrinth.com/plugin/bettermodel/version/" + id;
+            var url = "https://modrinth.com/plugin/NaturalModels/version/" + id;
             return Component.text()
                 .content(versionNumber.getOriginalValue())
                 .color(NamedTextColor.AQUA)
@@ -158,7 +158,7 @@ public final class HttpUtil {
          * @return is same platform
          */
         public boolean isSamePlatform() {
-            return loaders.contains(BetterModel.platform().jarType().raw());
+            return loaders.contains(NaturalModels.platform().jarType().raw());
         }
     }
 
@@ -224,3 +224,4 @@ public final class HttpUtil {
         @NotNull T accept(@NotNull HttpClient client) throws Exception;
     }
 }
+

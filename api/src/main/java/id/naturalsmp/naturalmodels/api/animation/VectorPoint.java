@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.animation;
+package id.naturalsmp.naturalmodels.api.animation;
 
-import kr.toxicity.model.api.util.function.FloatFunction;
-import kr.toxicity.model.api.util.interpolator.VectorInterpolator;
+import id.naturalsmp.naturalmodels.api.util.function.FloatFunction;
+import id.naturalsmp.naturalmodels.api.util.interpolator.VectorInterpolator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -138,3 +138,4 @@ public record VectorPoint(@NotNull FloatFunction<Vector3f> function, float time,
         return Float.hashCode(time);
     }
 }
+

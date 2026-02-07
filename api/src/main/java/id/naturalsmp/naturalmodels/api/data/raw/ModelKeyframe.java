@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.raw;
+package id.naturalsmp.naturalmodels.api.data.raw;
 
 import com.google.gson.annotations.SerializedName;
-import kr.toxicity.model.api.animation.Timed;
-import kr.toxicity.model.api.animation.VectorPoint;
-import kr.toxicity.model.api.data.Float3;
-import kr.toxicity.model.api.util.interpolator.VectorInterpolator;
+import id.naturalsmp.naturalmodels.api.animation.Timed;
+import id.naturalsmp.naturalmodels.api.animation.VectorPoint;
+import id.naturalsmp.naturalmodels.api.data.Float3;
+import id.naturalsmp.naturalmodels.api.util.interpolator.VectorInterpolator;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -114,3 +114,4 @@ public record ModelKeyframe(
         return channel != null ? channel : KeyframeChannel.NOT_FOUND;
     }
 }
+

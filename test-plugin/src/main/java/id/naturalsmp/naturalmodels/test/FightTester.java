@@ -1,25 +1,25 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.test;
+package id.naturalsmp.naturalmodels.test;
 
 import com.google.gson.JsonObject;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.AnimationEventHandler;
-import kr.toxicity.model.api.animation.AnimationModifier;
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.bukkit.BetterModelBukkit;
-import kr.toxicity.model.api.bukkit.platform.BukkitAdapter;
-import kr.toxicity.model.api.data.ModelAsset;
-import kr.toxicity.model.api.data.renderer.ModelRenderer;
-import kr.toxicity.model.api.event.ModelAssetsEvent;
-import kr.toxicity.model.api.event.PluginStartReloadEvent;
-import kr.toxicity.model.api.pack.PackNamespace;
-import kr.toxicity.model.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.AnimationEventHandler;
+import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit;
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter;
+import id.naturalsmp.naturalmodels.api.data.ModelAsset;
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer;
+import id.naturalsmp.naturalmodels.api.event.ModelAssetsEvent;
+import id.naturalsmp.naturalmodels.api.event.PluginStartReloadEvent;
+import id.naturalsmp.naturalmodels.api.pack.PackNamespace;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.*;
@@ -54,10 +54,10 @@ public final class FightTester implements ModelTester, Listener {
 
     private final Map<UUID, PlayerSkillCounter> playerCounterMap = new ConcurrentHashMap<>();
     private ItemStack lineItem;
-    private BetterModelTest test;
+    private NaturalModelsTest test;
 
     @Override
-    public void start(@NotNull BetterModelTest test) {
+    public void start(@NotNull NaturalModelsTest test) {
         this.test = test;
         this.lineItem = createLine();
         Bukkit.getPluginManager().registerEvents(this, test);
@@ -66,14 +66,14 @@ public final class FightTester implements ModelTester, Listener {
             if (sender instanceof Player player) giveKnightSword(player);
             return true;
         });
-        BetterModelBukkit.platform().eventBus().subscribe(test, PluginStartReloadEvent.class, event -> {
+        NaturalModelsBukkit.platform().eventBus().subscribe(test, PluginStartReloadEvent.class, event -> {
             var path = event.zipper()
                 .modern()
-                .bettermodel();
+                .NaturalModels();
             loadItem(path, "knight_sword");
             loadItem(path, "knight_line");
         });
-        BetterModelBukkit.platform().eventBus().subscribe(test, ModelAssetsEvent.class, event -> {
+        NaturalModelsBukkit.platform().eventBus().subscribe(test, ModelAssetsEvent.class, event -> {
             if (event.type() == ModelRenderer.Type.PLAYER) event.addAsset(ModelAsset.of(
                 "knight",
                 () -> Objects.requireNonNull(test.getResource("knight.bbmodel"))
@@ -82,7 +82,7 @@ public final class FightTester implements ModelTester, Listener {
     }
 
     @Override
-    public void end(@NotNull BetterModelTest test) {
+    public void end(@NotNull NaturalModelsTest test) {
         HandlerList.unregisterAll(this);
     }
 
@@ -91,7 +91,7 @@ public final class FightTester implements ModelTester, Listener {
         path.textures().add(itemName + ".png", test.asByte(itemName + ".png"));
         var model = new JsonObject();
         model.addProperty("type", "minecraft:model");
-        model.addProperty("model", "bettermodel:class_item/" + itemName);
+        model.addProperty("model", "NaturalModels:class_item/" + itemName);
         var json = new JsonObject();
         json.add("model", model);
         path.items().add(itemName + ".json", () -> json.toString().getBytes(StandardCharsets.UTF_8));
@@ -120,7 +120,7 @@ public final class FightTester implements ModelTester, Listener {
             meta.displayName(MiniMessage.miniMessage().deserialize("<gradient:#FF6A00:#FFD800><b>Knight Sword"));
             meta.setUnbreakable(true);
             meta.setItemModel(new NamespacedKey(
-                (Plugin) BetterModel.platform(),
+                (Plugin) NaturalModels.platform(),
                 "knight_sword"
             ));
             meta.addItemFlags(ItemFlag.values());
@@ -132,7 +132,7 @@ public final class FightTester implements ModelTester, Listener {
     private static @NotNull ItemStack createLine() {
         var line = new ItemStack(Material.PAPER);
         line.editMeta(meta -> meta.setItemModel(new NamespacedKey(
-            (Plugin) BetterModel.platform(),
+            (Plugin) NaturalModels.platform(),
             "knight_line"
         )));
         return line;
@@ -161,7 +161,7 @@ public final class FightTester implements ModelTester, Listener {
             if (dequeue != null) execute(dequeue);
         }
         private void execute(@NotNull String target) {
-            BetterModel.limb("knight")
+            NaturalModels.limb("knight")
                 .map(limb -> limb.getOrCreate(BukkitAdapter.adapt(player)))
                 .ifPresent(tracker -> {
                     var drawer = tracker.bone("sword_point");
@@ -228,7 +228,7 @@ public final class FightTester implements ModelTester, Listener {
                 Stream.of(BukkitAdapter.adapt(player)),
                 player.getTrackedBy().stream().map(BukkitAdapter::adapt)
             ).toList();
-            task = Bukkit.getAsyncScheduler().runAtFixedRate((Plugin) BetterModel.platform(), task -> {
+            task = Bukkit.getAsyncScheduler().runAtFixedRate((Plugin) NaturalModels.platform(), task -> {
                 queuedTask.removeIf(BooleanSupplier::getAsBoolean);
                 var c = counter.incrementAndGet();
                 if (c >= count) return;
@@ -276,12 +276,12 @@ public final class FightTester implements ModelTester, Listener {
                 0,
                 new Particle.DustOptions(Color.YELLOW, 1)
             );
-            var display = BetterModel.nms().create(BukkitAdapter.adapt(start), 0, d -> {
+            var display = NaturalModels.nms().create(BukkitAdapter.adapt(start), 0, d -> {
                 d.item(BukkitAdapter.adapt(lineItem));
                 d.brightness(15, 15);
             });
             var transformer = display.createTransformer();
-            var bundler = BetterModel.nms().createBundler(2);
+            var bundler = NaturalModels.nms().createBundler(2);
             display.spawn(bundler);
             display.sendEntityData(true, bundler);
             transformer.transform(
@@ -295,7 +295,7 @@ public final class FightTester implements ModelTester, Listener {
             var displayCounter = new AtomicInteger();
             queuedTask.add(() -> {
                 if (displayCounter.incrementAndGet() >= 20 || task.isCancelled()) {
-                    var removeBundler = BetterModel.nms().createBundler(1);
+                    var removeBundler = NaturalModels.nms().createBundler(1);
                     display.remove(removeBundler);
                     players.forEach(removeBundler::send);
                     return true;
@@ -305,3 +305,4 @@ public final class FightTester implements ModelTester, Listener {
         }
     }
 }
+

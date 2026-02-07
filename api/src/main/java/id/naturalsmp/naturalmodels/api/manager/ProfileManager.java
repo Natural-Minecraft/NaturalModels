@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.manager;
+package id.naturalsmp.naturalmodels.api.manager;
 
-import kr.toxicity.model.api.profile.ModelProfileSkin;
-import kr.toxicity.model.api.profile.ModelProfileSupplier;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfileSkin;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfileSupplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -46,3 +46,4 @@ public interface ProfileManager {
      */
     void supplier(@NotNull ModelProfileSupplier supplier);
 }
+

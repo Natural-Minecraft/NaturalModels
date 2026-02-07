@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.manager;
+package id.naturalsmp.naturalmodels.api.manager;
 
-import kr.toxicity.model.api.nms.PlayerChannelHandler;
-import kr.toxicity.model.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.nms.PlayerChannelHandler;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,3 +44,4 @@ public interface PlayerManager {
      */
     @NotNull PlayerChannelHandler player(@NotNull PlatformPlayer player);
 }
+

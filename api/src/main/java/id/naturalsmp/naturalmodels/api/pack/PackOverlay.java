@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.pack;
+package id.naturalsmp.naturalmodels.api.pack;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.util.function.BooleanConstantSupplier;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.util.function.BooleanConstantSupplier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -46,7 +46,7 @@ public record PackOverlay(
     public static final PackOverlay LEGACY = new PackOverlay(
         "legacy",
         Optional.of(new PackMeta.VersionRange(22, 45)),
-        BetterModel.config().pack()::generateLegacyModel
+        NaturalModels.config().pack()::generateLegacyModel
     );
 
     /**
@@ -56,7 +56,7 @@ public record PackOverlay(
     public static final PackOverlay MODERN = new PackOverlay(
         "modern",
         Optional.of(new PackMeta.VersionRange(46, 99)),
-        BetterModel.config().pack()::generateModernModel
+        NaturalModels.config().pack()::generateModernModel
     );
 
 
@@ -98,3 +98,4 @@ public record PackOverlay(
         return packName.compareTo(o.packName);
     }
 }
+

@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.raw;
+package id.naturalsmp.naturalmodels.api.data.raw;
 
 import com.google.gson.JsonDeserializer;
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.data.blueprint.BlueprintElement;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintElement;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -18,8 +18,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static kr.toxicity.model.api.util.CollectionUtil.filterIsInstance;
-import static kr.toxicity.model.api.util.CollectionUtil.mapToList;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.filterIsInstance;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.mapToList;
 
 /**
  * Represents the hierarchical structure (outliner) of a model.
@@ -139,3 +139,4 @@ public sealed interface ModelOutliner {
         }
     }
 }
+

@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util.json;
+package id.naturalsmp.naturalmodels.api.util.json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -113,3 +113,4 @@ public final class JsonObjectBuilder {
         return this;
     }
 }
+

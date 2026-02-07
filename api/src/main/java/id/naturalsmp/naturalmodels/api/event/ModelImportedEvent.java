@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.event;
+package id.naturalsmp.naturalmodels.api.event;
 
 
-import kr.toxicity.model.api.data.blueprint.ModelBlueprint;
-import kr.toxicity.model.api.data.renderer.ModelRenderer;
+import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBlueprint;
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -26,3 +26,4 @@ public record ModelImportedEvent(
     @NotNull ModelRenderer renderer
 ) implements ModelEvent {
 }
+

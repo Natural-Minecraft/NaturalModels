@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.fabric.platform;
+package id.naturalsmp.naturalmodels.api.fabric.platform;
 
-import kr.toxicity.model.api.platform.PlatformOfflinePlayer;
+import id.naturalsmp.naturalmodels.api.platform.PlatformOfflinePlayer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,3 +37,4 @@ public record FabricOfflinePlayer(@NotNull UUID uuid, @Nullable String name) imp
         return new FabricOfflinePlayer(uuid, name);
     }
 }
+

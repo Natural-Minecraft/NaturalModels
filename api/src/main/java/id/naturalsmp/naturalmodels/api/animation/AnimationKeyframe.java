@@ -1,19 +1,19 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.animation;
+package id.naturalsmp.naturalmodels.api.animation;
 
-import kr.toxicity.model.api.bone.BoneMovement;
-import kr.toxicity.model.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.bone.BoneMovement;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.Arrays;
 
-import static kr.toxicity.model.api.util.MathUtil.isNotZero;
+import static id.naturalsmp.naturalmodels.api.util.MathUtil.isNotZero;
 
 /**
  * Represents a collection of animation keyframes, optimized for efficient storage and access.
@@ -197,3 +197,4 @@ public record AnimationKeyframe(
             .toList());
     }
 }
+

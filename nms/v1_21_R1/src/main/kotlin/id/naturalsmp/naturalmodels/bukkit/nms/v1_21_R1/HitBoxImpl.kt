@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R1
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.bone.RenderedBone
 import id.naturalsmp.naturalmodels.api.config.DebugConfig
 import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox
@@ -324,7 +324,7 @@ internal class HitBoxImpl(
     }
 
     override fun hide(player: PlatformPlayer) {
-        val plugin = BetterModel.platform() as Plugin
+        val plugin = NaturalModels.platform() as Plugin
         player.unwarp().run {
             hideEntity(plugin, bukkitEntity)
             hideEntity(plugin, interaction.bukkitEntity)
@@ -332,7 +332,7 @@ internal class HitBoxImpl(
     }
 
     override fun show(player: PlatformPlayer) {
-        val plugin = BetterModel.platform() as Plugin
+        val plugin = NaturalModels.platform() as Plugin
         player.unwarp().run {
             showEntity(plugin, bukkitEntity)
             showEntity(plugin, interaction.bukkitEntity)
@@ -433,4 +433,5 @@ internal class HitBoxImpl(
         return if (delegate.valid) (delegate as? LivingEntity)?.block() else null
     }
 }
+
 

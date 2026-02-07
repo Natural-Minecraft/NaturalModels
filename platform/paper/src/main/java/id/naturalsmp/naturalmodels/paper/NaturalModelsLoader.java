@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.paper;
+package id.naturalsmp.naturalmodels.paper;
 
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
 import io.papermc.paper.plugin.loader.PluginLoader;
@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @SuppressWarnings({"UnstableApiUsage", "unused"})
-public final class BetterModelLoader implements PluginLoader {
+public final class NaturalModelsLoader implements PluginLoader {
     @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         var lib = new MavenLibraryResolver();
@@ -45,3 +45,4 @@ public final class BetterModelLoader implements PluginLoader {
         classpathBuilder.addLibrary(lib);
     }
 }
+

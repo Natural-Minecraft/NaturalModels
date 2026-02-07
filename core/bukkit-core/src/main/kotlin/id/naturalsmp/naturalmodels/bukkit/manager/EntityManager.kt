@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -10,9 +10,9 @@ import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent
 import com.destroystokyo.paper.event.entity.EntityJumpEvent
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent
 import it.unimi.dsi.fastutil.objects.ReferenceSet
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
-import id.naturalsmp.naturalmodels.api.bukkit.BetterModelBukkit
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit
 import id.naturalsmp.naturalmodels.api.nms.HitBox
 import id.naturalsmp.naturalmodels.api.nms.ModelInteractionHand
 import id.naturalsmp.naturalmodels.api.pack.PackZipper
@@ -47,7 +47,7 @@ import org.bukkit.potion.PotionEffectType
 import org.joml.Vector3f
 
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -62,11 +62,11 @@ object EntityManager : GlobalManager {
     private class PaperListener : Listener { //More accurate world change event for Paper
         @EventHandler(priority = EventPriority.MONITOR)
         fun EntityRemoveFromWorldEvent.remove() {
-            BetterModel.registryOrNull(entity.uniqueId)?.despawn()
+            NaturalModels.registryOrNull(entity.uniqueId)?.despawn()
         }
         @EventHandler(priority = EventPriority.MONITOR)
         fun EntityAddToWorldEvent.add() {
-            BetterModel.registryOrNull(entity.wrap())?.refresh()
+            NaturalModels.registryOrNull(entity.wrap())?.refresh()
         }
         @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
         fun EntityJumpEvent.jump() {
@@ -77,15 +77,15 @@ object EntityManager : GlobalManager {
     private class SpigotListener : Listener { //Portal event for Spigot
         @EventHandler(priority = EventPriority.MONITOR)
         fun EntityRemoveEvent.remove() {
-            BetterModel.registryOrNull(entity.uniqueId)?.despawn()
+            NaturalModels.registryOrNull(entity.uniqueId)?.despawn()
         }
         @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
         fun EntitySpawnEvent.spawn() {
-            BetterModel.registryOrNull(entity.wrap())?.refresh()
+            NaturalModels.registryOrNull(entity.wrap())?.refresh()
         }
         @EventHandler(priority = EventPriority.MONITOR)
         fun PlayerChangedWorldEvent.change() {
-            BetterModel.registryOrNull(player.uniqueId)?.let {
+            NaturalModels.registryOrNull(player.uniqueId)?.let {
                 it.despawn()
                 it.refresh()
             }
@@ -107,7 +107,7 @@ object EntityManager : GlobalManager {
         @EventHandler(priority = EventPriority.MONITOR)
         fun PlayerQuitEvent.quit() { //Quit
             val wrap = player.wrap()
-            BetterModel.registryOrNull(wrap.uuid())?.close()
+            NaturalModels.registryOrNull(wrap.uuid())?.close()
             PLATFORM.scheduler().asyncTask {
                 EntityTrackerRegistry.registries { registry -> registry.remove(wrap) }
             }
@@ -115,12 +115,12 @@ object EntityManager : GlobalManager {
         }
         @EventHandler(priority = EventPriority.MONITOR)
         fun PlayerDeathEvent.death() {
-            BetterModel.registryOrNull(entity.uniqueId)?.despawn()
+            NaturalModels.registryOrNull(entity.uniqueId)?.despawn()
         }
         @EventHandler(priority = EventPriority.MONITOR)
         fun EntitiesUnloadEvent.unload() { //Chunk unload
             entities.forEach { entity ->
-                BetterModel.registryOrNull(entity.uniqueId)?.despawn()
+                NaturalModels.registryOrNull(entity.uniqueId)?.despawn()
             }
         }
         @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -186,7 +186,7 @@ object EntityManager : GlobalManager {
             }
         }
     }
-    private val platformListener = if (BetterModelBukkit.IS_PAPER) PaperListener() else SpigotListener()
+    private val platformListener = if (NaturalModelsBukkit.IS_PAPER) PaperListener() else SpigotListener()
 
     //Lifecycles
     override fun start() {
@@ -207,7 +207,7 @@ object EntityManager : GlobalManager {
 
     //Extension
     private fun Entity.forEachTracker(block: (EntityTracker) -> Unit) {
-        BetterModel.registryOrNull(uniqueId)?.trackers()?.forEach(block)
+        NaturalModels.registryOrNull(uniqueId)?.trackers()?.forEach(block)
     }
 
     private fun Player.triggerDismount(e: Entity): Boolean {
@@ -225,4 +225,5 @@ object EntityManager : GlobalManager {
         if (hitBox.mountController().canMount()) hitBox.mount(wrap())
     }
 }
+
 

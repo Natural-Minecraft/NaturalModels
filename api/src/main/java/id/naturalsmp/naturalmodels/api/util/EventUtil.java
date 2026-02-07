@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.BetterModelEventBus;
-import kr.toxicity.model.api.event.CancellableEvent;
-import kr.toxicity.model.api.event.ModelEvent;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.NaturalModelsEventBus;
+import id.naturalsmp.naturalmodels.api.event.CancellableEvent;
+import id.naturalsmp.naturalmodels.api.event.ModelEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 /**
  * Utility class for dispatching model events.
  * <p>
- * This class provides helper methods to call events on the {@link BetterModelEventBus}
+ * This class provides helper methods to call events on the {@link NaturalModelsEventBus}
  * and handle cancellable events conveniently.
  * </p>
  *
@@ -43,8 +43,8 @@ public final class EventUtil {
      * @since 2.0.0
      */
     @NotNull
-    public static <T extends ModelEvent> BetterModelEventBus.Result call(@NotNull Class<T> eventClass, @NotNull Supplier<T> eventSupplier) {
-        return BetterModel.eventBus().call(eventClass, eventSupplier);
+    public static <T extends ModelEvent> NaturalModelsEventBus.Result call(@NotNull Class<T> eventClass, @NotNull Supplier<T> eventSupplier) {
+        return NaturalModels.eventBus().call(eventClass, eventSupplier);
     }
 
     /**
@@ -63,3 +63,4 @@ public final class EventUtil {
         return !(event instanceof CancellableEvent cancellableEvent) || !cancellableEvent.isCancelled();
     }
 }
+

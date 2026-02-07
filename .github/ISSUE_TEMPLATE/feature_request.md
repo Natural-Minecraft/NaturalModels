@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea or enhancement for BetterModel
+about: Suggest an idea or enhancement for NaturalModels
 title: "[Feature] "
 labels: help wanted
 assignees: toxicity188
@@ -20,7 +20,7 @@ Provide model files, resource packs, code snippets, or conceptual mock-ups that 
 
 ### 🌍 Environment (Optional but Helpful)
 - Server software & version:
-- BetterModel version:
+- NaturalModels version:
 - Java version:
 
 ---
@@ -38,3 +38,4 @@ The following environments are not supported, and feature requests relying on th
 - Extremely outdated CPU / hardware
 - Features fundamentally **impossible on server-side** due to engine or protocol limitations
 ```
+

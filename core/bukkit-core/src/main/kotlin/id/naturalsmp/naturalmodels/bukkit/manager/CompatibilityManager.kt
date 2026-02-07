@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.bukkit.manager
 
-import id.naturalsmp.naturalmodels.api.bukkit.BetterModelBukkit
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit
 import id.naturalsmp.naturalmodels.api.pack.PackZipper
 import id.naturalsmp.naturalmodels.bukkit.compatibility.citizens.CitizensCompatibility
 import id.naturalsmp.naturalmodels.bukkit.compatibility.mythicmobs.MythicMobsCompatibility
@@ -42,7 +42,7 @@ object CompatibilityManager : GlobalManager {
     )
 
     override fun start() {
-        if (BetterModelBukkit.IS_PURPUR) PurpurHook.start()
+        if (NaturalModelsBukkit.IS_PURPUR) PurpurHook.start()
         Bukkit.getPluginManager().run {
             compatibilities.entries.removeIf { (k, v) ->
                 if (isPluginEnabled(k)) {
@@ -69,4 +69,5 @@ object CompatibilityManager : GlobalManager {
     override fun reload(pipeline: ReloadPipeline, zipper: PackZipper) {
     }
 }
+
 

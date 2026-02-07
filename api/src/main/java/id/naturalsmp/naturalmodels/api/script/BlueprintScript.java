@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.script;
+package id.naturalsmp.naturalmodels.api.script;
 
-import kr.toxicity.model.api.animation.AnimationIterator;
-import kr.toxicity.model.api.animation.AnimationModifier;
-import kr.toxicity.model.api.animation.TimedStorage;
-import kr.toxicity.model.api.data.raw.ModelAnimation;
+import id.naturalsmp.naturalmodels.api.animation.AnimationIterator;
+import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.animation.TimedStorage;
+import id.naturalsmp.naturalmodels.api.data.raw.ModelAnimation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,3 +48,4 @@ public record BlueprintScript(@NotNull String name, @NotNull AnimationIterator.T
         return modifier.type(type).create(TimedStorage.listOf(scripts));
     }
 }
+

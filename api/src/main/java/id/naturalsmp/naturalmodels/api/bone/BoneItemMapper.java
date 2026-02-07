@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bone;
+package id.naturalsmp.naturalmodels.api.bone;
 
-import kr.toxicity.model.api.data.renderer.RenderSource;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.platform.PlatformItemTransform;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderSource;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemTransform;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
@@ -111,3 +111,4 @@ public interface BoneItemMapper extends BiFunction<BoneRenderContext, Transforme
      */
     @NotNull PlatformItemTransform transform();
 }
+

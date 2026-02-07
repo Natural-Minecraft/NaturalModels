@@ -1,6 +1,6 @@
 {
     "required": true,
-    "package": "kr.toxicity.model.mixin",
+    "package": "id.naturalsmp.naturalmodels.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "AvatarAccessor",

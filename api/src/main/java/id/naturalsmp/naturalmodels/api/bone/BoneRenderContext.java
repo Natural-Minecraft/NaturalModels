@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bone;
+package id.naturalsmp.naturalmodels.api.bone;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.data.renderer.RenderSource;
-import kr.toxicity.model.api.skin.SkinData;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderSource;
+import id.naturalsmp.naturalmodels.api.skin.SkinData;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -23,6 +23,7 @@ public record BoneRenderContext(@NotNull RenderSource<?> source, @NotNull SkinDa
      * @param source source
      */
     public BoneRenderContext(@NotNull RenderSource<?> source) {
-        this(source, BetterModel.platform().skinManager().fallback());
+        this(source, NaturalModels.platform().skinManager().fallback());
     }
 }
+

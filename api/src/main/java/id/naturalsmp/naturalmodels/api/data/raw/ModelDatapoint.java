@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.raw;
+package id.naturalsmp.naturalmodels.api.data.raw;
 
 import com.google.gson.JsonPrimitive;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.util.function.Float2FloatConstantFunction;
-import kr.toxicity.model.api.util.function.Float2FloatFunction;
-import kr.toxicity.model.api.util.function.FloatFunction;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.util.function.Float2FloatConstantFunction;
+import id.naturalsmp.naturalmodels.api.util.function.Float2FloatFunction;
+import id.naturalsmp.naturalmodels.api.util.function.FloatFunction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -98,7 +98,7 @@ public record ModelDatapoint(
             return Float2FloatFunction.of(Float.parseFloat(string));
         } catch (NumberFormatException ignored) {
             return context.trySupply(
-                () -> BetterModel.platform().evaluator().compile(context.placeholder.parseVariable(string)),
+                () -> NaturalModels.platform().evaluator().compile(context.placeholder.parseVariable(string)),
                 error -> new ModelLoadContext.Fallback<>(
                     Float2FloatFunction.ZERO,
                     "Cannot parse this datapoint: " + primitive + ", reason: " + error.getMessage()
@@ -107,3 +107,4 @@ public record ModelDatapoint(
         }
     }
 }
+

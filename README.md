@@ -2,14 +2,14 @@
 
 ![](https://github.com/user-attachments/assets/89e191ba-ed4f-44ab-bb98-634cfe568dca)
 
-# BetterModel
+# NaturalModels
 *- Modern Bedrock model engine for Minecraft Java Edition -*
 
-[![](https://img.shields.io/maven-central/v/io.github.toxicity188/bettermodel-api?style=flat-square&logo=sonatype)](https://central.sonatype.com/artifact/io.github.toxicity188/bettermodel-api)
-[![](https://www.codefactor.io/repository/github/toxicity188/bettermodel/badge?style=flat-square)](https://www.codefactor.io/repository/github/toxicity188/bettermodel)
-[![](https://img.shields.io/github/actions/workflow/status/toxicity188/BetterModel/publish.yml?style=flat-square)](https://modrinth.com/plugin/bettermodel/versions)
-[![](https://img.shields.io/github/issues/toxicity188/BetterModel?style=flat-square&logo=github)](https://github.com/toxicity188/BetterModel/issues)
-[![](https://img.shields.io/bstats/servers/24237?style=flat-square)](https://bstats.org/plugin/bukkit/BetterModel/24237)
+[![](https://img.shields.io/maven-central/v/io.github.toxicity188/NaturalModels-api?style=flat-square&logo=sonatype)](https://central.sonatype.com/artifact/io.github.toxicity188/NaturalModels-api)
+[![](https://www.codefactor.io/repository/github/toxicity188/NaturalModels/badge?style=flat-square)](https://www.codefactor.io/repository/github/toxicity188/NaturalModels)
+[![](https://img.shields.io/github/actions/workflow/status/toxicity188/NaturalModels/publish.yml?style=flat-square)](https://modrinth.com/plugin/NaturalModels/versions)
+[![](https://img.shields.io/github/issues/toxicity188/NaturalModels?style=flat-square&logo=github)](https://github.com/toxicity188/NaturalModels/issues)
+[![](https://img.shields.io/bstats/servers/24237?style=flat-square)](https://bstats.org/plugin/bukkit/NaturalModels/24237)
 
 </div>
 
@@ -22,7 +22,7 @@
 
 # ✨ Introduction
 
-**BetterModel** is a server-based engine that provides runtime BlockBench model rendering & animating for Minecraft Java Edition.
+**NaturalModels** is a server-based engine that provides runtime BlockBench model rendering & animating for Minecraft Java Edition.
 
 It implements **fully server-side 3D models** by using an item display entity packet.
 
@@ -43,7 +43,7 @@ It implements **fully server-side 3D models** by using an item display entity pa
 </details>
 
 ## 🚀 Key Features & Focus
-BetterModel aims to be a reliable engine that provides stable, high-quality animations for Paper-based high-traffic servers.
+NaturalModels aims to be a reliable engine that provides stable, high-quality animations for Paper-based high-traffic servers.
 
 - **Stability First**: We take a conservative approach to feature expansion. By avoiding the implementation of features that are difficult to maintain or have limited use cases, we focus on providing a stable API and ensuring overall operational safety.
 - **Performance Optimized**: Our goal is to minimize runtime computation, memory footprint, and network overhead. Through asynchronous design and optimized packet handling, we ensure the engine runs efficiently even under heavy server loads.
@@ -52,8 +52,8 @@ BetterModel aims to be a reliable engine that provides stable, high-quality anim
   - **Player Model Animation**: Support for sophisticated 12-limb animations based on player models.
 
 ## 📚 Wiki
-[![](https://img.shields.io/badge/GitHub%20Wiki-181717?logo=github&logoColor=white)](https://github.com/toxicity188/BetterModel/wiki)
-[![](https://deepwiki.com/badge.svg)](https://deepwiki.com/toxicity188/BetterModel)
+[![](https://img.shields.io/badge/GitHub%20Wiki-181717?logo=github&logoColor=white)](https://github.com/toxicity188/NaturalModels/wiki)
+[![](https://deepwiki.com/badge.svg)](https://deepwiki.com/toxicity188/NaturalModels)
 
 ## 🛠️ Build info
 
@@ -93,10 +93,10 @@ BetterModel aims to be a reliable engine that provides stable, high-quality anim
 
 ## 💻 API
 
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/maven-central_vector.svg)](https://central.sonatype.com/artifact/io.github.toxicity188/bettermodel)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/maven-central_vector.svg)](https://central.sonatype.com/artifact/io.github.toxicity188/NaturalModels)
 
 > [!NOTE]\
-> For more detailed API specifications, please refer to our [GitHub Wiki](https://github.com/toxicity188/BetterModel/wiki/API-example).
+> For more detailed API specifications, please refer to our [GitHub Wiki](https://github.com/toxicity188/NaturalModels/wiki/API-example).
 
 <details open>
 <summary>Gradle (Kotlin)</summary>
@@ -105,32 +105,32 @@ BetterModel aims to be a reliable engine that provides stable, high-quality anim
 ```kotlin
 repositories {
     mavenCentral()
-    maven("https://maven.blamejared.com/") // For transitive dependency in bettermodel-fabric
-    maven("https://maven.nucleoid.xyz/") // For transitive dependency in bettermodel-fabric
+    maven("https://maven.blamejared.com/") // For transitive dependency in NaturalModels-fabric
+    maven("https://maven.nucleoid.xyz/") // For transitive dependency in NaturalModels-fabric
 }
 
 dependencies {
-    compileOnly("io.github.toxicity188:bettermodel-bukkit-api:VERSION") // bukkit(spigot, paper, etc) api
-    //modApi("io.github.toxicity188:bettermodel-fabric:VERSION") // mod(fabric)
+    compileOnly("io.github.toxicity188:NaturalModels-bukkit-api:VERSION") // bukkit(spigot, paper, etc) api
+    //modApi("io.github.toxicity188:NaturalModels-fabric:VERSION") // mod(fabric)
 }
 ```
 
 #### Snapshot
 ```kotlin
 repositories {
-    maven("https://maven.pkg.github.com/toxicity188/BetterModel") {
+    maven("https://maven.pkg.github.com/toxicity188/NaturalModels") {
         credentials {
             username = YOUR_GITHUB_USERNAME
             password = YOUR_GITHUB_TOKEN
         }
     }
-    maven("https://maven.blamejared.com/") // For transitive dependency in bettermodel-fabric
-    maven("https://maven.nucleoid.xyz/") // For transitive dependency in bettermodel-fabric
+    maven("https://maven.blamejared.com/") // For transitive dependency in NaturalModels-fabric
+    maven("https://maven.nucleoid.xyz/") // For transitive dependency in NaturalModels-fabric
 }
 
 dependencies {
-    compileOnly("io.github.toxicity188:bettermodel-bukkit-api:VERSION-SNAPSHOT") // bukkit(spigot, paper, etc) api
-    //modApi("io.github.toxicity188:bettermodel-fabric:VERSION-SNAPSHOT") // mod(fabric)
+    compileOnly("io.github.toxicity188:NaturalModels-bukkit-api:VERSION-SNAPSHOT") // bukkit(spigot, paper, etc) api
+    //modApi("io.github.toxicity188:NaturalModels-fabric:VERSION-SNAPSHOT") // mod(fabric)
 }
 ```
 </details>
@@ -142,13 +142,13 @@ dependencies {
 ```groovy
 repositories {
     mavenCentral()
-    maven 'https://maven.blamejared.com/' // For transitive dependency in bettermodel-fabric
-    maven 'https://maven.nucleoid.xyz/' // For transitive dependency in bettermodel-fabric
+    maven 'https://maven.blamejared.com/' // For transitive dependency in NaturalModels-fabric
+    maven 'https://maven.nucleoid.xyz/' // For transitive dependency in NaturalModels-fabric
 }
 
 dependencies {
-    compileOnly 'io.github.toxicity188:bettermodel-bukkit-api:VERSION' // bukkit(spigot, paper, etc) api
-    //modApi 'io.github.toxicity188:bettermodel-fabric:VERSION' // mod(fabric)
+    compileOnly 'io.github.toxicity188:NaturalModels-bukkit-api:VERSION' // bukkit(spigot, paper, etc) api
+    //modApi 'io.github.toxicity188:NaturalModels-fabric:VERSION' // mod(fabric)
 }
 ```
 
@@ -156,19 +156,19 @@ dependencies {
 ```groovy
 repositories {
     maven {
-        url "https://maven.pkg.github.com/toxicity188/BetterModel"
+        url "https://maven.pkg.github.com/toxicity188/NaturalModels"
         credentials {
             username = YOUR_GITHUB_USERNAME
             password = YOUR_GITHUB_TOKEN
         }
     }
-    maven 'https://maven.blamejared.com/' // For transitive dependency in bettermodel-fabric
-    maven 'https://maven.nucleoid.xyz/' // For transitive dependency in bettermodel-fabric
+    maven 'https://maven.blamejared.com/' // For transitive dependency in NaturalModels-fabric
+    maven 'https://maven.nucleoid.xyz/' // For transitive dependency in NaturalModels-fabric
 }
 
 dependencies {
-    compileOnly 'io.github.toxicity188:bettermodel-bukkit-api:VERSION-SNAPSHOT' // bukkit(spigot, paper, etc) api
-    //modApi 'io.github.toxicity188:bettermodel-fabric:VERSION-SNAPSHOT' // mod(fabric)
+    compileOnly 'io.github.toxicity188:NaturalModels-bukkit-api:VERSION-SNAPSHOT' // bukkit(spigot, paper, etc) api
+    //modApi 'io.github.toxicity188:NaturalModels-fabric:VERSION-SNAPSHOT' // mod(fabric)
 }
 ```
 </details>
@@ -188,7 +188,7 @@ dependencies {
 <dependencies>
     <dependency>
         <groupId>io.github.toxicity188</groupId>
-        <artifactId>bettermodel-bukkit-api</artifactId>
+        <artifactId>NaturalModels-bukkit-api</artifactId>
         <version>VERSION</version>
         <scope>provided</scope>
     </dependency>
@@ -200,20 +200,20 @@ dependencies {
 <repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/toxicity188/BetterModel</url>
+        <url>https://maven.pkg.github.com/toxicity188/NaturalModels</url>
     </repository>
 </repositories>
 
 <dependencies>
     <dependency>
         <groupId>io.github.toxicity188</groupId>
-        <artifactId>bettermodel-api</artifactId>
+        <artifactId>NaturalModels-api</artifactId>
         <version>VERSION-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
     <dependency>
         <groupId>io.github.toxicity188</groupId>
-        <artifactId>bettermodel-bukkit-api</artifactId>
+        <artifactId>NaturalModels-bukkit-api</artifactId>
         <version>VERSION-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
@@ -226,40 +226,40 @@ dependencies {
 
 #### Gets some model or limb
 ```java
-BetterModel.model("demon_knight"); //A model file in BetterModel/models (for general model with saving)
-BetterModel.limb("steve"); //A model file in BetterModel/players (for player model with no saveing)
+NaturalModels.model("demon_knight"); //A model file in NaturalModels/models (for general model with saving)
+NaturalModels.limb("steve"); //A model file in NaturalModels/players (for player model with no saveing)
 
-BetterModel.modelOrNull("demon_knight"); //general model or null
-BetterModel.limbOrNull("steve"); //player model or null
+NaturalModels.modelOrNull("demon_knight"); //general model or null
+NaturalModels.limbOrNull("steve"); //player model or null
 ```
 
 #### Creates model (entity)
 ```java
-EntityTracker tracker = BetterModel.model("demon_knight")
+EntityTracker tracker = NaturalModels.model("demon_knight")
     .map(r -> r.getOrCreate(BukkitAdapter.adapt(entity))) //Gets or creates entity tracker by this renderer to some entity.
     .orElse(null);
 ```
 ```java
-EntityTracker tracker = BetterModel.model("demon_knight")
+EntityTracker tracker = NaturalModels.model("demon_knight")
     .map(r -> r.create(BukkitAdapter.adapt(entity), TrackerModifier.DEFAULT, t -> t.update(TrackerUpdateAction.tint(0x0026FF)))) //Creates entity tracker with pre-spawn task.
     .orElse(null);
 ```
 
 #### Creates model (dummy)
 ```java
-DummyTracker tracker = BetterModel.model("demon_knight")
+DummyTracker tracker = NaturalModels.model("demon_knight")
     .map(r -> r.create(BukkitAdapter.adapt(location))) //Creates some dummy tracker to this location.
     .orElse(null);
 ```
 ```java
-DummyTracker tracker = BetterModel.limb("steve")
+DummyTracker tracker = NaturalModels.limb("steve")
     .map(r -> r.create(BukkitAdapter.adapt(location), ModelProfile.of(BukkitAdapter.adapt(player)))) //Creates some dummy tracker to this location and player's skin profile.
     .orElse(null);
 ```
 
 #### Update some tracker's display data
 ```java
-BetterModel.model("demon_knight")
+NaturalModels.model("demon_knight")
     .map(r -> r.create(BukkitAdapter.adapt(entity), TrackerModifier.DEFAULT, t -> {
         t.update(TrackerUpdateAction.tint(rgb)); //Tint
         t.update(TrackerUpdateAction.enchant(true), bone -> true); //Enchant with predicate
@@ -280,3 +280,4 @@ BetterModel.model("demon_knight")
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/buymeacoffee-singular_vector.svg)](https://buymeacoffee.com/toxicity188)
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/toxicity188)
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/paypal-singular_vector.svg)](https://www.paypal.com/paypalme/toxicity188?country.x=KR&locale.x=en_US)
+

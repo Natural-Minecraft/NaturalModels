@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -8,8 +8,8 @@ package id.naturalsmp.naturalmodels.util
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.gson.GsonBuilder
-import id.naturalsmp.naturalmodels.BetterModelPlatformImpl
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.NaturalModelsPlatformImpl
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.config.DebugConfig
 import id.naturalsmp.naturalmodels.api.util.HttpUtil
 import id.naturalsmp.naturalmodels.api.util.LogUtil
@@ -25,9 +25,9 @@ import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
 
 val PLATFORM
-    get() = BetterModel.platform() as BetterModelPlatformImpl
+    get() = NaturalModels.platform() as NaturalModelsPlatformImpl
 val CONFIG
-    get() = BetterModel.config()
+    get() = NaturalModels.config()
 val DATA_FOLDER
     get() = PLATFORM.dataFolder()
 
@@ -66,4 +66,5 @@ fun buildHttpRequest(builder: HttpRequest.Builder.() -> Unit): HttpRequest = Htt
 fun <T> HttpResponse<InputStream>.toJson(clazz: Class<T>): T = body().use {
     InputStreamReader(it, StandardCharsets.UTF_8).use { reader -> GSON.fromJson(reader, clazz) }
 }
+
 

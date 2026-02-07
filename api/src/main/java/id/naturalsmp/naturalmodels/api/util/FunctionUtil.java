@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
-import kr.toxicity.model.api.util.function.BooleanConstantSupplier;
-import kr.toxicity.model.api.util.function.FloatConstantSupplier;
-import kr.toxicity.model.api.util.function.FloatSupplier;
+import id.naturalsmp.naturalmodels.api.util.function.BooleanConstantSupplier;
+import id.naturalsmp.naturalmodels.api.util.function.FloatConstantSupplier;
+import id.naturalsmp.naturalmodels.api.util.function.FloatSupplier;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -238,3 +238,4 @@ public final class FunctionUtil {
         }
     }
 }
+

@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import it.unimi.dsi.fastutil.floats.FloatSortedSet;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.AnimationKeyframe;
-import kr.toxicity.model.api.animation.VectorPoint;
-import kr.toxicity.model.api.tracker.Tracker;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.AnimationKeyframe;
+import id.naturalsmp.naturalmodels.api.animation.VectorPoint;
+import id.naturalsmp.naturalmodels.api.tracker.Tracker;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -19,7 +19,7 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-import static kr.toxicity.model.api.util.MathUtil.*;
+import static id.naturalsmp.naturalmodels.api.util.MathUtil.*;
 
 /**
  * Interpolation util
@@ -117,7 +117,7 @@ public final class InterpolationUtil {
      * @param frames target set
      */
     public static void insertLerpFrame(@NotNull FloatSortedSet frames) {
-        insertLerpFrame(frames, (float) BetterModel.config().lerpFrameTime() / 20F);
+        insertLerpFrame(frames, (float) NaturalModels.config().lerpFrameTime() / 20F);
     }
 
     /**
@@ -317,3 +317,4 @@ public final class InterpolationUtil {
         }
     }
 }
+

@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.tracker;
+package id.naturalsmp.naturalmodels.api.tracker;
 
 import com.google.gson.annotations.SerializedName;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.util.FunctionUtil;
-import kr.toxicity.model.api.util.MathUtil;
-import kr.toxicity.model.api.util.lazy.LazyFloatProvider;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.util.FunctionUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.lazy.LazyFloatProvider;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -230,3 +230,4 @@ public final class EntityBodyRotator {
         }
     }
 }
+

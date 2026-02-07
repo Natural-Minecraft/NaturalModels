@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.fabric.platform;
+package id.naturalsmp.naturalmodels.api.fabric.platform;
 
 import com.mojang.authlib.GameProfile;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.fabric.BetterModelFabric;
-import kr.toxicity.model.api.platform.*;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.fabric.NaturalModelsFabric;
+import id.naturalsmp.naturalmodels.api.platform.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerPlayerConnection;
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Provides an adapter for converting Fabric/NMS objects to BetterModel platform objects.
+ * Provides an adapter for converting Fabric/NMS objects to NaturalModels platform objects.
  * <p>
  * This class implements {@link PlatformAdapter} and offers static utility methods for adapting
  * entities, players, items, and worlds.
@@ -159,6 +159,7 @@ public final class FabricAdapter implements PlatformAdapter {
     }
 
     private @NotNull MinecraftServer server() {
-        return ((BetterModelFabric) BetterModel.platform()).server();
+        return ((NaturalModelsFabric) NaturalModels.platform()).server();
     }
 }
+

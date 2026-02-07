@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.manager;
+package id.naturalsmp.naturalmodels.api.manager;
 
-import kr.toxicity.model.api.animation.AnimationModifier;
-import kr.toxicity.model.api.data.renderer.ModelRenderer;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.tracker.EntityTracker;
-import kr.toxicity.model.api.tracker.TrackerModifier;
+import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTracker;
+import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -147,3 +147,4 @@ public interface ModelManager {
         return true;
     }
 }
+

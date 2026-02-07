@@ -1,32 +1,32 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bone;
+package id.naturalsmp.naturalmodels.api.bone;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.*;
-import kr.toxicity.model.api.data.blueprint.BlueprintAnimation;
-import kr.toxicity.model.api.data.blueprint.BlueprintElement;
-import kr.toxicity.model.api.data.blueprint.ModelBoundingBox;
-import kr.toxicity.model.api.data.renderer.RenderSource;
-import kr.toxicity.model.api.data.renderer.RendererGroup;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.nms.*;
-import kr.toxicity.model.api.platform.PlatformItemStack;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.tracker.ModelRotation;
-import kr.toxicity.model.api.tracker.Tracker;
-import kr.toxicity.model.api.util.*;
-import kr.toxicity.model.api.util.function.BonePredicate;
-import kr.toxicity.model.api.util.function.FloatConstantSupplier;
-import kr.toxicity.model.api.util.function.FloatSupplier;
-import kr.toxicity.model.api.util.lock.DuplexLock;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.*;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimation;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintElement;
+import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderSource;
+import id.naturalsmp.naturalmodels.api.data.renderer.RendererGroup;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.nms.*;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.tracker.ModelRotation;
+import id.naturalsmp.naturalmodels.api.tracker.Tracker;
+import id.naturalsmp.naturalmodels.api.util.*;
+import id.naturalsmp.naturalmodels.api.util.function.BonePredicate;
+import id.naturalsmp.naturalmodels.api.util.function.FloatConstantSupplier;
+import id.naturalsmp.naturalmodels.api.util.function.FloatSupplier;
+import id.naturalsmp.naturalmodels.api.util.lock.DuplexLock;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.ApiStatus;
@@ -133,7 +133,7 @@ public final class RenderedBone implements BoneEventHandler {
         defaultFrame = movement;
         children = childrenMapper.apply(this);
         if (!dummyBone) {
-            display = BetterModel.nms().create(context.source().location(), context.source() instanceof RenderSource.Entity ? -4096 : 0, d -> {
+            display = NaturalModels.nms().create(context.source().location(), context.source() instanceof RenderSource.Entity ? -4096 : 0, d -> {
                 d.display(itemMapper.transform());
                 d.invisible(!group.getParent().visibility());
                 d.viewRange(EntityUtil.entityModelViewRadius());
@@ -206,7 +206,7 @@ public final class RenderedBone implements BoneEventHandler {
                 if (h == null) h = ModelBoundingBox.MIN;
                 var l = eventDispatcher.onCreateHitBox(this, (listener != null ? listener : HitBoxListener.EMPTY).toBuilder()).build();
                 if (hitBox != null) hitBox.removeHitBox();
-                hitBox = BetterModel.nms().createHitBox(entity, this, h, group.getMountController(), l);
+                hitBox = NaturalModels.nms().createHitBox(entity, this, h, group.getMountController(), l);
                 return hitBox != null;
             }
         }
@@ -223,7 +223,7 @@ public final class RenderedBone implements BoneEventHandler {
         if (nametag == null && predicate.test(this)) {
             synchronized (this) {
                 if (nametag != null) return false;
-                nametag = BetterModel.nms().createNametag(this, consumer);
+                nametag = NaturalModels.nms().createNametag(this, consumer);
             }
             return true;
         }
@@ -416,7 +416,7 @@ public final class RenderedBone implements BoneEventHandler {
     }
 
     private void applyItem(@NotNull ModelDisplay targetDisplay) {
-        targetDisplay.item(itemStack.isAir() ? itemStack.itemStack() : tintCacheMap.computeIfAbsent(tint, i -> BetterModel.nms().tint(itemStack.itemStack(), i)));
+        targetDisplay.item(itemStack.isAir() ? itemStack.itemStack() : tintCacheMap.computeIfAbsent(tint, i -> NaturalModels.nms().tint(itemStack.itemStack(), i)));
     }
 
     public void teleport(@NotNull PlatformLocation location, @NotNull PacketBundler bundler) {
@@ -714,3 +714,4 @@ public final class RenderedBone implements BoneEventHandler {
         return name().toString();
     }
 }
+

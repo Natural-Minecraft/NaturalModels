@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -7,10 +7,10 @@
 package id.naturalsmp.naturalmodels.bukkit
 
 import com.vdurmont.semver4j.Semver
-import id.naturalsmp.naturalmodels.BetterModelEvaluatorImpl
-import id.naturalsmp.naturalmodels.api.BetterModelConfig
-import id.naturalsmp.naturalmodels.api.BetterModelPlatform.ReloadResult
-import id.naturalsmp.naturalmodels.api.bukkit.BetterModelBukkit
+import id.naturalsmp.naturalmodels.NaturalModelsEvaluatorImpl
+import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
+import id.naturalsmp.naturalmodels.api.NaturalModelsPlatform.ReloadResult
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit
 import id.naturalsmp.naturalmodels.api.event.PluginEndReloadEvent
 import id.naturalsmp.naturalmodels.api.event.PluginStartReloadEvent
 import id.naturalsmp.naturalmodels.api.pack.PackZipper
@@ -31,10 +31,10 @@ import org.bukkit.Bukkit
 
 private typealias Latest = id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R7.NMSImpl
 
-internal class BetterModelProperties(
-    private val plugin: AbstractBetterModelPlugin
+internal class NaturalModelsProperties(
+    private val plugin: AbstractNaturalModelsPlugin
 ) {
-    private lateinit var _config: BetterModelConfig
+    private lateinit var _config: NaturalModelsConfig
     private var _metrics: Metrics? = null
 
     val version = parse(Bukkit.getBukkitVersion().substringBefore('-'))
@@ -45,7 +45,7 @@ internal class BetterModelProperties(
         V1_21_5 -> id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R4.NMSImpl()
         V1_21_4 -> id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R3.NMSImpl()
         V1_21, V1_21_1 -> id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R1.NMSImpl()
-        else if BetterModelBukkit.IS_PAPER -> {
+        else if NaturalModelsBukkit.IS_PAPER -> {
             warn(
                 "Note: this version is officially untested.".toComponent(),
                 "So be careful to use!".toComponent()
@@ -54,8 +54,8 @@ internal class BetterModelProperties(
         }
         else -> throw RuntimeException("Unsupported version: $version")
     }
-    val scheduler = if (BetterModelBukkit.IS_FOLIA) PaperScheduler() else BukkitScheduler()
-    val evaluator = BetterModelEvaluatorImpl()
+    val scheduler = if (NaturalModelsBukkit.IS_FOLIA) PaperScheduler() else BukkitScheduler()
+    val evaluator = NaturalModelsEvaluatorImpl()
     val eventbus = BukkitModelEventBusImpl()
     @Suppress("DEPRECATION") //To support Spigot :(
     val semver = Semver(plugin.description.version, Semver.SemverType.LOOSE)
@@ -94,7 +94,8 @@ internal class BetterModelProperties(
     var reloadEndTask: (ReloadResult) -> Unit = { callEvent { PluginEndReloadEvent(it) } }
 
     init {
-        config = BetterModelConfigImpl(PluginConfiguration.CONFIG.create())
+        config = NaturalModelsConfigImpl(PluginConfiguration.CONFIG.create())
     }
 }
+
 

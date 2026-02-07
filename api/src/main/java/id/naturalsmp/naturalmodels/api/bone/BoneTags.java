@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bone;
+package id.naturalsmp.naturalmodels.api.bone;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.nms.Profiled;
-import kr.toxicity.model.api.platform.PlatformItemTransform;
-import kr.toxicity.model.api.player.PlayerLimb;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.nms.Profiled;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemTransform;
+import id.naturalsmp.naturalmodels.api.player.PlayerLimb;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -123,7 +123,7 @@ public enum BoneTags implements BoneTag {
         @Override
         public @NotNull TransformedItemStack apply(@NotNull BoneRenderContext context, @NotNull TransformedItemStack transformedItemStack) {
             TransformedItemStack cape = null;
-            if (BetterModel.platform().skinManager().supported() && context.source() instanceof Profiled profiled && profiled.skinParts().isCapeEnabled()) {
+            if (NaturalModels.platform().skinManager().supported() && context.source() instanceof Profiled profiled && profiled.skinParts().isCapeEnabled()) {
                 cape = context.skin().cape(profiled.armors());
             }
             return cape != null ? cape : TransformedItemStack.empty();
@@ -163,3 +163,4 @@ public enum BoneTags implements BoneTag {
         return tags;
     }
 }
+

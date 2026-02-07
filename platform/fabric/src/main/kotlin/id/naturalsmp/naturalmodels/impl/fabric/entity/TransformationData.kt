@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -18,14 +18,14 @@ class TransformationData {
 
     private val durationDataValue
         get() = SynchedEntityData.DataValue(
-            DisplayAccessor.`bettermodel$getDataTransformationInterpolationDurationId`().id,
-            DisplayAccessor.`bettermodel$getDataTransformationInterpolationDurationId`().serializer,
+            DisplayAccessor.`NaturalModels$getDataTransformationInterpolationDurationId`().id,
+            DisplayAccessor.`NaturalModels$getDataTransformationInterpolationDurationId`().serializer,
             duration
         )
 
     private val translation = Item(
         Vector3f(),
-        DisplayAccessor.`bettermodel$getDataTranslationId`(),
+        DisplayAccessor.`NaturalModels$getDataTranslationId`(),
         { a, b ->
             // unchecked cast
             MathUtil.isSimilar(a as Vector3f, b as Vector3f)
@@ -38,7 +38,7 @@ class TransformationData {
 
     private val scale = Item(
         Vector3f(),
-        DisplayAccessor.`bettermodel$getDataScaleId`(),
+        DisplayAccessor.`NaturalModels$getDataScaleId`(),
         { a, b ->
             // unchecked cast
             MathUtil.isSimilar(a as Vector3f, b as Vector3f)
@@ -51,7 +51,7 @@ class TransformationData {
 
     private val rotation = Item(
         Quaternionf(),
-        DisplayAccessor.`bettermodel$getDataLeftRotationId`(),
+        DisplayAccessor.`NaturalModels$getDataLeftRotationId`(),
         { a, b ->
             // unchecked cast
             MathUtil.isSimilar(a as Quaternionf, b as Quaternionf)
@@ -141,10 +141,11 @@ class TransformationData {
     }
 
     companion object {
-        private val INTERPOLATION_DELAY_VALUE = DisplayAccessor.`bettermodel$getDataTransformationInterpolationStartDeltaTicksId`()
+        private val INTERPOLATION_DELAY_VALUE = DisplayAccessor.`NaturalModels$getDataTransformationInterpolationStartDeltaTicksId`()
             .let { accessor ->
                 SynchedEntityData.DataValue(accessor.id, accessor.serializer, 0)
             }
     }
 }
+
 

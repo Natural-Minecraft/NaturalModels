@@ -1,16 +1,16 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.bukkit;
+package id.naturalsmp.naturalmodels.bukkit;
 
-import kr.toxicity.model.BetterModelPlatformImpl;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.BetterModelLogger;
-import kr.toxicity.model.api.bukkit.BetterModelBukkit;
-import kr.toxicity.model.api.bukkit.platform.BukkitAdapter;
+import id.naturalsmp.naturalmodels.NaturalModelsPlatformImpl;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.NaturalModelsLogger;
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit;
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,13 +23,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-public abstract class AbstractBetterModelPlugin extends JavaPlugin implements BetterModelPlatformImpl, BetterModelBukkit {
+public abstract class AbstractNaturalModelsPlugin extends JavaPlugin implements NaturalModelsPlatformImpl, NaturalModelsBukkit {
 
     protected boolean skipInitialReload;
     protected final AtomicBoolean onReload = new AtomicBoolean();
     protected final AtomicBoolean firstLoad = new AtomicBoolean();
     protected final BukkitAdapter adapter = new BukkitAdapter();
-    protected final BetterModelLogger logger = new BetterModelLogger() {
+    protected final NaturalModelsLogger logger = new NaturalModelsLogger() {
 
         private ComponentLogger internalLogger;
 
@@ -64,8 +64,8 @@ public abstract class AbstractBetterModelPlugin extends JavaPlugin implements Be
     private @Nullable Attributes attributes;
 
     public void onLoad() {
-        new BetterModelLibrary().load(this);
-        BetterModel.register(this);
+        new NaturalModelsLibrary().load(this);
+        NaturalModels.register(this);
     }
 
     public void skipInitialReload() {
@@ -97,3 +97,4 @@ public abstract class AbstractBetterModelPlugin extends JavaPlugin implements Be
         }
     }
 }
+

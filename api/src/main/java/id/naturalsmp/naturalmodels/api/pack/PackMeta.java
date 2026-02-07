@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.pack;
+package id.naturalsmp.naturalmodels.api.pack;
 
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.nms.NMSVersion;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.nms.NMSVersion;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -242,8 +242,8 @@ public record PackMeta(
      */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Builder {
-        private int format = BetterModel.nms().version().getMetaVersion();
-        private String description = "BetterModel's default pack.";
+        private int format = NaturalModels.nms().version().getMetaVersion();
+        private String description = "NaturalModels's default pack.";
         private final List<OverlayEntry> entries = new ArrayList<>();
         private VersionRange supportedFormats = new VersionRange(
             NMSVersion.first().getMetaVersion(),
@@ -344,3 +344,4 @@ public record PackMeta(
         }
     }
 }
+

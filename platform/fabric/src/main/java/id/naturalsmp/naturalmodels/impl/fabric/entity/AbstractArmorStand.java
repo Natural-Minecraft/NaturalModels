@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.impl.fabric.entity;
+package id.naturalsmp.naturalmodels.impl.fabric.entity;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -26,3 +26,4 @@ public abstract class AbstractArmorStand extends ArmorStand {
         return super.hashCode();
     }
 }
+

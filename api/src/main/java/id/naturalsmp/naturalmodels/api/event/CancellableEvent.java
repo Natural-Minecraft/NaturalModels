@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.event;
+package id.naturalsmp.naturalmodels.api.event;
 
 /**
  * Represents an event that can be canceled.
@@ -32,3 +32,4 @@ public interface CancellableEvent extends ModelEvent {
      */
     void setCancelled(boolean cancel);
 }
+

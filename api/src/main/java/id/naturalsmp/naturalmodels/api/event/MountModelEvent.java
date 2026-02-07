@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.event;
+package id.naturalsmp.naturalmodels.api.event;
 
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.nms.HitBox;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.tracker.EntityTracker;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.nms.HitBox;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTracker;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.ApiStatus;
@@ -90,3 +90,4 @@ public final class MountModelEvent implements CancellableEvent {
         return entity;
     }
 }
+

@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.tracker;
+package id.naturalsmp.naturalmodels.api.tracker;
 
-import kr.toxicity.model.api.animation.AnimationModifier;
-import kr.toxicity.model.api.data.renderer.RenderPipeline;
-import kr.toxicity.model.api.event.CreateDummyTrackerEvent;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.util.EventUtil;
+import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.data.renderer.RenderPipeline;
+import id.naturalsmp.naturalmodels.api.event.CreateDummyTrackerEvent;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.util.EventUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -89,3 +89,4 @@ public final class DummyTracker extends Tracker {
         bundler.send(player);
     }
 }
+

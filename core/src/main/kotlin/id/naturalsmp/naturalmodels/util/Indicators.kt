@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -24,4 +24,5 @@ fun Type.toIndicator(info: ReloadInfo) = INDICATOR_MAP[this]?.invoke(info)
 fun Iterable<Type>.toIndicator(info: ReloadInfo) = mapNotNull {
     it.toIndicator(info)
 }
+
 

@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.pack;
+package id.naturalsmp.naturalmodels.api.pack;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.util.LogUtil;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.util.LogUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.ApiStatus;
@@ -135,7 +135,7 @@ public final class PackZipper {
 
     private static @Nullable PackResource loadIcon() {
         try (
-            var icon = BetterModel.platform().getResource("icon.png")
+            var icon = NaturalModels.platform().getResource("icon.png")
         ) {
             if (icon == null) return null;
             var read = icon.readAllBytes();
@@ -157,3 +157,4 @@ public final class PackZipper {
 
     }
 }
+

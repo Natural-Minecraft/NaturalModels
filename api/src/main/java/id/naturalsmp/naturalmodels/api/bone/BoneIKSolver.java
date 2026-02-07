@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bone;
+package id.naturalsmp.naturalmodels.api.bone;
 
-import kr.toxicity.model.api.util.InterpolationUtil;
-import kr.toxicity.model.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.InterpolationUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -146,3 +146,4 @@ public final class BoneIKSolver {
         }
     }
 }
+

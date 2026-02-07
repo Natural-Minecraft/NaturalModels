@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.script;
+package id.naturalsmp.naturalmodels.api.script;
 
-import kr.toxicity.model.api.animation.Timed;
-import kr.toxicity.model.api.tracker.Tracker;
+import id.naturalsmp.naturalmodels.api.animation.Timed;
+import id.naturalsmp.naturalmodels.api.tracker.Tracker;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,3 +34,4 @@ public record TimeScript(float time, @NotNull AnimationScript script) implements
         return new TimeScript(newTime, script);
     }
 }
+

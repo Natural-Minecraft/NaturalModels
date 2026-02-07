@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
 import net.minecraft.network.Connection;
 import net.minecraft.server.network.ServerCommonPacketListenerImpl;
@@ -15,5 +15,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = ServerCommonPacketListenerImpl.class)
 public interface ServerCommonPacketListenerImplAccessor {
     @Accessor(value = "connection")
-    @NotNull Connection bettermodel$getConnection();
+    @NotNull Connection NaturalModels$getConnection();
 }
+

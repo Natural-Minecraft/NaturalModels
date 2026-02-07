@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -27,7 +27,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2025 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -104,4 +104,5 @@ class HttpModelProfileSupplier : ModelProfileSupplier {
         }
     }
 }
+
 

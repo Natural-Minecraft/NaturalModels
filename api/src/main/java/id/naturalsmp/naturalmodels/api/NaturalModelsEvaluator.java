@@ -1,18 +1,18 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api;
+package id.naturalsmp.naturalmodels.api;
 
-import kr.toxicity.model.api.util.function.Float2FloatFunction;
+import id.naturalsmp.naturalmodels.api.util.function.Float2FloatFunction;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Evaluator
  */
-public interface BetterModelEvaluator {
+public interface NaturalModelsEvaluator {
     /**
      * Compiles molang expression
      * @param expression expression
@@ -20,3 +20,4 @@ public interface BetterModelEvaluator {
      */
     @NotNull Float2FloatFunction compile(@NotNull String expression);
 }
+

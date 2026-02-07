@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.util
 
-import id.naturalsmp.naturalmodels.api.BetterModelConfig
-import id.naturalsmp.naturalmodels.api.BetterModelConfig.PackType.*
+import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
+import id.naturalsmp.naturalmodels.api.NaturalModelsConfig.PackType.*
 import id.naturalsmp.naturalmodels.api.pack.*
 import id.naturalsmp.naturalmodels.manager.ReloadPipeline
 import net.kyori.adventure.text.format.NamedTextColor
@@ -20,7 +20,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import kotlin.io.path.pathString
 
-fun BetterModelConfig.PackType.toGenerator() = when (this) {
+fun NaturalModelsConfig.PackType.toGenerator() = when (this) {
     FOLDER -> FolderGenerator()
     ZIP -> ZipGenerator()
     NONE -> NoneGenerator()
@@ -106,7 +106,7 @@ class ZipGenerator : PackGenerator {
             if (!changed()) return this
             fun zip(zip: ZipOutputStream) {
                 zip.setLevel(Deflater.BEST_COMPRESSION)
-                zip.setComment("BetterModel's generated resource pack.")
+                zip.setComment("NaturalModels's generated resource pack.")
                 stream().forEach {
                     zip.putNextEntry(ZipEntry(it.path().path()))
                     zip.write(it.bytes())
@@ -147,4 +147,5 @@ fun PackZipper.writeToResult(pipeline: ReloadPipeline, dir: File? = null): PackR
         }
     }
 }
+
 

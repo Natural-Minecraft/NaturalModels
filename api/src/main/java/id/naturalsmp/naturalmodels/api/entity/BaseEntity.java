@@ -1,18 +1,18 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.entity;
+package id.naturalsmp.naturalmodels.api.entity;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.nms.Identifiable;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.tracker.EntityTrackerRegistry;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.nms.Identifiable;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,10 +33,10 @@ public interface BaseEntity extends Identifiable {
      */
     static @NotNull BaseEntity of(@NotNull PlatformEntity entity) {
         if (entity instanceof PlatformPlayer player) {
-            var channel = BetterModel.platform().playerManager().player(player.uuid());
-            return channel != null ? channel.base() : BetterModel.nms().adapt(player);
+            var channel = NaturalModels.platform().playerManager().player(player.uuid());
+            return channel != null ? channel.base() : NaturalModels.nms().adapt(player);
         }
-        return BetterModel.nms().adapt(entity);
+        return NaturalModels.nms().adapt(entity);
     }
 
     /**
@@ -175,7 +175,7 @@ public interface BaseEntity extends Identifiable {
      * @return optional tracker registry
      */
     default @NotNull Optional<EntityTrackerRegistry> registry() {
-        return BetterModel.registry(uuid());
+        return NaturalModels.registry(uuid());
     }
 
     /**
@@ -207,3 +207,4 @@ public interface BaseEntity extends Identifiable {
      */
     void modelData(@Nullable String modelData);
 }
+

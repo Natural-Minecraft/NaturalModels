@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.impl.fabric.config
 
-import id.naturalsmp.naturalmodels.api.BetterModelConfig
+import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
 import id.naturalsmp.naturalmodels.api.config.DebugConfig
 import id.naturalsmp.naturalmodels.api.config.IndicatorConfig
 import id.naturalsmp.naturalmodels.api.config.ModuleConfig
@@ -27,9 +27,9 @@ import java.io.File
 import java.nio.file.Path
 import java.util.function.Supplier
 
-fun Path.toConfig() = BetterModelConfigImpl(YamlConfigurationLoader.builder().path(this).build().load())
+fun Path.toConfig() = NaturalModelsConfigImpl(YamlConfigurationLoader.builder().path(this).build().load())
 
-class BetterModelConfigImpl(yaml: ConfigurationNode) : BetterModelConfig {
+class NaturalModelsConfigImpl(yaml: ConfigurationNode) : NaturalModelsConfig {
 
     private val debug = yaml.node("debug")?.let { node ->
         DebugConfig.from { node.node(it).getBoolean(false) }
@@ -61,13 +61,13 @@ class BetterModelConfigImpl(yaml: ConfigurationNode) : BetterModelConfig {
     }
 
     private val minSight = yaml.node("min-sight").getDouble(5.0)
-    private val namespace = yaml.node("namespace").getString("bettermodel")
+    private val namespace = yaml.node("namespace").getString("NaturalModels")
     private val packType = yaml.node("pack-type").getString("zip")?.let {
         runCatching {
-            BetterModelConfig.PackType.valueOf(it.uppercase())
+            NaturalModelsConfig.PackType.valueOf(it.uppercase())
         }.getOrNull()
-    } ?: BetterModelConfig.PackType.ZIP
-    private val buildFolderLocation = (yaml.node("build-folder-location").getString("BetterModel/build")).replace('/', File.separatorChar)
+    } ?: NaturalModelsConfig.PackType.ZIP
+    private val buildFolderLocation = (yaml.node("build-folder-location").getString("NaturalModels/build")).replace('/', File.separatorChar)
     private val followMobInvisibility = yaml.node("follow-mob-invisibility").getBoolean(true)
     private val versionCheck = yaml.node("version-check").getBoolean(true)
     private val defaultMountController = when (yaml.node("default-mount-controller").getString("walk")?.lowercase()) {
@@ -95,7 +95,7 @@ class BetterModelConfigImpl(yaml: ConfigurationNode) : BetterModelConfig {
     override fun maxSight(): Double = maxSight
     override fun minSight(): Double = minSight
     override fun namespace(): String = namespace
-    override fun packType(): BetterModelConfig.PackType = packType
+    override fun packType(): NaturalModelsConfig.PackType = packType
     override fun buildFolderLocation(): String = buildFolderLocation
     override fun followMobInvisibility(): Boolean = followMobInvisibility
     override fun usePurpurAfk(): Boolean = false
@@ -107,5 +107,6 @@ class BetterModelConfigImpl(yaml: ConfigurationNode) : BetterModelConfig {
     override fun packetBundlingSize(): Int = packetBundlingSize
     override fun enableStrictLoading(): Boolean = enableStrictLoading
 }
+
 
 

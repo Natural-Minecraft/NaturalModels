@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
-import kr.toxicity.model.impl.fabric.events.ServerMobEffectLoadCallback;
-import kr.toxicity.model.impl.fabric.events.ServerMobEffectUnloadCallback;
+import id.naturalsmp.naturalmodels.impl.fabric.events.ServerMobEffectLoadCallback;
+import id.naturalsmp.naturalmodels.impl.fabric.events.ServerMobEffectUnloadCallback;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public abstract class ServerLevelEntityCallbacksMixin {
         method = "onTrackingStart(Lnet/minecraft/world/entity/Entity;)V",
         at = @At(value = "TAIL")
     )
-    private void bettermodel$invokeLoadCallbacks(Entity entity, CallbackInfo ci) {
+    private void NaturalModels$invokeLoadCallbacks(Entity entity, CallbackInfo ci) {
         if (entity.level().isClientSide()) return;
 
         if (entity instanceof LivingEntity livingEntity) {
@@ -37,7 +37,7 @@ public abstract class ServerLevelEntityCallbacksMixin {
         method = "onTrackingEnd(Lnet/minecraft/world/entity/Entity;)V",
         at = @At(value = "HEAD")
     )
-    private void bettermodel$invokeUnloadCallbacks(Entity entity, CallbackInfo ci) {
+    private void NaturalModels$invokeUnloadCallbacks(Entity entity, CallbackInfo ci) {
         if (entity.level().isClientSide()) return;
 
         if (entity instanceof LivingEntity livingEntity) {
@@ -47,3 +47,4 @@ public abstract class ServerLevelEntityCallbacksMixin {
         }
     }
 }
+

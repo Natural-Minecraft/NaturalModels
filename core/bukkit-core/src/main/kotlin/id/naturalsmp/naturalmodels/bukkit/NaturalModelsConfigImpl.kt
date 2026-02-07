@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.bukkit
 
-import id.naturalsmp.naturalmodels.api.BetterModelConfig
+import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
 import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter
 import id.naturalsmp.naturalmodels.api.config.DebugConfig
 import id.naturalsmp.naturalmodels.api.config.IndicatorConfig
@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack
 import java.io.File
 import java.util.function.Supplier
 
-class BetterModelConfigImpl(yaml: ConfigurationSection) : BetterModelConfig {
+class NaturalModelsConfigImpl(yaml: ConfigurationSection) : NaturalModelsConfig {
 
     private val debug = yaml.getConfigurationSection("debug")?.let {
         DebugConfig.from(it::getBoolean)
@@ -52,13 +52,13 @@ class BetterModelConfigImpl(yaml: ConfigurationSection) : BetterModelConfig {
         if (this <= 0.0) EntityUtil.renderDistance() else this
     }
     private val minSight = yaml.getDouble("min-sight", 5.0)
-    private val namespace = yaml.getString("namespace") ?: "bettermodel"
+    private val namespace = yaml.getString("namespace") ?: "NaturalModels"
     private val packType = yaml.getString("pack-type")?.let {
         runCatching {
-            BetterModelConfig.PackType.valueOf(it.uppercase())
+            NaturalModelsConfig.PackType.valueOf(it.uppercase())
         }.getOrNull()
-    } ?: BetterModelConfig.PackType.ZIP
-    private val buildFolderLocation = (yaml.getString("build-folder-location") ?: "BetterModel/build").replace('/', File.separatorChar)
+    } ?: NaturalModelsConfig.PackType.ZIP
+    private val buildFolderLocation = (yaml.getString("build-folder-location") ?: "NaturalModels/build").replace('/', File.separatorChar)
     private val followMobInvisibility = yaml.getBoolean("follow-mob-invisibility", true)
     private val usePurpurAfk = yaml.getBoolean("use-purpur-afk", true)
     private val versionCheck = yaml.getBoolean("version-check", true)
@@ -87,7 +87,7 @@ class BetterModelConfigImpl(yaml: ConfigurationSection) : BetterModelConfig {
     override fun maxSight(): Double = maxSight
     override fun minSight(): Double = minSight
     override fun namespace(): String = namespace
-    override fun packType(): BetterModelConfig.PackType = packType
+    override fun packType(): NaturalModelsConfig.PackType = packType
     override fun buildFolderLocation(): String = buildFolderLocation
     override fun followMobInvisibility(): Boolean = followMobInvisibility
     override fun usePurpurAfk(): Boolean = usePurpurAfk
@@ -99,4 +99,5 @@ class BetterModelConfigImpl(yaml: ConfigurationSection) : BetterModelConfig {
     override fun packetBundlingSize(): Int = packetBundlingSize
     override fun enableStrictLoading(): Boolean = enableStrictLoading
 }
+
 

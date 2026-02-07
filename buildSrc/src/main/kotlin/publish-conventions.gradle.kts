@@ -55,7 +55,7 @@ mavenPublishing {
         name = artifactBaseId
         description = "Modern Bedrock model engine for Minecraft Java Edition"
         inceptionYear = "2024"
-        url = "https://github.com/toxicity188/BetterModel/"
+        url = "https://github.com/toxicity188/NaturalModels/"
         licenses {
             license {
                 name = "MIT License"
@@ -70,9 +70,9 @@ mavenPublishing {
             }
         }
         scm {
-            url = "https://github.com/toxicity188/BetterModel/"
-            connection = "scm:git:git://github.com/toxicity188/BetterModel.git"
-            developerConnection = "scm:git:ssh://git@github.com/toxicity188/BetterModel.git"
+            url = "https://github.com/toxicity188/NaturalModels/"
+            connection = "scm:git:git://github.com/toxicity188/NaturalModels.git"
+            developerConnection = "scm:git:ssh://git@github.com/toxicity188/NaturalModels.git"
         }
     }
 }
@@ -89,3 +89,4 @@ publishing {
         }
     }
 }
+

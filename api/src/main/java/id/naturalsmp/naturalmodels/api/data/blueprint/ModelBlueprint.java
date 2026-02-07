@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.blueprint;
+package id.naturalsmp.naturalmodels.api.data.blueprint;
 
-import kr.toxicity.model.api.data.raw.ModelResolution;
-import kr.toxicity.model.api.pack.PackObfuscator;
+import id.naturalsmp.naturalmodels.api.data.raw.ModelResolution;
+import id.naturalsmp.naturalmodels.api.pack.PackObfuscator;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -68,3 +68,4 @@ public record ModelBlueprint(
             );
     }
 }
+

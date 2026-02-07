@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.nms;
+package id.naturalsmp.naturalmodels.api.nms;
 
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.platform.PlatformBillboard;
-import kr.toxicity.model.api.platform.PlatformItemStack;
-import kr.toxicity.model.api.platform.PlatformItemTransform;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.tracker.ModelRotation;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformBillboard;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemTransform;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.tracker.ModelRotation;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -221,3 +221,4 @@ public interface ModelDisplay extends Identifiable {
      */
     void billboard(@NotNull PlatformBillboard billboard);
 }
+

@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.event;
+package id.naturalsmp.naturalmodels.api.event;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.BetterModelEventBus;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.NaturalModelsEventBus;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a base event in the BetterModel system.
+ * Represents a base event in the NaturalModels system.
  * <p>
  * All events related to model lifecycle, interaction, and animation implement this interface.
  * Events can be dispatched using the {@link #call()} method.
@@ -27,7 +27,8 @@ public interface ModelEvent {
      * @return the result of the event call
      * @since 2.0.0
      */
-    default @NotNull BetterModelEventBus.Result call() {
-        return BetterModel.eventBus().call(this);
+    default @NotNull NaturalModelsEventBus.Result call() {
+        return NaturalModels.eventBus().call(this);
     }
 }
+

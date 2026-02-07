@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.test;
+package id.naturalsmp.naturalmodels.test;
 
 import io.papermc.paper.event.entity.EntityPushedByEntityAttackEvent;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.AnimationModifier;
-import kr.toxicity.model.api.bukkit.platform.BukkitAdapter;
-import kr.toxicity.model.api.tracker.ModelRotation;
-import kr.toxicity.model.api.tracker.TrackerModifier;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter;
+import id.naturalsmp.naturalmodels.api.tracker.ModelRotation;
+import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -41,14 +41,14 @@ public final class RollTester implements ModelTester, Listener {
     private final Set<UUID> invulnerableSet = ConcurrentHashMap.newKeySet();
 
     @Override
-    public void start(@NotNull BetterModelTest test) {
+    public void start(@NotNull NaturalModelsTest test) {
         Bukkit.getPluginManager().registerEvents(this, test);
         var command = test.getCommand("rollinfo");
         if (command != null) command.setExecutor((sender, command1, label, args) -> sendRollTime(sender));
     }
 
     @Override
-    public void end(@NotNull BetterModelTest test) {
+    public void end(@NotNull NaturalModelsTest test) {
         HandlerList.unregisterAll(this);
     }
 
@@ -105,7 +105,7 @@ public final class RollTester implements ModelTester, Listener {
     }
 
     private static boolean sendRollTime(@NotNull Audience audience) {
-        return BetterModel.limb("steve")
+        return NaturalModels.limb("steve")
             .flatMap(r -> r.animation("roll"))
             .map(animation -> {
                 audience.sendMessage(Component.text()
@@ -119,11 +119,11 @@ public final class RollTester implements ModelTester, Listener {
 
     private void playRoll(@NotNull Player player) {
         var input = inputToYaw(player);
-        BetterModel.limb("steve")
+        NaturalModels.limb("steve")
             .map(r -> r.getOrCreate(BukkitAdapter.adapt(player), TrackerModifier.DEFAULT, t -> t.rotation(() -> new ModelRotation(player.getPitch(), packDegree(input + t.registry().entity().bodyYaw())))))
             .ifPresent(t -> {
                 if (t.animate(b -> true, "roll", AnimationModifier.DEFAULT_WITH_PLAY_ONCE, () -> {
-                    BetterModel.platform().scheduler().asyncTaskLater(3, () -> coolTimeSet.remove(player.getUniqueId()));
+                    NaturalModels.platform().scheduler().asyncTaskLater(3, () -> coolTimeSet.remove(player.getUniqueId()));
                     t.close();
                 })) {
                     if (coolTimeSet.add(player.getUniqueId()) && invulnerableSet.add(player.getUniqueId())) {
@@ -134,7 +134,7 @@ public final class RollTester implements ModelTester, Listener {
                             true,
                             false
                         ));
-                        BetterModel.platform().scheduler().asyncTaskLater(8, () -> invulnerableSet.remove(player.getUniqueId()));
+                        NaturalModels.platform().scheduler().asyncTaskLater(8, () -> invulnerableSet.remove(player.getUniqueId()));
                         player.setVelocity(player.getVelocity()
                             .add(new Vector(0, 0, 0.75).rotateAroundY(-Math.toRadians(input + t.registry().entity().bodyYaw())))
                             .setY(0.15));
@@ -176,3 +176,4 @@ public final class RollTester implements ModelTester, Listener {
         }
     }
 }
+

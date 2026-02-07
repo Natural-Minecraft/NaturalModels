@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.nms;
+package id.naturalsmp.naturalmodels.api.nms;
 
-import kr.toxicity.model.api.event.ModelDamageSource;
-import kr.toxicity.model.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.event.ModelDamageSource;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
@@ -250,3 +250,4 @@ public interface HitBoxListener {
      */
     void dismount(@NotNull HitBox hitBox, @NotNull PlatformEntity PlatformEntity);
 }
+

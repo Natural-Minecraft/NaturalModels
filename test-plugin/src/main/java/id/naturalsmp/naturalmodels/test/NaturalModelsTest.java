@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.test;
+package id.naturalsmp.naturalmodels.test;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-public final class BetterModelTest extends JavaPlugin {
+public final class NaturalModelsTest extends JavaPlugin {
 
     private final List<ModelTester> testers = List.of(
         new RollTester(),
@@ -49,3 +49,4 @@ public final class BetterModelTest extends JavaPlugin {
         }
     }
 }
+

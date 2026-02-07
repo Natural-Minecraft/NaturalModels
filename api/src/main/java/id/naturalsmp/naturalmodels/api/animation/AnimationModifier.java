@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.animation;
+package id.naturalsmp.naturalmodels.api.animation;
 
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.util.MathUtil;
-import kr.toxicity.model.api.util.function.FloatConstantSupplier;
-import kr.toxicity.model.api.util.function.FloatSupplier;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.function.FloatConstantSupplier;
+import id.naturalsmp.naturalmodels.api.util.function.FloatSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -307,3 +307,4 @@ public record AnimationModifier(
         return MathUtil.isSimilar(speed, 1F) ? null : FloatConstantSupplier.of(speed);
     }
 }
+

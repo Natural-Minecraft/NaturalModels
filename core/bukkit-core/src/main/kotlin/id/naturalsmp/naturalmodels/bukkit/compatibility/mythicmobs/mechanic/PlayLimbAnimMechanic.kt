@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -11,7 +11,7 @@ import io.lumine.mythic.api.config.MythicLineConfig
 import io.lumine.mythic.api.skills.ITargetedEntitySkill
 import io.lumine.mythic.api.skills.SkillMetadata
 import io.lumine.mythic.api.skills.SkillResult
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.animation.AnimationIterator
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
 import id.naturalsmp.naturalmodels.api.util.function.FloatConstantSupplier
@@ -46,9 +46,9 @@ class PlayLimbAnimMechanic(mlc: MythicLineConfig) : AbstractSkillMechanic(mlc), 
         val currentAnimationId = animationId(args) ?: if (!removal) return SkillResult.INVALID_CONFIG else ""
 
         if (removal) {
-            BetterModel.registryOrNull(targetPlayer.uniqueId)?.remove(currentModelId)
+            NaturalModels.registryOrNull(targetPlayer.uniqueId)?.remove(currentModelId)
         } else {
-            val renderer = BetterModel.limb(currentModelId).orElse(null) ?: return SkillResult.CONDITION_FAILED.apply {
+            val renderer = NaturalModels.limb(currentModelId).orElse(null) ?: return SkillResult.CONDITION_FAILED.apply {
                 warn(componentOf(
                     "Error: Player not found: ".toComponent(),
                     currentModelId.toComponent(NamedTextColor.RED)
@@ -72,4 +72,5 @@ class PlayLimbAnimMechanic(mlc: MythicLineConfig) : AbstractSkillMechanic(mlc), 
         return SkillResult.SUCCESS
     }
 }
+
 

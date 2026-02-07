@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.pack;
+package id.naturalsmp.naturalmodels.api.pack;
 
-import kr.toxicity.model.api.BetterModel;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -44,7 +44,7 @@ public interface PackObfuscator {
      * @since 1.15.2
      */
     static @NotNull PackObfuscator order() {
-        return BetterModel.config().pack().useObfuscation() ? new Order() : NONE;
+        return NaturalModels.config().pack().useObfuscation() ? new Order() : NONE;
     }
 
     /**
@@ -118,3 +118,4 @@ public interface PackObfuscator {
      */
     record Pair(@NotNull PackObfuscator models, @NotNull PackObfuscator textures) {}
 }
+

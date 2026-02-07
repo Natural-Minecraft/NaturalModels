@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.profile;
+package id.naturalsmp.naturalmodels.api.profile;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.platform.PlatformOfflinePlayer;
-import kr.toxicity.model.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.platform.PlatformOfflinePlayer;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,8 +50,8 @@ public interface ModelProfile {
      * @return model profile
      */
     static @NotNull ModelProfile of(@NotNull PlatformPlayer player) {
-        var channel = BetterModel.platform().playerManager().player(player.uuid());
-        return channel != null ? channel.base().profile() : BetterModel.nms().profile(player);
+        var channel = NaturalModels.platform().playerManager().player(player.uuid());
+        return channel != null ? channel.base().profile() : NaturalModels.nms().profile(player);
     }
 
     /**
@@ -60,7 +60,7 @@ public interface ModelProfile {
      * @return uncompleted profile
      */
     static @NotNull Uncompleted of(@NotNull PlatformOfflinePlayer offlinePlayer) {
-        return BetterModel.platform().profileManager().supplier().supply(offlinePlayer);
+        return NaturalModels.platform().profileManager().supplier().supply(offlinePlayer);
     }
 
     /**
@@ -69,7 +69,7 @@ public interface ModelProfile {
      * @return uncompleted profile
      */
     static @NotNull Uncompleted of(@NotNull UUID uuid) {
-        return of(BetterModel.platform().adapter().offlinePlayer(uuid));
+        return of(NaturalModels.platform().adapter().offlinePlayer(uuid));
     }
 
     /**
@@ -108,7 +108,7 @@ public interface ModelProfile {
      * @return player
      */
     default @Nullable PlatformPlayer player() {
-        return BetterModel.platform().adapter().player(info().id());
+        return NaturalModels.platform().adapter().player(info().id());
     }
 
     /**
@@ -145,3 +145,4 @@ public interface ModelProfile {
         }
     }
 }
+

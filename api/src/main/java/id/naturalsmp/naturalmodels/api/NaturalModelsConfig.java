@@ -1,23 +1,23 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api;
+package id.naturalsmp.naturalmodels.api;
 
-import kr.toxicity.model.api.config.DebugConfig;
-import kr.toxicity.model.api.config.IndicatorConfig;
-import kr.toxicity.model.api.config.ModuleConfig;
-import kr.toxicity.model.api.config.PackConfig;
-import kr.toxicity.model.api.mount.MountController;
-import kr.toxicity.model.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.config.DebugConfig;
+import id.naturalsmp.naturalmodels.api.config.IndicatorConfig;
+import id.naturalsmp.naturalmodels.api.config.ModuleConfig;
+import id.naturalsmp.naturalmodels.api.config.PackConfig;
+import id.naturalsmp.naturalmodels.api.mount.MountController;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 /**
- * Represents the main configuration interface for BetterModel.
+ * Represents the main configuration interface for NaturalModels.
  * <p>
  * This interface provides access to various configuration settings, including debug options,
  * pack generation settings, module toggles, and runtime behaviors.
@@ -25,7 +25,7 @@ import java.util.function.Supplier;
  *
  * @since 1.15.2
  */
-public interface BetterModelConfig {
+public interface NaturalModelsConfig {
 
     /**
      * Returns the debug configuration.
@@ -76,7 +76,7 @@ public interface BetterModelConfig {
     boolean sightTrace();
 
     /**
-     * Checks if BetterModel should attempt to merge its resource pack with external plugins/mods.
+     * Checks if NaturalModels should attempt to merge its resource pack with external plugins/mods.
      *
      * @return true to merge, false otherwise
      * @since 1.15.2
@@ -175,7 +175,7 @@ public interface BetterModelConfig {
      * Returns the default mount controller used for entities.
      *
      * @return the default mount controller
-     * @see kr.toxicity.model.api.mount.MountControllers
+     * @see id.naturalsmp.naturalmodels.api.mount.MountControllers
      * @since 1.15.2
      */
     @NotNull MountController defaultMountController();
@@ -246,3 +246,4 @@ public interface BetterModelConfig {
         NONE
     }
 }
+

@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
 import it.unimi.dsi.fastutil.floats.FloatComparator;
 import it.unimi.dsi.fastutil.floats.FloatSet;
-import kr.toxicity.model.api.data.Float3;
+import id.naturalsmp.naturalmodels.api.data.Float3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
@@ -367,3 +367,4 @@ public final class MathUtil {
         return isSimilar(vector3f.x, 0F) && isSimilar(vector3f.y, 0F) && isSimilar(vector3f.z, 0F);
     }
 }
+

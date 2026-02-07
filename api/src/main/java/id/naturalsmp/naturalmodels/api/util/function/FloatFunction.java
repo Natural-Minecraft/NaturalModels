@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util.function;
+package id.naturalsmp.naturalmodels.api.util.function;
 
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
-import kr.toxicity.model.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -56,3 +56,4 @@ public interface FloatFunction<T> {
         return f -> map.computeIfAbsent(MathUtil.similarHashCode(f), i -> apply(f));
     }
 }
+

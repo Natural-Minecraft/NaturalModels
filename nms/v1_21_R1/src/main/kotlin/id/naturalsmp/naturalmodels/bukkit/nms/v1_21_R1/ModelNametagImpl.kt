@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -7,7 +7,7 @@
 package id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R1
 
 import com.mojang.math.Transformation
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.bone.RenderedBone
 import id.naturalsmp.naturalmodels.api.nms.ModelNametag
 import id.naturalsmp.naturalmodels.api.nms.PacketBundler
@@ -50,7 +50,7 @@ internal class ModelNametagImpl(
         billboardConstraints = Display.BillboardConstraints.CENTER
     }
     private var alwaysVisible = false
-    private var location = BetterModel.platform().adapter().zero()
+    private var location = NaturalModels.platform().adapter().zero()
 
     override fun component(component: Component?) {
         display.text = component?.asVanilla() ?: VanillaComponent.empty()
@@ -112,4 +112,5 @@ internal class ModelNametagImpl(
 
     private val removePacket get() = ClientboundRemoveEntitiesPacket(display.id)
 }
+
 

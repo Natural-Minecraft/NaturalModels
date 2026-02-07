@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.event;
+package id.naturalsmp.naturalmodels.api.event;
 
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -24,7 +24,7 @@ public interface ModelDamageSource {
      * Returns the entity that caused the damage (e.g., the shooter of an arrow).
      *
      * @return the causing entity, or null if none
-     * @see kr.toxicity.model.api.platform.PlatformLivingEntity
+     * @see id.naturalsmp.naturalmodels.api.platform.PlatformLivingEntity
      * @since 2.0.0
      */
     @Nullable PlatformEntity getCausingEntity();
@@ -77,3 +77,4 @@ public interface ModelDamageSource {
      */
     boolean scalesWithDifficulty();
 }
+

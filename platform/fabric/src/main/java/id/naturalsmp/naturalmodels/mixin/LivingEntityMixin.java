@@ -1,15 +1,15 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import kr.toxicity.model.impl.fabric.events.ServerLivingEntityJumpCallback;
-import kr.toxicity.model.impl.fabric.events.ServerMobEffectLoadCallback;
-import kr.toxicity.model.impl.fabric.events.ServerMobEffectUnloadCallback;
+import id.naturalsmp.naturalmodels.impl.fabric.events.ServerLivingEntityJumpCallback;
+import id.naturalsmp.naturalmodels.impl.fabric.events.ServerMobEffectLoadCallback;
+import id.naturalsmp.naturalmodels.impl.fabric.events.ServerMobEffectUnloadCallback;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -37,10 +37,10 @@ public abstract class LivingEntityMixin extends Entity {
             target = "Lnet/minecraft/world/entity/LivingEntity;jumpFromGround()V"
         )
     )
-    private void bettermodel$invokeJumpCallbacks(@NotNull CallbackInfo ci) {
+    private void NaturalModels$invokeJumpCallbacks(@NotNull CallbackInfo ci) {
         if (level().isClientSide()) return;
 
-        ServerLivingEntityJumpCallback.EVENT.invoker().onJump(bettermodel$livingEntity());
+        ServerLivingEntityJumpCallback.EVENT.invoker().onJump(NaturalModels$livingEntity());
     }
 
     @Inject(
@@ -51,10 +51,10 @@ public abstract class LivingEntityMixin extends Entity {
             shift = At.Shift.AFTER
         )
     )
-    private void bettermodel$invokeEffectLoadCallbacks(@NotNull MobEffectInstance effect, @NotNull Entity source, @NotNull CallbackInfo ci) {
+    private void NaturalModels$invokeEffectLoadCallbacks(@NotNull MobEffectInstance effect, @NotNull Entity source, @NotNull CallbackInfo ci) {
         if (level().isClientSide()) return;
 
-        ServerMobEffectLoadCallback.EVENT.invoker().onLoad(bettermodel$livingEntity(), effect);
+        ServerMobEffectLoadCallback.EVENT.invoker().onLoad(NaturalModels$livingEntity(), effect);
     }
 
     @Inject(
@@ -65,14 +65,15 @@ public abstract class LivingEntityMixin extends Entity {
             shift = At.Shift.AFTER
         )
     )
-    private void bettermodel$invokeEffectUnloadCallbacks(@NotNull Collection<MobEffectInstance> effects, @NotNull CallbackInfo ci, @Local @NotNull MobEffectInstance effect) {
+    private void NaturalModels$invokeEffectUnloadCallbacks(@NotNull Collection<MobEffectInstance> effects, @NotNull CallbackInfo ci, @Local @NotNull MobEffectInstance effect) {
         if (level().isClientSide()) return;
 
-        ServerMobEffectUnloadCallback.EVENT.invoker().onUnload(bettermodel$livingEntity(), effect);
+        ServerMobEffectUnloadCallback.EVENT.invoker().onUnload(NaturalModels$livingEntity(), effect);
     }
 
     @Unique
-    private @NotNull LivingEntity bettermodel$livingEntity() {
+    private @NotNull LivingEntity NaturalModels$livingEntity() {
         return (LivingEntity) (Object) this;
     }
 }
+

@@ -1,23 +1,23 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.renderer;
+package id.naturalsmp.naturalmodels.api.data.renderer;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.animation.AnimationPredicate;
-import kr.toxicity.model.api.animation.RunningAnimation;
-import kr.toxicity.model.api.bone.*;
-import kr.toxicity.model.api.nms.HitBox;
-import kr.toxicity.model.api.nms.PacketBundler;
-import kr.toxicity.model.api.nms.PlayerChannelHandler;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.tracker.ModelRotation;
-import kr.toxicity.model.api.util.FunctionUtil;
-import kr.toxicity.model.api.util.function.BonePredicate;
-import kr.toxicity.model.api.util.function.FloatSupplier;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.animation.AnimationPredicate;
+import id.naturalsmp.naturalmodels.api.animation.RunningAnimation;
+import id.naturalsmp.naturalmodels.api.bone.*;
+import id.naturalsmp.naturalmodels.api.nms.HitBox;
+import id.naturalsmp.naturalmodels.api.nms.PacketBundler;
+import id.naturalsmp.naturalmodels.api.nms.PlayerChannelHandler;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.tracker.ModelRotation;
+import id.naturalsmp.naturalmodels.api.util.FunctionUtil;
+import id.naturalsmp.naturalmodels.api.util.function.BonePredicate;
+import id.naturalsmp.naturalmodels.api.util.function.FloatSupplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.ApiStatus;
@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.*;
 import java.util.stream.Stream;
 
-import static kr.toxicity.model.api.util.CollectionUtil.associate;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.associate;
 
 /**
  * Represents the rendering pipeline for a specific model instance.
@@ -108,7 +108,7 @@ public final class RenderPipeline implements BoneEventHandler {
      * @since 1.15.2
      */
     public @NotNull PacketBundler createBundler() {
-        return BetterModel.nms().createBundler(displayAmount + 1);
+        return NaturalModels.nms().createBundler(displayAmount + 1);
     }
 
     /**
@@ -130,7 +130,7 @@ public final class RenderPipeline implements BoneEventHandler {
      * @since 1.15.2
      */
     public @NotNull PacketBundler createLazyBundler() {
-        return BetterModel.nms().createLazyBundler();
+        return NaturalModels.nms().createLazyBundler();
     }
 
     /**
@@ -140,8 +140,8 @@ public final class RenderPipeline implements BoneEventHandler {
      * @since 1.15.2
      */
     public @NotNull PacketBundler createParallelBundler() {
-        var size = BetterModel.config().packetBundlingSize();
-        return size <= 0 ? createBundler() : BetterModel.nms().createParallelBundler(size);
+        var size = NaturalModels.config().packetBundlingSize();
+        return size <= 0 ? createBundler() : NaturalModels.nms().createParallelBundler(size);
     }
 
     @Override
@@ -391,7 +391,7 @@ public final class RenderPipeline implements BoneEventHandler {
      */
     @ApiStatus.Internal
     public boolean spawn(@NotNull PlatformPlayer player, @NotNull PacketBundler bundler, @NotNull Consumer<SpawnedPlayer> consumer) {
-        var get = BetterModel.platform().playerManager().player(player.uuid());
+        var get = NaturalModels.platform().playerManager().player(player.uuid());
         if (get == null) return false;
         var spawnedPlayer = new SpawnedPlayer(get);
         playerMap.put(player.uuid(), spawnedPlayer);
@@ -625,3 +625,4 @@ public final class RenderPipeline implements BoneEventHandler {
         }
     }
 }
+

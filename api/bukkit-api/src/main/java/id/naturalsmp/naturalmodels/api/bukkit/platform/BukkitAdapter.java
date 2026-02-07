@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit.platform;
+package id.naturalsmp.naturalmodels.api.bukkit.platform;
 
-import kr.toxicity.model.api.bukkit.BetterModelBukkit;
-import kr.toxicity.model.api.platform.*;
+import id.naturalsmp.naturalmodels.api.bukkit.NaturalModelsBukkit;
+import id.naturalsmp.naturalmodels.api.platform.*;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Provides an adapter for converting Bukkit objects to BetterModel platform objects.
+ * Provides an adapter for converting Bukkit objects to NaturalModels platform objects.
  * <p>
  * This class implements {@link PlatformAdapter} and offers static utility methods for adapting
  * entities, players, items, locations, and worlds.
@@ -129,7 +129,7 @@ public final class BukkitAdapter implements PlatformAdapter {
 
     @Override
     public boolean isRegionSafe() {
-        return !BetterModelBukkit.IS_FOLIA || isTickThread();
+        return !NaturalModelsBukkit.IS_FOLIA || isTickThread();
     }
 
     @Override
@@ -142,3 +142,4 @@ public final class BukkitAdapter implements PlatformAdapter {
         return adapt(new Location(null, 0, 0, 0));
     }
 }
+

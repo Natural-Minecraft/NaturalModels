@@ -1,29 +1,29 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.bukkit;
+package id.naturalsmp.naturalmodels.api.bukkit;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.BetterModelPlatform;
-import kr.toxicity.model.api.bukkit.platform.BukkitAdapter;
-import kr.toxicity.model.api.bukkit.scheduler.BukkitModelScheduler;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.NaturalModelsPlatform;
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter;
+import id.naturalsmp.naturalmodels.api.bukkit.scheduler.BukkitModelScheduler;
 import org.jetbrains.annotations.NotNull;
 
-import static kr.toxicity.model.api.util.ReflectionUtil.classExists;
+import static id.naturalsmp.naturalmodels.api.util.ReflectionUtil.classExists;
 
 /**
- * Represents the Bukkit-specific platform interface for BetterModel.
+ * Represents the Bukkit-specific platform interface for NaturalModels.
  * <p>
- * This interface extends {@link BetterModelPlatform} to provide Bukkit-specific implementations
+ * This interface extends {@link NaturalModelsPlatform} to provide Bukkit-specific implementations
  * for scheduling and entity adaptation.
  * </p>
  *
  * @since 2.0.0
  */
-public interface BetterModelBukkit extends BetterModelPlatform {
+public interface NaturalModelsBukkit extends NaturalModelsPlatform {
 
     /**
      * Checks if the server is running on the Folia platform.
@@ -42,13 +42,13 @@ public interface BetterModelBukkit extends BetterModelPlatform {
     boolean IS_PAPER = IS_PURPUR || IS_FOLIA || classExists("io.papermc.paper.configuration.PaperConfigurations");
 
     /**
-     * Returns the current {@link BetterModelBukkit} instance.
+     * Returns the current {@link NaturalModelsBukkit} instance.
      *
      * @return the current platform instance
      * @since 2.0.0
      */
-    static @NotNull BetterModelBukkit platform() {
-        return (BetterModelBukkit) BetterModel.platform();
+    static @NotNull NaturalModelsBukkit platform() {
+        return (NaturalModelsBukkit) NaturalModels.platform();
     }
 
     /**
@@ -78,3 +78,4 @@ public interface BetterModelBukkit extends BetterModelPlatform {
     @Override
     @NotNull BukkitModelEventBus eventBus();
 }
+

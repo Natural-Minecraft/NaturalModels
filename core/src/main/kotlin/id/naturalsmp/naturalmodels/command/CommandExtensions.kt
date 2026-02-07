@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.command
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer
 import net.kyori.adventure.audience.Audience
 import org.incendo.cloud.CommandManager
@@ -24,11 +24,11 @@ fun command(
 }
 
 inline fun CommandContext<*>.limb(key: String, notFound: (String) -> ModelRenderer) = optional<String>(key).flatMap {
-    BetterModel.limb(it)
+    NaturalModels.limb(it)
 }.orElse(null) ?: notFound(key)
 
 inline fun CommandContext<*>.model(key: String, notFound: (String) -> ModelRenderer) = optional<String>(key).flatMap {
-    BetterModel.model(it)
+    NaturalModels.model(it)
 }.orElse(null) ?: notFound(key)
 
 inline fun <T> CommandContext<*>.string(key: String, mapper: (String) -> T) = mapper(get(key))
@@ -38,4 +38,5 @@ fun <T> CommandContext<*>.nullableString(key: String, mapper: (String) -> T): T?
 inline fun <reified T : Any> CommandContext<*>.nullable(key: String): T? = optional<T>(key).orElse(null)
 inline fun <reified T : Any> CommandContext<*>.nullable(key: String, ifNotFound: T): T = optional<T>(key).orElse(null) ?: ifNotFound
 inline fun <reified T : Any> CommandContext<*>.nullable(key: String, ifNotFound: () -> T): T = optional<T>(key).orElse(null) ?: ifNotFound()
+
 

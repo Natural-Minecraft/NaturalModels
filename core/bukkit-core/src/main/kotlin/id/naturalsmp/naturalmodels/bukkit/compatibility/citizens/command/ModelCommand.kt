@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.bukkit.compatibility.citizens.command
 
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.bukkit.compatibility.citizens.trait.ModelTrait
 import net.citizensnpcs.api.command.Arg
 import net.citizensnpcs.api.command.Arg.CompletionsProvider
@@ -31,13 +31,14 @@ class ModelCommand {
     fun model(args: CommandContext, sender: CommandSender, npc: NPC?, @Arg(1, completionsProvider = TabComplete::class) model: String?) {
         if (npc == null) return Messaging.sendTr(sender, CommandMessages.MUST_HAVE_SELECTED)
         npc.getOrAddTrait(ModelTrait::class.java).renderer = model?.let {
-            BetterModel.modelOrNull(it)
+            NaturalModels.modelOrNull(it)
         }
         sender.sendMessage("Set ${npc.name}'s model to $model.")
     }
 
     private class TabComplete : CompletionsProvider {
-        override fun getCompletions(p0: CommandContext?, p1: CommandSender?, p2: NPC?): MutableCollection<String> = BetterModel.modelKeys()
+        override fun getCompletions(p0: CommandContext?, p1: CommandSender?, p2: NPC?): MutableCollection<String> = NaturalModels.modelKeys()
     }
 }
+
 

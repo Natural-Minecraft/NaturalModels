@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -10,7 +10,7 @@ import io.lumine.mythic.api.config.MythicLineConfig
 import io.lumine.mythic.api.skills.INoTargetSkill
 import io.lumine.mythic.api.skills.SkillMetadata
 import io.lumine.mythic.api.skills.SkillResult
-import id.naturalsmp.naturalmodels.api.BetterModel
+import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.tracker.ModelScaler
 import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier
 import id.naturalsmp.naturalmodels.bukkit.compatibility.mythicmobs.modelPlaceholder
@@ -33,10 +33,10 @@ class ModelMechanic(mlc: MythicLineConfig) : AbstractSkillMechanic(mlc), INoTarg
         val e = p0.caster.entity.bukkitEntity
         return if (r(args)) {
             if (mid(args)?.let {
-                BetterModel.registryOrNull(e.uniqueId)?.remove(it)
+                NaturalModels.registryOrNull(e.uniqueId)?.remove(it)
             } == true) SkillResult.SUCCESS else SkillResult.CONDITION_FAILED
         } else {
-            BetterModel.modelOrNull(mid(args) ?: return SkillResult.CONDITION_FAILED)?.let {
+            NaturalModels.modelOrNull(mid(args) ?: return SkillResult.CONDITION_FAILED)?.let {
                 it.create(e.wrap(), TrackerModifier(
                     st(args),
                     da(args),
@@ -49,4 +49,5 @@ class ModelMechanic(mlc: MythicLineConfig) : AbstractSkillMechanic(mlc), INoTarg
         }
     }
 }
+
 

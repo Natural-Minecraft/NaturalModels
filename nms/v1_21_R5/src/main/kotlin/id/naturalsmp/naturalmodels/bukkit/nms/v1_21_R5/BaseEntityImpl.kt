@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -81,4 +81,5 @@ internal data class BaseEntityImpl(
     override fun trackedBy(): Stream<PlatformPlayer> = delegate.trackedBy.stream().map { it.wrap() }
     override fun location(): PlatformLocation = delegate.location.wrap()
 }
+
 

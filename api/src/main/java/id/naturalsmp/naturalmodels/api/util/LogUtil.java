@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.util;
+package id.naturalsmp.naturalmodels.api.util;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.config.DebugConfig;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.config.DebugConfig;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -42,7 +42,7 @@ public final class LogUtil {
         var list = new ArrayList<Component>(4);
         list.add(Component.text(message));
         list.add(toLog("Reason: " + throwable.getMessage(), NamedTextColor.YELLOW));
-        if (BetterModel.config().debug().has(DebugConfig.DebugOption.EXCEPTION)) {
+        if (NaturalModels.config().debug().has(DebugConfig.DebugOption.EXCEPTION)) {
             list.add(toLog("Stack trace:", NamedTextColor.RED));
             try (
                 var byteArray = new ByteArrayOutputStream();
@@ -54,7 +54,7 @@ public final class LogUtil {
                 list.add(toLog("Unknown", NamedTextColor.RED));
             }
         } else list.add(toLog("If you want to see the stack trace, set debug.exception to true in config.yml", NamedTextColor.LIGHT_PURPLE));
-        BetterModel.platform().logger().warn(list.toArray(Component[]::new));
+        NaturalModels.platform().logger().warn(list.toArray(Component[]::new));
     }
 
     /**
@@ -73,7 +73,7 @@ public final class LogUtil {
      * @param log log
      */
     public static void debug(@NotNull DebugConfig.DebugOption option, @NotNull Supplier<String> log) {
-        debug(option, () -> BetterModel.platform().logger().info(Component.text()
+        debug(option, () -> NaturalModels.platform().logger().info(Component.text()
             .append(toLog("[DEBUG-" + option + "] ", NamedTextColor.YELLOW))
             .append(Component.text(log.get()))
             .build())
@@ -86,6 +86,7 @@ public final class LogUtil {
      * @param runnable debug task
      */
     public static void debug(@NotNull DebugConfig.DebugOption option, @NotNull Runnable runnable) {
-        if (BetterModel.config().debug().has(option)) runnable.run();
+        if (NaturalModels.config().debug().has(option)) runnable.run();
     }
 }
+

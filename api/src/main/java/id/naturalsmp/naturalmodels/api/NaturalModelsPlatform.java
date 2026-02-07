@@ -1,20 +1,20 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api;
+package id.naturalsmp.naturalmodels.api;
 
 import com.vdurmont.semver4j.Semver;
-import kr.toxicity.model.api.event.ModelEventApplication;
-import kr.toxicity.model.api.manager.*;
-import kr.toxicity.model.api.nms.NMS;
-import kr.toxicity.model.api.pack.PackResult;
-import kr.toxicity.model.api.pack.PackZipper;
-import kr.toxicity.model.api.platform.PlatformAdapter;
-import kr.toxicity.model.api.scheduler.ModelScheduler;
-import kr.toxicity.model.api.version.MinecraftVersion;
+import id.naturalsmp.naturalmodels.api.event.ModelEventApplication;
+import id.naturalsmp.naturalmodels.api.manager.*;
+import id.naturalsmp.naturalmodels.api.nms.NMS;
+import id.naturalsmp.naturalmodels.api.pack.PackResult;
+import id.naturalsmp.naturalmodels.api.pack.PackZipper;
+import id.naturalsmp.naturalmodels.api.platform.PlatformAdapter;
+import id.naturalsmp.naturalmodels.api.scheduler.ModelScheduler;
+import id.naturalsmp.naturalmodels.api.version.MinecraftVersion;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
@@ -25,15 +25,15 @@ import java.io.InputStream;
 import java.util.function.Consumer;
 
 /**
- * Represents the main platform interface for BetterModel.
+ * Represents the main platform interface for NaturalModels.
  *
- * @see BetterModel
+ * @see NaturalModels
  * @since 1.15.2
  */
-public interface BetterModelPlatform extends ModelEventApplication {
+public interface NaturalModelsPlatform extends ModelEventApplication {
 
     /**
-     * Returns the data folder for the BetterModel plugin.
+     * Returns the data folder for the NaturalModels plugin.
      * This is where configuration files, data files, and other plugin-specific resources are stored.
      *
      * @return the data folder as a {@link File} object.
@@ -81,7 +81,7 @@ public interface BetterModelPlatform extends ModelEventApplication {
 
 
     /**
-     * Checks if the running version of BetterModel is a snapshot build.
+     * Checks if the running version of NaturalModels is a snapshot build.
      *
      * @return true if snapshot, false otherwise
      * @since 1.15.2
@@ -94,7 +94,7 @@ public interface BetterModelPlatform extends ModelEventApplication {
      * @return the configuration
      * @since 1.15.2
      */
-    @NotNull BetterModelConfig config();
+    @NotNull NaturalModelsConfig config();
 
     /**
      * Returns the Minecraft version of the running server.
@@ -195,7 +195,7 @@ public interface BetterModelPlatform extends ModelEventApplication {
      * @return the logger
      * @since 1.15.2
      */
-    @NotNull BetterModelLogger logger();
+    @NotNull NaturalModelsLogger logger();
 
     /**
      * Returns the expression evaluator.
@@ -203,7 +203,7 @@ public interface BetterModelPlatform extends ModelEventApplication {
      * @return the evaluator
      * @since 1.15.2
      */
-    @NotNull BetterModelEvaluator evaluator();
+    @NotNull NaturalModelsEvaluator evaluator();
 
     /**
      * Returns the event bus.
@@ -211,7 +211,7 @@ public interface BetterModelPlatform extends ModelEventApplication {
      * @return the event bus
      * @since 2.0.0
      */
-    @NotNull BetterModelEventBus eventBus();
+    @NotNull NaturalModelsEventBus eventBus();
 
     /**
      * Retrieves a resource from the platform's JAR file.
@@ -330,3 +330,4 @@ public interface BetterModelPlatform extends ModelEventApplication {
         }
     }
 }
+

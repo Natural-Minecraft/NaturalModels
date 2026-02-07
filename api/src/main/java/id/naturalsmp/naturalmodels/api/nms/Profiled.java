@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.nms;
+package id.naturalsmp.naturalmodels.api.nms;
 
-import kr.toxicity.model.api.armor.PlayerArmor;
-import kr.toxicity.model.api.player.PlayerSkinParts;
-import kr.toxicity.model.api.profile.ModelProfile;
+import id.naturalsmp.naturalmodels.api.armor.PlayerArmor;
+import id.naturalsmp.naturalmodels.api.player.PlayerSkinParts;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfile;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -45,3 +45,4 @@ public interface Profiled {
      */
     @NotNull PlayerSkinParts skinParts();
 }
+

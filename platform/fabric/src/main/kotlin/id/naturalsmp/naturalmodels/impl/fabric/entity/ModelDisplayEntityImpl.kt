@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -69,7 +69,7 @@ class ModelDisplayEntityImpl(
         if (forceInvisibility.compareAndSet(!invisible, invisible)) {
             entityData.packDirty()
             entityDataLock.accessToLock {
-                entityData.markDirty(ItemDisplayAccessor.`bettermodel$getDataItemStackId`())
+                entityData.markDirty(ItemDisplayAccessor.`NaturalModels$getDataItemStackId`())
             }
         }
     }
@@ -84,7 +84,7 @@ class ModelDisplayEntityImpl(
             display.setGlowingTag(entity.glow() || forceGlow.get())
             if (CONFIG.followMobInvisibility() && beforeInvisible != afterInvisible) {
                 display.isInvisible = afterInvisible
-                entityData.markDirty(ItemDisplayAccessor.`bettermodel$getDataItemStackId`())
+                entityData.markDirty(ItemDisplayAccessor.`NaturalModels$getDataItemStackId`())
             }
         }
     }
@@ -140,7 +140,7 @@ class ModelDisplayEntityImpl(
 
     override fun moveDuration(duration: Int) {
         entityDataLock.accessToLock {
-            entityData[DisplayAccessor.`bettermodel$getDataPosRotInterpolationDurationId`()] = duration
+            entityData[DisplayAccessor.`NaturalModels$getDataPosRotInterpolationDurationId`()] = duration
         }
     }
 
@@ -223,7 +223,7 @@ class ModelDisplayEntityImpl(
     }
 
     private fun List<SynchedEntityData.DataValue<*>>.markVisible(showItem: Boolean) = map {
-        if (it.id == ItemDisplayAccessor.`bettermodel$getDataItemStackId`().id) SynchedEntityData.DataValue(
+        if (it.id == ItemDisplayAccessor.`NaturalModels$getDataItemStackId`().id) SynchedEntityData.DataValue(
             it.id,
             EntityDataSerializers.ITEM_STACK,
             if (showItem) display.itemStack else ItemStack.EMPTY
@@ -250,23 +250,23 @@ class ModelDisplayEntityImpl(
         private val ACCESSOR_IDS by lazy {
             IntOpenHashSet().apply {
                 setOf(
-                    EntityAccessor.`bettermodel$getDataSharedFlagsId`(),
+                    EntityAccessor.`NaturalModels$getDataSharedFlagsId`(),
 
-                    DisplayAccessor.`bettermodel$getDataPosRotInterpolationDurationId`(),
+                    DisplayAccessor.`NaturalModels$getDataPosRotInterpolationDurationId`(),
 
                     // index: 7 ~ last
-                    DisplayAccessor.`bettermodel$getDataBillboardRenderConstraintsId`(),
-                    DisplayAccessor.`bettermodel$getDataBrightnessOverrideId`(),
-                    DisplayAccessor.`bettermodel$getDataViewRangeId`(),
-                    DisplayAccessor.`bettermodel$getDataShadowRadiusId`(),
-                    DisplayAccessor.`bettermodel$getDataShadowStrengthId`(),
-                    DisplayAccessor.`bettermodel$getDataWidthId`(),
-                    DisplayAccessor.`bettermodel$getDataHeightId`(),
-                    DisplayAccessor.`bettermodel$getDataGlowColorOverrideId`(),
+                    DisplayAccessor.`NaturalModels$getDataBillboardRenderConstraintsId`(),
+                    DisplayAccessor.`NaturalModels$getDataBrightnessOverrideId`(),
+                    DisplayAccessor.`NaturalModels$getDataViewRangeId`(),
+                    DisplayAccessor.`NaturalModels$getDataShadowRadiusId`(),
+                    DisplayAccessor.`NaturalModels$getDataShadowStrengthId`(),
+                    DisplayAccessor.`NaturalModels$getDataWidthId`(),
+                    DisplayAccessor.`NaturalModels$getDataHeightId`(),
+                    DisplayAccessor.`NaturalModels$getDataGlowColorOverrideId`(),
 
                     // all
-                    ItemDisplayAccessor.`bettermodel$getDataItemStackId`(),
-                    ItemDisplayAccessor.`bettermodel$getDataItemDisplayId`()
+                    ItemDisplayAccessor.`NaturalModels$getDataItemStackId`(),
+                    ItemDisplayAccessor.`NaturalModels$getDataItemDisplayId`()
                 ).mapTo(this) {
                     it.id
                 }
@@ -274,4 +274,5 @@ class ModelDisplayEntityImpl(
         }
     }
 }
+
 

@@ -1,13 +1,13 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.impl.fabric.command
 
-import id.naturalsmp.naturalmodels.api.BetterModel
-import id.naturalsmp.naturalmodels.api.BetterModelPlatform.ReloadResult.*
+import id.naturalsmp.naturalmodels.api.NaturalModels
+import id.naturalsmp.naturalmodels.api.NaturalModelsPlatform.ReloadResult.*
 import id.naturalsmp.naturalmodels.api.animation.AnimationIterator
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
 import id.naturalsmp.naturalmodels.api.fabric.platform.FabricLocation
@@ -46,8 +46,8 @@ import org.incendo.cloud.parser.standard.EnumParser.enumParser
 import org.incendo.cloud.parser.standard.StringParser.stringParser
 import org.incendo.cloud.suggestion.SuggestionProvider.blockingStrings
 
-private val MODEL_SUGGESTION = blockingStrings<Audience> { _, _ -> BetterModel.modelKeys() }
-private val LIMB_SUGGESTION = blockingStrings<Audience> { _, _ -> BetterModel.limbKeys() }
+private val MODEL_SUGGESTION = blockingStrings<Audience> { _, _ -> NaturalModels.modelKeys() }
+private val LIMB_SUGGESTION = blockingStrings<Audience> { _, _ -> NaturalModels.limbKeys() }
 
 fun startFabricCommand() {
     command(
@@ -58,13 +58,13 @@ fun startFabricCommand() {
                 { audience -> (audience as AudienceCommandSource).source }
             )
         ),
-        "bettermodel",
+        "NaturalModels",
         "All-related command.",
         "bm", "model"
     ) {
         create(
             "reload",
-            "Reloads BetterModel.",
+            "Reloads NaturalModels.",
             "re", "rl"
         ) {
             handler(::reload)
@@ -90,7 +90,7 @@ fun startFabricCommand() {
                 .required(
                     "animation",
                     stringParser(),
-                    blockingStrings { ctx, _ -> ctx.nullableString("model") { BetterModel.modelOrNull(it)?.animations()?.keys } ?: emptySet()  }
+                    blockingStrings { ctx, _ -> ctx.nullableString("model") { NaturalModels.modelOrNull(it)?.animations()?.keys } ?: emptySet()  }
                 )
                 .optional("source", singlePlayerSelectorParser())
                 .optional("location", vec3Parser(false))
@@ -124,7 +124,7 @@ fun startFabricCommand() {
                 .required(
                     "animation",
                     stringParser(),
-                    blockingStrings { ctx, _ -> ctx.nullableString("limb") { BetterModel.limbOrNull(it)?.animations()?.keys } ?: emptySet()  }
+                    blockingStrings { ctx, _ -> ctx.nullableString("limb") { NaturalModels.limbOrNull(it)?.animations()?.keys } ?: emptySet()  }
                 )
                 .optional("loop_type", enumParser(AnimationIterator.Type::class.java))
                 .optional("hide", booleanParser())
@@ -152,7 +152,7 @@ fun startFabricCommand() {
 //        }
 //        create(
 //            "version",
-//            "Checks BetterModel's version",
+//            "Checks NaturalModels's version",
 //            "v"
 //        ) {
 //            handler(::version)
@@ -235,7 +235,7 @@ private fun reload(context: CommandContext<Audience>) {
     PLATFORM.scheduler().asyncTask {
         audience.info("Start reloading. please wait...")
         when (val result = PLATFORM.reload(audience)) {
-            is OnReload -> audience.warn("BetterModel is still on reload!")
+            is OnReload -> audience.warn("NaturalModels is still on reload!")
             is Success -> {
                 audience.info(
                     emptyComponentOf(),
@@ -248,7 +248,7 @@ private fun reload(context: CommandContext<Audience>) {
                         color(GRAY)
                         hoverEvent("Packing all model to resource pack.".toComponent().toHoverEvent())
                     },
-                    "${BetterModel.models().size.withComma()} of models are loaded successfully. (${result.length().toByteFormat()})".toComponent(YELLOW),
+                    "${NaturalModels.models().size.withComma()} of models are loaded successfully. (${result.length().toByteFormat()})".toComponent(YELLOW),
                     (if (result.packResult.changed()) "${result.packResult.size().withComma()} of files are zipped." else "Zipping is skipped due to the same result.").toComponent(YELLOW),
                     emptyComponentOf()
                 )
@@ -301,4 +301,5 @@ private fun test(context: CommandContext<Audience>) {
         animate(animation, AnimationModifier(0, 0, AnimationIterator.Type.PLAY_ONCE), ::close)
     }
 }
+
 

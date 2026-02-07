@@ -1,20 +1,20 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.renderer;
+package id.naturalsmp.naturalmodels.api.data.renderer;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.bone.*;
-import kr.toxicity.model.api.data.blueprint.BlueprintElement;
-import kr.toxicity.model.api.data.blueprint.ModelBoundingBox;
-import kr.toxicity.model.api.mount.MountController;
-import kr.toxicity.model.api.mount.MountControllers;
-import kr.toxicity.model.api.platform.PlatformItemStack;
-import kr.toxicity.model.api.util.MathUtil;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.bone.*;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintElement;
+import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox;
+import id.naturalsmp.naturalmodels.api.mount.MountController;
+import id.naturalsmp.naturalmodels.api.mount.MountControllers;
+import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack;
+import id.naturalsmp.naturalmodels.api.util.MathUtil;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static kr.toxicity.model.api.util.CollectionUtil.mapValue;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.mapValue;
 
 /**
  * A group of models.
@@ -74,14 +74,14 @@ public final class RendererGroup {
             new Vector3f(),
             new Vector3f(),
             new Vector3f(scale),
-            itemStack != null ? itemStack : BetterModel.platform().adapter().air()
+            itemStack != null ? itemStack : NaturalModels.platform().adapter().air()
         );
         this.itemMapper = name().toItemMapper();
         position = group.origin().toBlockScale().toVector();
         this.hitBox = box;
         rotation = group.rotation().toVector();
         if (name().tagged(BoneTags.SEAT)) {
-            mountController = BetterModel.config().defaultMountController();
+            mountController = NaturalModels.config().defaultMountController();
         } else if (name().tagged(BoneTags.SUB_SEAT)) {
             mountController = MountControllers.NONE;
         } else mountController = MountControllers.INVALID;
@@ -154,3 +154,4 @@ public final class RendererGroup {
         return uuid().hashCode();
     }
 }
+

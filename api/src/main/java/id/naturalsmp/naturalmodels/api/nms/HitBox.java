@@ -1,18 +1,18 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.nms;
+package id.naturalsmp.naturalmodels.api.nms;
 
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.bone.RenderedBone;
-import kr.toxicity.model.api.mount.MountController;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.platform.PlatformPlayer;
-import kr.toxicity.model.api.tracker.EntityTrackerRegistry;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
+import id.naturalsmp.naturalmodels.api.mount.MountController;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformPlayer;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -198,6 +198,7 @@ public interface HitBox extends Identifiable {
      * @since 1.15.2
      */
     default @NotNull Optional<EntityTrackerRegistry> registry() {
-        return BetterModel.registry(source().uuid());
+        return NaturalModels.registry(source().uuid());
     }
 }
+

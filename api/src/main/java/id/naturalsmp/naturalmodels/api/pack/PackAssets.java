@@ -1,12 +1,12 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.pack;
+package id.naturalsmp.naturalmodels.api.pack;
 
-import kr.toxicity.model.api.BetterModel;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 /**
  * Manages assets within a specific pack overlay.
  * <p>
- * This class provides access to namespaces (like 'bettermodel' and 'minecraft') and allows adding resources to the pack.
+ * This class provides access to namespaces (like 'NaturalModels' and 'minecraft') and allows adding resources to the pack.
  * </p>
  *
  * @since 1.15.2
@@ -26,23 +26,23 @@ public final class PackAssets {
     final PackOverlay overlay;
     final Map<PackPath, PackResource> resourceMap = new ConcurrentHashMap<>();
 
-    private final PackNamespace bettermodel, minecraft;
+    private final PackNamespace NaturalModels, minecraft;
 
     PackAssets(@NotNull PackOverlay overlay) {
         this.overlay = overlay;
-        this.path = overlay.path(BetterModel.config().namespace());
-        bettermodel = new PackNamespace(this, BetterModel.config().namespace());
+        this.path = overlay.path(NaturalModels.config().namespace());
+        NaturalModels = new PackNamespace(this, NaturalModels.config().namespace());
         minecraft = new PackNamespace(this, "minecraft");
     }
 
     /**
-     * Returns the 'bettermodel' namespace (or the configured namespace).
+     * Returns the 'NaturalModels' namespace (or the configured namespace).
      *
      * @return the namespace
      * @since 1.15.2
      */
-    public @NotNull PackNamespace bettermodel() {
-        return bettermodel;
+    public @NotNull PackNamespace NaturalModels() {
+        return NaturalModels;
     }
 
     /**
@@ -110,3 +110,4 @@ public final class PackAssets {
         add(paths, -1, supplier);
     }
 }
+

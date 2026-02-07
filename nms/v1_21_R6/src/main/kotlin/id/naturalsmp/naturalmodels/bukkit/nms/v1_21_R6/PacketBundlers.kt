@@ -1,5 +1,5 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
@@ -17,7 +17,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket
 import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket
 import org.bukkit.craftbukkit.entity.CraftPlayer
 
-private val KEY = Key.key("bettermodel")
+private val KEY = Key.key("NaturalModels")
 
 internal fun bundlerOfNotNull(vararg packets: ClientPacket?) = SimpleBundler(if (packets.isEmpty()) arrayListOf() else packets.filterNotNull().toMutableList())
 internal fun bundlerOf(vararg packets: ClientPacket) = SimpleBundler(if (packets.isEmpty()) arrayListOf() else packets.toMutableList())
@@ -124,4 +124,5 @@ internal class ParallelBundler(
         sizeAssume += other.assumeSize()
     }
 }
+
 

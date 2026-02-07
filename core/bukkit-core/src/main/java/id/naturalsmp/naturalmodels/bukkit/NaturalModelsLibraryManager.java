@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.bukkit;
+package id.naturalsmp.naturalmodels.bukkit;
 
 import net.byteflux.libby.LibraryManager;
 import net.byteflux.libby.classloader.URLClassLoaderHelper;
@@ -15,11 +15,11 @@ import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.Objects;
 
-final class BetterModelLibraryManager extends LibraryManager {
+final class NaturalModelsLibraryManager extends LibraryManager {
 
     private final URLClassLoaderHelper classLoader;
 
-    BetterModelLibraryManager(Plugin plugin) {
+    NaturalModelsLibraryManager(Plugin plugin) {
         super(new JDKLogAdapter(Objects.requireNonNull(plugin, "plugin").getLogger()), plugin.getDataFolder().toPath(), ".libs");
         var pluginLoader = plugin.getClass().getClassLoader();
         URLClassLoader loader;
@@ -37,3 +37,4 @@ final class BetterModelLibraryManager extends LibraryManager {
         this.classLoader.addToClasspath(file);
     }
 }
+

@@ -1,20 +1,20 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.renderer;
+package id.naturalsmp.naturalmodels.api.data.renderer;
 
-import kr.toxicity.model.api.bone.BoneName;
-import kr.toxicity.model.api.data.blueprint.BlueprintAnimation;
-import kr.toxicity.model.api.entity.BaseEntity;
-import kr.toxicity.model.api.platform.PlatformEntity;
-import kr.toxicity.model.api.platform.PlatformLocation;
-import kr.toxicity.model.api.profile.ModelProfile;
-import kr.toxicity.model.api.tracker.DummyTracker;
-import kr.toxicity.model.api.tracker.EntityTracker;
-import kr.toxicity.model.api.tracker.TrackerModifier;
+import id.naturalsmp.naturalmodels.api.bone.BoneName;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimation;
+import id.naturalsmp.naturalmodels.api.entity.BaseEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfile;
+import id.naturalsmp.naturalmodels.api.tracker.DummyTracker;
+import id.naturalsmp.naturalmodels.api.tracker.EntityTracker;
+import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static kr.toxicity.model.api.util.CollectionUtil.mapValue;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.mapValue;
 
 /**
  * A blueprint renderer.
@@ -646,3 +646,4 @@ public record ModelRenderer(
         private final boolean canBeSaved;
     }
 }
+

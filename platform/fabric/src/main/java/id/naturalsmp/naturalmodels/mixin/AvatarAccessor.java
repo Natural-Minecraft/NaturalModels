@@ -1,10 +1,10 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.Avatar;
@@ -15,7 +15,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = Avatar.class)
 public interface AvatarAccessor {
     @Accessor("DATA_PLAYER_MODE_CUSTOMISATION")
-    static @NotNull EntityDataAccessor<Byte> bettermodel$getDataPlayerModeCustomisation() {
+    static @NotNull EntityDataAccessor<Byte> NaturalModels$getDataPlayerModeCustomisation() {
         throw new UnsupportedOperationException("Implemented via mixin");
     }
 }
+

@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.mixin;
+package id.naturalsmp.naturalmodels.mixin;
 
-import kr.toxicity.model.impl.fabric.attachment.BetterModelAttachments;
-import kr.toxicity.model.impl.fabric.entity.EntityHook;
-import kr.toxicity.model.impl.fabric.events.ServerEntityDismountCallback;
+import id.naturalsmp.naturalmodels.impl.fabric.attachment.NaturalModelsAttachments;
+import id.naturalsmp.naturalmodels.impl.fabric.entity.EntityHook;
+import id.naturalsmp.naturalmodels.impl.fabric.events.ServerEntityDismountCallback;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -28,14 +28,14 @@ public abstract class EntityMixin implements EntityHook {
 
     @SuppressWarnings("UnstableApiUsage")
     @Override
-    public @Nullable String bettermodel$getModelData() {
-        return ((AttachmentTarget) this).getAttached(BetterModelAttachments.MODEL_DATA);
+    public @Nullable String NaturalModels$getModelData() {
+        return ((AttachmentTarget) this).getAttached(NaturalModelsAttachments.MODEL_DATA);
     }
 
     @SuppressWarnings("UnstableApiUsage")
     @Override
-    public void bettermodel$setModelData(@Nullable String modelData) {
-        ((AttachmentTarget) this).setAttached(BetterModelAttachments.MODEL_DATA, modelData);
+    public void NaturalModels$setModelData(@Nullable String modelData) {
+        ((AttachmentTarget) this).setAttached(NaturalModelsAttachments.MODEL_DATA, modelData);
     }
 
     @Inject(
@@ -43,10 +43,10 @@ public abstract class EntityMixin implements EntityHook {
         at = @At(value = "HEAD"),
         cancellable = true
     )
-    private void bettermodel$invokeDismountCallbacks(@NotNull Entity passenger, @NotNull CallbackInfo ci) {
+    private void NaturalModels$invokeDismountCallbacks(@NotNull Entity passenger, @NotNull CallbackInfo ci) {
         if (level().isClientSide()) return;
 
-        Entity vehicle = betterModel$entity();
+        Entity vehicle = NaturalModels$entity();
         if (vehicle != passenger.getVehicle() &&
             !ServerEntityDismountCallback.EVENT.invoker().onDismount(passenger, vehicle)
         ) {
@@ -55,7 +55,8 @@ public abstract class EntityMixin implements EntityHook {
     }
 
     @Unique
-    private @NotNull Entity betterModel$entity() {
+    private @NotNull Entity NaturalModels$entity() {
         return (Entity) (Object) this;
     }
 }
+

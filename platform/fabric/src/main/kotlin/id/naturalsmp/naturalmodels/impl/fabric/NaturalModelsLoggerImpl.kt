@@ -1,17 +1,17 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
 package id.naturalsmp.naturalmodels.impl.fabric
 
-import id.naturalsmp.naturalmodels.api.BetterModelLogger
+import id.naturalsmp.naturalmodels.api.NaturalModelsLogger
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger
 import java.util.logging.Logger
 
-class BetterModelLoggerImpl : BetterModelLogger {
+class NaturalModelsLoggerImpl : NaturalModelsLogger {
     private var logger: ComponentLogger? = null
 
     private fun logger(): ComponentLogger {
@@ -50,4 +50,5 @@ class BetterModelLoggerImpl : BetterModelLogger {
         private val LOGGER: Logger = Logger.getLogger(modId())
     }
 }
+
 

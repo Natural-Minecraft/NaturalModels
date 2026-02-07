@@ -1,14 +1,14 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.skin;
+package id.naturalsmp.naturalmodels.api.skin;
 
-import kr.toxicity.model.api.armor.PlayerArmor;
-import kr.toxicity.model.api.profile.ModelProfile;
-import kr.toxicity.model.api.util.TransformedItemStack;
+import id.naturalsmp.naturalmodels.api.armor.PlayerArmor;
+import id.naturalsmp.naturalmodels.api.profile.ModelProfile;
+import id.naturalsmp.naturalmodels.api.util.TransformedItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -112,3 +112,4 @@ public interface SkinData {
      */
     @Nullable TransformedItemStack cape(@NotNull PlayerArmor armor);
 }
+

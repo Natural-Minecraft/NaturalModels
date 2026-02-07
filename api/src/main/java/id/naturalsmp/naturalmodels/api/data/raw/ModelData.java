@@ -1,19 +1,19 @@
 /**
- * This source file is part of BetterModel.
+ * This source file is part of NaturalModels.
  * Copyright (c) 2024–2026 toxicity188
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
-package kr.toxicity.model.api.data.raw;
+package id.naturalsmp.naturalmodels.api.data.raw;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import kr.toxicity.model.api.BetterModel;
-import kr.toxicity.model.api.data.Float3;
-import kr.toxicity.model.api.data.Float4;
-import kr.toxicity.model.api.data.blueprint.BlueprintAnimation;
-import kr.toxicity.model.api.data.blueprint.ModelBlueprint;
+import id.naturalsmp.naturalmodels.api.NaturalModels;
+import id.naturalsmp.naturalmodels.api.data.Float3;
+import id.naturalsmp.naturalmodels.api.data.Float4;
+import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimation;
+import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBlueprint;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-import static kr.toxicity.model.api.util.CollectionUtil.*;
+import static id.naturalsmp.naturalmodels.api.util.CollectionUtil.*;
 
 /**
  * Represents the raw data structure of a model file, typically parsed from a .bbmodel JSON file.
@@ -72,7 +72,7 @@ public record ModelData(
      * @since 1.15.2
      */
     public @NotNull ModelLoadResult loadBlueprint(@NotNull String name) {
-        return loadBlueprint(name, BetterModel.config().enableStrictLoading());
+        return loadBlueprint(name, NaturalModels.config().enableStrictLoading());
     }
 
     /**
@@ -155,3 +155,4 @@ public record ModelData(
         return groups != null ? groups : Collections.emptyList();
     }
 }
+
