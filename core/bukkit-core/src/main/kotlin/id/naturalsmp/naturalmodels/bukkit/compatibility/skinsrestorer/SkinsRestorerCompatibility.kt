@@ -13,6 +13,9 @@ import id.naturalsmp.naturalmodels.bukkit.util.wrap
 import id.naturalsmp.naturalmodels.manager.ProfileManagerImpl
 import id.naturalsmp.naturalmodels.manager.SkinManagerImpl
 import id.naturalsmp.naturalmodels.util.PLATFORM
+import id.naturalsmp.naturalmodels.util.info
+import id.naturalsmp.naturalmodels.util.toComponent
+import net.kyori.adventure.text.format.NamedTextColor
 import net.skinsrestorer.api.SkinsRestorerProvider
 import net.skinsrestorer.api.event.SkinApplyEvent
 import org.bukkit.Bukkit
@@ -27,7 +30,7 @@ class SkinsRestorerCompatibility : Compatibility {
         try {
             manager = SkinsRestorerProvider.get()
         } catch (e: IllegalStateException) {
-            info("SkinsRestorer API is not enabled! Skipping hook.".toComponent(org.bukkit.ChatColor.YELLOW.name.lowercase().toComponent()))
+            info("SkinsRestorer API is not enabled! Skipping hook.".toComponent(NamedTextColor.YELLOW))
             return
         }
         
@@ -48,17 +51,17 @@ class SkinsRestorerCompatibility : Compatibility {
         override fun info(): ModelProfileInfo = info
 
         override fun complete(): CompletableFuture<ModelProfile> = CompletableFuture.supplyAsync {
-            manager.playerStorage
-                .getSkinForPlayer(
+            manager?.playerStorage
+                ?.getSkinForPlayer(
                     info.id,
                     info.name,
                     Bukkit.getOnlineMode()
-                ).map { skin ->
+                )?.map { skin ->
                     ModelProfile.of(
                         info,
                         ProfileManagerImpl.skin(skin.value)
                     )
-                }.orElse(null)
+                }?.orElse(null)
         }
 
     }
