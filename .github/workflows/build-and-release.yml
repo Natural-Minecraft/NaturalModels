@@ -49,7 +49,7 @@ jobs:
             Last Build Time: ${{ github.event.head_commit.timestamp }}
             Commit: ${{ github.sha }}
           # Path to the shaded JAR
-          files: platform/paper/build/libs/NaturalModels-*.jar
+          files: platform/paper/build/libs/NaturalModels.jar
           generate_release_notes: true
           make_latest: true
           draft: false
