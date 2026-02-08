@@ -54,7 +54,7 @@ paperPluginYaml {
     name = rootProject.name
     foliaSupported = true
     apiVersion = "1.20"
-    author = "toxicity188"
+    author = "NaturalModels"
     contributors = listOf("https://github.com/toxicity188/NaturalModels/graphs/contributors")
     description = "Modern Bedrock model engine for Minecraft Java Edition"
     website = "https://modrinth.com/plugin/NaturalModels"

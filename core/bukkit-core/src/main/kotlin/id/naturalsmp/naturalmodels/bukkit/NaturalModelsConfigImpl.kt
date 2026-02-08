@@ -47,12 +47,12 @@ class NaturalModelsConfigImpl(yaml: ConfigurationSection) : NaturalModelsConfig 
         }.getOrDefault(Material.LEATHER_HORSE_ARMOR)
     } ?: Material.LEATHER_HORSE_ARMOR
     private val item = Supplier { BukkitAdapter.adapt(ItemStack(itemModel)) }
-    private val itemNamespace = yaml.getString("item-namespace")?.toPackName() ?: "bm_models"
+    private val itemNamespace = yaml.getString("item-namespace")?.toPackName() ?: "nm_models"
     private val maxSight = yaml.getDouble("max-sight", -1.0).run {
         if (this <= 0.0) EntityUtil.renderDistance() else this
     }
     private val minSight = yaml.getDouble("min-sight", 5.0)
-    private val namespace = yaml.getString("namespace") ?: "NaturalModels"
+    private val namespace = yaml.getString("namespace") ?: "naturalmodels"
     private val packType = yaml.getString("pack-type")?.let {
         runCatching {
             NaturalModelsConfig.PackType.valueOf(it.uppercase())

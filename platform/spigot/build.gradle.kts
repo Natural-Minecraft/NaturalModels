@@ -30,7 +30,7 @@ bukkitPluginYaml {
     name = rootProject.name
     foliaSupported = true
     apiVersion = "1.20"
-    author = "toxicity188"
+    author = "NaturalModels"
     description = "Modern Bedrock model engine for Minecraft Java Edition"
     website = "https://modrinth.com/plugin/NaturalModels"
     softDepend = listOf(

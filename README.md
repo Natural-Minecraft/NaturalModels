@@ -52,8 +52,8 @@ NaturalModels aims to be a reliable engine that provides stable, high-quality an
   - **Player Model Animation**: Support for sophisticated 12-limb animations based on player models.
 
 ## 📚 Wiki
-[![](https://img.shields.io/badge/GitHub%20Wiki-181717?logo=github&logoColor=white)](https://github.com/toxicity188/NaturalModels/wiki)
-[![](https://deepwiki.com/badge.svg)](https://deepwiki.com/toxicity188/NaturalModels)
+[![](https://img.shields.io/badge/GitHub%20Wiki-181717?logo=github&logoColor=white)](https://github.com/NaturalModels/NaturalModels/wiki)
+[![](https://deepwiki.com/badge.svg)](https://deepwiki.com/NaturalModels/NaturalModels)
 
 ## 🛠️ Build info
 
@@ -93,10 +93,10 @@ NaturalModels aims to be a reliable engine that provides stable, high-quality an
 
 ## 💻 API
 
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/maven-central_vector.svg)](https://central.sonatype.com/artifact/io.github.toxicity188/NaturalModels)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/maven-central_vector.svg)](https://central.sonatype.com/artifact/io.github.NaturalModels/NaturalModels)
 
 > [!NOTE]\
-> For more detailed API specifications, please refer to our [GitHub Wiki](https://github.com/toxicity188/NaturalModels/wiki/API-example).
+> For more detailed API specifications, please refer to our [GitHub Wiki](https://github.com/NaturalModels/NaturalModels/wiki/API-example).
 
 <details open>
 <summary>Gradle (Kotlin)</summary>
@@ -110,15 +110,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.github.toxicity188:NaturalModels-bukkit-api:VERSION") // bukkit(spigot, paper, etc) api
-    //modApi("io.github.toxicity188:NaturalModels-fabric:VERSION") // mod(fabric)
+    compileOnly("io.github.NaturalModels:NaturalModels-bukkit-api:VERSION") // bukkit(spigot, paper, etc) api
+    //modApi("io.github.NaturalModels:NaturalModels-fabric:VERSION") // mod(fabric)
 }
 ```
 
 #### Snapshot
 ```kotlin
 repositories {
-    maven("https://maven.pkg.github.com/toxicity188/NaturalModels") {
+    maven("https://maven.pkg.github.com/NaturalModels/NaturalModels") {
         credentials {
             username = YOUR_GITHUB_USERNAME
             password = YOUR_GITHUB_TOKEN
@@ -129,8 +129,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.github.toxicity188:NaturalModels-bukkit-api:VERSION-SNAPSHOT") // bukkit(spigot, paper, etc) api
-    //modApi("io.github.toxicity188:NaturalModels-fabric:VERSION-SNAPSHOT") // mod(fabric)
+    compileOnly("io.github.NaturalModels:NaturalModels-bukkit-api:VERSION-SNAPSHOT") // bukkit(spigot, paper, etc) api
+    //modApi("io.github.NaturalModels:NaturalModels-fabric:VERSION-SNAPSHOT") // mod(fabric)
 }
 ```
 </details>
@@ -147,8 +147,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.github.toxicity188:NaturalModels-bukkit-api:VERSION' // bukkit(spigot, paper, etc) api
-    //modApi 'io.github.toxicity188:NaturalModels-fabric:VERSION' // mod(fabric)
+    compileOnly 'io.github.NaturalModels:NaturalModels-bukkit-api:VERSION' // bukkit(spigot, paper, etc) api
+    //modApi 'io.github.NaturalModels:NaturalModels-fabric:VERSION' // mod(fabric)
 }
 ```
 
@@ -156,7 +156,7 @@ dependencies {
 ```groovy
 repositories {
     maven {
-        url "https://maven.pkg.github.com/toxicity188/NaturalModels"
+        url "https://maven.pkg.github.com/NaturalModels/NaturalModels"
         credentials {
             username = YOUR_GITHUB_USERNAME
             password = YOUR_GITHUB_TOKEN
@@ -167,8 +167,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.github.toxicity188:NaturalModels-bukkit-api:VERSION-SNAPSHOT' // bukkit(spigot, paper, etc) api
-    //modApi 'io.github.toxicity188:NaturalModels-fabric:VERSION-SNAPSHOT' // mod(fabric)
+    compileOnly 'io.github.NaturalModels:NaturalModels-bukkit-api:VERSION-SNAPSHOT' // bukkit(spigot, paper, etc) api
+    //modApi 'io.github.NaturalModels:NaturalModels-fabric:VERSION-SNAPSHOT' // mod(fabric)
 }
 ```
 </details>
@@ -187,7 +187,7 @@ dependencies {
 
 <dependencies>
     <dependency>
-        <groupId>io.github.toxicity188</groupId>
+        <groupId>io.github.NaturalModels</groupId>
         <artifactId>NaturalModels-bukkit-api</artifactId>
         <version>VERSION</version>
         <scope>provided</scope>
@@ -200,19 +200,19 @@ dependencies {
 <repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/toxicity188/NaturalModels</url>
+        <url>https://maven.pkg.github.com/NaturalModels/NaturalModels</url>
     </repository>
 </repositories>
 
 <dependencies>
     <dependency>
-        <groupId>io.github.toxicity188</groupId>
+        <groupId>io.github.NaturalModels</groupId>
         <artifactId>NaturalModels-api</artifactId>
         <version>VERSION-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
     <dependency>
-        <groupId>io.github.toxicity188</groupId>
+        <groupId>io.github.NaturalModels</groupId>
         <artifactId>NaturalModels-bukkit-api</artifactId>
         <version>VERSION-SNAPSHOT</version>
         <scope>provided</scope>
@@ -277,7 +277,6 @@ NaturalModels.model("demon_knight")
 [![](https://discord.com/api/guilds/1012718460297551943/widget.png?style=banner2)](https://discord.com/invite/rePyFESDbk)
 
 ## 💖 Support
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/buymeacoffee-singular_vector.svg)](https://buymeacoffee.com/toxicity188)
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/toxicity188)
-[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/paypal-singular_vector.svg)](https://www.paypal.com/paypalme/toxicity188?country.x=KR&locale.x=en_US)
-
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/buymeacoffee-singular_vector.svg)](https://buymeacoffee.com/NaturalModels)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/NaturalModels)
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/paypal-singular_vector.svg)](https://www.paypal.com/paypalme/NaturalModels?country.x=KR&locale.x=en_US)

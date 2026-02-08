@@ -52,7 +52,7 @@ merge-with-external-resources: true
 item: leather_horse_armor
 
 # The namespace used for custom model items.
-item-namespace: bm_models
+item-namespace: nm_models
 
 # Maximum distance (in blocks) for sending animation packets. -1 for default server view distance.
 max-sight: -1
@@ -60,7 +60,7 @@ max-sight: -1
 min-sight: 5
 
 # The namespace used for resource pack assets (e.g., assets/NaturalModels/...).
-namespace: "NaturalModels"
+namespace: "naturalmodels"
 
 # The format of the generated resource pack.
 # 'zip': A standard .zip file.

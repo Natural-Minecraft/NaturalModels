@@ -1,6 +1,6 @@
 /**
  * This source file is part of NaturalModels.
- * Copyright (c) 2024–2026 toxicity188
+ * Copyright (c) 2024–2026 NaturalModels
  * Licensed under the MIT License.
  * See LICENSE.md file for full license text.
  */
@@ -18,9 +18,8 @@ import java.util.function.Supplier;
 public final class NaturalModelsTest extends JavaPlugin {
 
     private final List<ModelTester> testers = List.of(
-        new RollTester(),
-        new FightTester()
-    );
+            new RollTester(),
+            new FightTester());
 
     @Override
     public void onEnable() {
@@ -40,8 +39,7 @@ public final class NaturalModelsTest extends JavaPlugin {
 
     public @NotNull Supplier<byte[]> asByte(@NotNull String path) {
         try (
-            var get = Objects.requireNonNull(getResource(path))
-        ) {
+                var get = Objects.requireNonNull(getResource(path))) {
             var bytes = get.readAllBytes();
             return () -> bytes;
         } catch (IOException e) {
@@ -49,4 +47,3 @@ public final class NaturalModelsTest extends JavaPlugin {
         }
     }
 }
-

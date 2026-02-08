@@ -84,7 +84,7 @@ fun startBukkitCommand() {
         },
         "NaturalModels",
         "All-related command.",
-        "bm", "model"
+        "nm", "model"
     ) {
         create(
             "reload",
