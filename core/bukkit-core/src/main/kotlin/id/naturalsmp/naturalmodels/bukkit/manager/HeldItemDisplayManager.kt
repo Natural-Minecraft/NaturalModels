@@ -1,26 +1,23 @@
-/**
- * This source file is part of NaturalModels.
- * Copyright (c) 2024–2026 toxicity188
- * Licensed under the MIT License.
- * See LICENSE.md file for full license text.
- */
 package id.naturalsmp.naturalmodels.bukkit.manager
 
 import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
 import id.naturalsmp.naturalmodels.api.bone.BoneName
+import id.naturalsmp.naturalmodels.api.bukkit.util.BukkitAdapter
 import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer
 import id.naturalsmp.naturalmodels.api.pack.PackZipper
-import id.naturalsmp.naturalmodels.api.platform.PlatformItemStack
 import id.naturalsmp.naturalmodels.api.tracker.DummyTracker
-import id.naturalsmp.naturalmodels.api.tracker.Tracker
+import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry
 import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier
 import id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R7.wrap
 import id.naturalsmp.naturalmodels.bukkit.util.registerListener
 import id.naturalsmp.naturalmodels.manager.GlobalManager
 import id.naturalsmp.naturalmodels.manager.ReloadPipeline
 import id.naturalsmp.naturalmodels.util.PLATFORM
+import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -30,6 +27,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -37,6 +35,12 @@ object HeldItemDisplayManager : GlobalManager, Listener {
 
     private val MODEL_KEY = NamespacedKey("naturalmodels", "model")
     private val MMOITEMS_MODEL_KEY = "MMOITEMS_NATURAL_MODEL"
+    
+    private val mainHandTrackers = ConcurrentHashMap<UUID, DummyTracker>()
+    private val offHandTrackers = ConcurrentHashMap<UUID, DummyTracker>()
+    
+    private val RIGHT_HAND_BONE = BoneName.of("right_hand")
+    private val LEFT_HAND_BONE = BoneName.of("left_hand")
 
     override fun start() {
         registerListener(this)
@@ -60,9 +64,7 @@ object HeldItemDisplayManager : GlobalManager, Listener {
     }
 
     private fun syncAll() {
-        PLATFORM.playerManager().players().forEach { basePlayer ->
-            // Use try-catch or safety checks for Folia/Paper async nuances if needed
-            val player = basePlayer.platform().unwarp() as? Player ?: return@forEach
+        Bukkit.getOnlinePlayers().forEach { player ->
             syncHand(player, EquipmentSlot.HAND, mainHandTrackers)
             syncHand(player, EquipmentSlot.OFF_HAND, offHandTrackers)
         }
@@ -98,14 +100,14 @@ object HeldItemDisplayManager : GlobalManager, Listener {
 
     private fun createNewTracker(player: Player, slot: EquipmentSlot, modelId: String, map: MutableMap<UUID, DummyTracker>) {
         val renderer = PLATFORM.modelManager().renderer(modelId) ?: return
-        val tracker = renderer.create(player.location.wrap(), TrackerModifier.DEFAULT)
+        val tracker = renderer.create(BukkitAdapter.adapt(player.location), TrackerModifier.DEFAULT)
         map[player.uniqueId] = tracker
         tracker.animate("idle", AnimationModifier.DEFAULT)
         updateTrackerPosition(player, slot, tracker)
     }
 
     private fun updateTrackerPosition(player: Player, slot: EquipmentSlot, tracker: DummyTracker) {
-        val registry = NaturalModels.registryOrNull(player.uniqueId)
+        val registry = EntityTrackerRegistry.registry(player.uniqueId)
         val modeledPlayer = registry?.trackers()?.firstOrNull { it.renderer().type == ModelRenderer.Type.PLAYER }
 
         if (modeledPlayer != null) {
@@ -114,7 +116,8 @@ object HeldItemDisplayManager : GlobalManager, Listener {
             val bone = modeledPlayer.bone(boneName)
             if (bone != null) {
                 // Update location and rotation (from the bone's world position and rotation)
-                tracker.location(player.world.wrap().location(bone.worldPosition(), 0f, 0f)) 
+                val pos = bone.worldPosition()
+                tracker.location(BukkitAdapter.adapt(Location(player.world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())))
                 // Note: DummyTracker uses its location's yaw/pitch for rotation by default
             } else {
                 updateVanillaPosition(player, slot, tracker)
@@ -141,7 +144,7 @@ object HeldItemDisplayManager : GlobalManager, Listener {
         loc.yaw = yaw
         loc.pitch = pitch
         
-        tracker.location(loc.wrap())
+        tracker.location(BukkitAdapter.adapt(loc))
     }
 
     private fun getModelId(item: ItemStack?): String? {

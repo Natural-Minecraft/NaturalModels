@@ -1,15 +1,16 @@
 package id.naturalsmp.naturalmodels.bukkit.manager
 
-import id.naturalsmp.naturalmodels.api.NaturalModels
-import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
+import id.naturalsmp.naturalmodels.api.bone.BonePredicate
+import id.naturalsmp.naturalmodels.api.bukkit.scheduler.BukkitModelScheduler
+import id.naturalsmp.naturalmodels.api.bukkit.util.BukkitAdapter
 import id.naturalsmp.naturalmodels.api.manager.GlobalManager
+import id.naturalsmp.naturalmodels.api.pack.PackZipper
 import id.naturalsmp.naturalmodels.api.tracker.DummyTracker
 import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier
+import id.naturalsmp.naturalmodels.bukkit.util.registerListener
 import id.naturalsmp.naturalmodels.manager.ReloadPipeline
-import id.naturalsmp.naturalmodels.pack.PackZipper
 import id.naturalsmp.naturalmodels.util.PLATFORM
 import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -65,13 +66,13 @@ object DamageIndicatorManager : GlobalManager, Listener {
             ?: PLATFORM.modelManager().renderer("steve") // Fallback to steve's root if indicator model missing
             ?: return
 
-        PLATFORM.scheduler().runTask {
-            val tracker = renderer.create(PLATFORM.adapter().adapt(location), TrackerModifier.DEFAULT)
+        (PLATFORM.scheduler() as BukkitModelScheduler).task(entity.location) {
+            val tracker = renderer.create(BukkitAdapter.adapt(location), TrackerModifier.DEFAULT)
             
             // Create nametag on the root bone (usually the first one or named "root")
-            val rootBone = tracker.renderer().rendererGroups.values.firstOrNull()?.name 
+            val rootBone = tracker.pipeline.parent.rendererGroups.values.firstOrNull()?.name()
             if (rootBone != null) {
-                tracker.createNametag({ it.name() == rootBone }) { nametag ->
+                tracker.createNametag(BonePredicate.name(rootBone)) { _, nametag ->
                     nametag.component(component)
                     nametag.alwaysVisible(true)
                 }
