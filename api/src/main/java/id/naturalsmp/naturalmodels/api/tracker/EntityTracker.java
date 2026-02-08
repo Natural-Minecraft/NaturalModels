@@ -44,7 +44,8 @@ import java.util.function.Predicate;
 /**
  * A tracker implementation that is attached to a living entity.
  * <p>
- * This tracker synchronizes the model's position, rotation, and animations with the target entity.
+ * This tracker synchronizes the model's position, rotation, and animations with
+ * the target entity.
  * It handles hitboxes, nametags, damage tinting, and mounting mechanics.
  * </p>
  *
@@ -53,14 +54,16 @@ import java.util.function.Predicate;
 public class EntityTracker extends Tracker {
 
     private static final BonePredicate CREATE_HITBOX_PREDICATE = BonePredicate.name("hitbox")
-        .or(BonePredicate.tag(BoneTags.HITBOX))
-        .or(b -> b.getGroup().getMountController().canMount())
-        .notSet();
+            .or(BonePredicate.tag(BoneTags.HITBOX))
+            .or(b -> b.getGroup().getMountController().canMount())
+            .notSet();
 
-    private static final BonePredicate CREATE_NAMETAG_PREDICATE = BonePredicate.tag(BoneTags.TAG, BoneTags.MOB_TAG, BoneTags.PLAYER_TAG).notSet();
+    private static final BonePredicate CREATE_NAMETAG_PREDICATE = BonePredicate
+            .tag(BoneTags.TAG, BoneTags.MOB_TAG, BoneTags.PLAYER_TAG).notSet();
     private static final BonePredicate HITBOX_REFRESH_PREDICATE = BonePredicate.from(r -> r.getHitBox() != null);
     private static final BonePredicate HEAD_PREDICATE = BonePredicate.tag(BoneTags.HEAD).notSet();
-    private static final BonePredicate HEAD_WITH_CHILDREN_PREDICATE = BonePredicate.tag(BoneTags.HEAD_WITH_CHILDREN).withChildren();
+    private static final BonePredicate HEAD_WITH_CHILDREN_PREDICATE = BonePredicate.tag(BoneTags.HEAD_WITH_CHILDREN)
+            .withChildren();
 
     private final EntityTrackerRegistry registry;
 
@@ -74,44 +77,47 @@ public class EntityTracker extends Tracker {
     /**
      * Creates a new entity tracker.
      *
-     * @param registry the entity tracker registry
-     * @param pipeline the render pipeline
-     * @param modifier the tracker modifier
+     * @param registry          the entity tracker registry
+     * @param pipeline          the render pipeline
+     * @param modifier          the tracker modifier
      * @param preUpdateConsumer a consumer to run before the first update
      * @since 1.15.2
      */
     @ApiStatus.Internal
-    public EntityTracker(@NotNull EntityTrackerRegistry registry, @NotNull RenderPipeline pipeline, @NotNull TrackerModifier modifier, @NotNull Consumer<EntityTracker> preUpdateConsumer) {
+    public EntityTracker(@NotNull EntityTrackerRegistry registry, @NotNull RenderPipeline pipeline,
+            @NotNull TrackerModifier modifier, @NotNull Consumer<EntityTracker> preUpdateConsumer) {
         super(pipeline, modifier);
         this.registry = registry;
         bodyRotator = new EntityBodyRotator(registry);
 
         var entity = registry.entity();
         var scale = FunctionUtil.throttleTickFloat(() -> scaler().scale(this));
-        //Shadow
+        // Shadow
         Optional.ofNullable(bone("shadow"))
-            .ifPresent(bone -> {
-                var box = bone.getGroup().getHitBox();
-                if (box == null) return;
-                var shadow = NaturalModels.nms().create(entity.location(), d -> {
-                    if (entity instanceof BasePlayer) d.moveDuration(1);
+                .ifPresent(bone -> {
+                    var box = bone.getGroup().getHitBox();
+                    if (box == null)
+                        return;
+                    var shadow = NaturalModels.nms().create(entity.location(), d -> {
+                        if (entity instanceof BasePlayer)
+                            d.moveDuration(1);
+                    });
+                    var baseScale = (float) (box.x() + box.z()) / 4F;
+                    tick(((t, s) -> {
+                        var wPos = bone.hitBoxPosition();
+                        shadow.shadowRadius(scale.getAsFloat() * baseScale);
+                        shadow.syncEntity(entity);
+                        shadow.syncPosition(location().add(wPos.x, wPos.y, wPos.z));
+                        shadow.sendDirtyEntityData(s.getDataBundler());
+                        shadow.sendPosition(entity, s.getTickBundler());
+                    }));
+                    pipeline.spawnPacketHandler(shadow::spawnWithEntityData);
+                    pipeline.showPacketHandler(shadow::spawnWithEntityData);
+                    pipeline.despawnPacketHandler(shadow::remove);
+                    pipeline.hidePacketHandler(shadow::remove);
                 });
-                var baseScale = (float) (box.x() + box.z()) / 4F;
-                tick(((t, s) -> {
-                    var wPos = bone.hitBoxPosition();
-                    shadow.shadowRadius(scale.getAsFloat() * baseScale);
-                    shadow.syncEntity(entity);
-                    shadow.syncPosition(location().add(wPos.x, wPos.y, wPos.z));
-                    shadow.sendDirtyEntityData(s.getDataBundler());
-                    shadow.sendPosition(entity, s.getTickBundler());
-                }));
-                pipeline.spawnPacketHandler(shadow::spawnWithEntityData);
-                pipeline.showPacketHandler(shadow::spawnWithEntityData);
-                pipeline.despawnPacketHandler(shadow::remove);
-                pipeline.hidePacketHandler(shadow::remove);
-            });
 
-        //Animation
+        // Animation
         pipeline.defaultPosition(vec -> entity.passengerPosition(vec).mul(-1));
         pipeline.scale(scale);
         Function<Quaternionf, Quaternionf> headRotator = r -> r.mul(MathUtil.toQuaternion(bodyRotator.headRotation()));
@@ -120,38 +126,82 @@ public class EntityTracker extends Tracker {
         pipeline.addRotationModifier(HEAD_WITH_CHILDREN_PREDICATE, headRotator);
 
         var damageTickProvider = FunctionUtil.throttleTickFloat(entity::damageTick);
-        var walkSupplier = FunctionUtil.throttleTickBoolean(() -> entity.onWalk() || damageTickProvider.getAsFloat() > 0.25 || pipeline.bones().stream().anyMatch(e -> {
-            var hitBox = e.getHitBox();
-            return hitBox != null && hitBox.onWalk();
-        }));
-        var walkSpeedSupplier = modifier.damageAnimation() ? FunctionUtil.throttleTickFloat(() -> entity.walkSpeed() + (float) Math.sqrt(damageTickProvider.getAsFloat())) : null;
-        animate("walk", new AnimationModifier(walkSupplier, 6, 0, AnimationIterator.Type.LOOP, walkSpeedSupplier));
-        animate("idle_fly", new AnimationModifier(entity::fly, 6, 0, AnimationIterator.Type.LOOP, null));
-        animate("walk_fly", new AnimationModifier(() -> entity.fly() && walkSupplier.getAsBoolean(), 6, 0, AnimationIterator.Type.LOOP, walkSpeedSupplier));
+        var walkSupplier = FunctionUtil.throttleTickBoolean(() -> entity.onWalk()
+                || damageTickProvider.getAsFloat() > 0.25 || pipeline.bones().stream().anyMatch(e -> {
+                    var hitBox = e.getHitBox();
+                    return hitBox != null && hitBox.onWalk();
+                }));
+        // State Machine
+        stateController.addState(AnimationState.builder()
+                .name("idle")
+                .animation("idle")
+                .priority(0)
+                .predicate(e -> true)
+                .modifier(AnimationModifier.builder().type(AnimationIterator.Type.LOOP).build())
+                .build());
+
+        stateController.addState(AnimationState.builder()
+                .name("walk")
+                .animation("walk")
+                .priority(10)
+                .predicate(e -> walkSupplier.getAsBoolean())
+                .modifier(
+                        AnimationModifier.builder().type(AnimationIterator.Type.LOOP).speed(walkSpeedSupplier).build())
+                .build());
+
+        stateController.addState(AnimationState.builder()
+                .name("swim")
+                .animation("swim")
+                .priority(20)
+                .predicate(BaseEntity::swim)
+                .modifier(AnimationModifier.builder().type(AnimationIterator.Type.LOOP).build())
+                .build());
+
+        stateController.addState(AnimationState.builder()
+                .name("fly")
+                .animation("fly")
+                .priority(30)
+                .predicate(BaseEntity::fly)
+                .modifier(AnimationModifier.builder().type(AnimationIterator.Type.LOOP).build())
+                .build());
+
+        stateController.addState(AnimationState.builder()
+                .name("death")
+                .animation("death")
+                .priority(100)
+                .predicate(BaseEntity::dead)
+                .modifier(AnimationModifier.builder().type(AnimationIterator.Type.PLAY_ONCE).build())
+                .build());
+
+        tick((t, s) -> stateController.update(entity));
+
         animate("spawn", AnimationModifier.DEFAULT_WITH_PLAY_ONCE);
         createNametag(CREATE_NAMETAG_PREDICATE, (bone, tag) -> {
             if (bone.name().tagged(BoneTags.PLAYER_TAG)) {
                 tag.alwaysVisible(true);
             } else if (bone.name().tagged(BoneTags.MOB_TAG)) {
                 tag.alwaysVisible(false);
-            } else tag.alwaysVisible(entity instanceof BasePlayer);
+            } else
+                tag.alwaysVisible(entity instanceof BasePlayer);
             tag.component(entity.customName());
         });
         pipeline.eventDispatcher().handleCreateHitBox((b, l) -> l.mount((h, e) -> {
-                registry.mountedHitBoxCache.put(e.uuid(), new EntityTrackerRegistry.MountedHitBox(b, e, h));
-                EventUtil.call(MountModelEvent.class, () -> new MountModelEvent(this, b, h, e));
-            })
-            .dismount((h, e) -> {
-                registry.mountedHitBoxCache.remove(e.uuid());
-                EventUtil.call(DismountModelEvent.class, () -> new DismountModelEvent(this, b, h, e));
-            }));
+            registry.mountedHitBoxCache.put(e.uuid(), new EntityTrackerRegistry.MountedHitBox(b, e, h));
+            EventUtil.call(MountModelEvent.class, () -> new MountModelEvent(this, b, h, e));
+        })
+                .dismount((h, e) -> {
+                    registry.mountedHitBoxCache.remove(e.uuid());
+                    EventUtil.call(DismountModelEvent.class, () -> new DismountModelEvent(this, b, h, e));
+                }));
         entity.platform().task(() -> {
-            if (isClosed()) return;
+            if (isClosed())
+                return;
             createHitBox(null, CREATE_HITBOX_PREDICATE);
         });
         tick((t, s) -> updateBaseEntity0());
         tick((t, s) -> {
-            if (damageTint.getAndDecrement() == 0) update(TrackerUpdateAction.previousTint());
+            if (damageTint.getAndDecrement() == 0)
+                update(TrackerUpdateAction.previousTint());
         });
         rotation(bodyRotator::bodyRotation);
         preUpdateConsumer.accept(this);
@@ -199,7 +249,7 @@ public class EntityTracker extends Tracker {
     /**
      * Creates hitboxes for the entity based on a predicate.
      *
-     * @param listener the hitbox listener
+     * @param listener  the hitbox listener
      * @param predicate the bone predicate
      * @return true if any hitboxes were created
      * @since 1.15.2
@@ -211,7 +261,7 @@ public class EntityTracker extends Tracker {
     /**
      * Retrieves or creates a hitbox for the entity.
      *
-     * @param listener the hitbox listener
+     * @param listener  the hitbox listener
      * @param predicate the bone predicate
      * @return the hitbox, or null if not found/created
      * @since 1.15.2
@@ -246,9 +296,11 @@ public class EntityTracker extends Tracker {
      * @since 1.15.2
      */
     public void damageTint() {
-        if (!modifier().damageTint()) return;
+        if (!modifier().damageTint())
+            return;
         var get = damageTint.get();
-        if (get < 0 && damageTint.compareAndSet(get, 10)) task(() -> update(TrackerUpdateAction.tint(damageTintValue())));
+        if (get < 0 && damageTint.compareAndSet(get, 10))
+            task(() -> update(TrackerUpdateAction.tint(damageTintValue())));
     }
 
     @Override
@@ -336,14 +388,13 @@ public class EntityTracker extends Tracker {
      */
     public @NotNull TrackerData asTrackerData() {
         return new TrackerData(
-            name(),
-            scaler,
-            rotator,
-            modifier,
-            bodyRotator.createData(),
-            hideOption,
-            markForSpawn
-        );
+                name(),
+                scaler,
+                rotator,
+                modifier,
+                bodyRotator.createData(),
+                hideOption,
+                markForSpawn);
     }
 
     /**
@@ -397,4 +448,3 @@ public class EntityTracker extends Tracker {
         return pipeline.getParent().type().isCanBeSaved();
     }
 }
-

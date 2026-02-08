@@ -28,6 +28,7 @@ public interface BaseEntity extends Identifiable {
 
     /**
      * Gets base entity
+     * 
      * @param entity platform entity
      * @return base entity
      */
@@ -41,13 +42,16 @@ public interface BaseEntity extends Identifiable {
 
     /**
      * Gets the platform-specific entity object.
+     * 
      * @since 2.0.0
      * @return The platform entity.
      */
-    @NotNull PlatformEntity platform();
+    @NotNull
+    PlatformEntity platform();
 
     /**
      * Gets the current location of the entity.
+     * 
      * @since 2.0.0
      * @return The entity's location.
      */
@@ -57,121 +61,154 @@ public interface BaseEntity extends Identifiable {
 
     /**
      * Gets custom name of this entity
+     * 
      * @return custom name
      */
-    @Nullable Component customName();
+    @Nullable
+    Component customName();
 
     /**
      * Gets vanilla entity
+     * 
      * @return vanilla entity
      */
-    @NotNull Object handle();
+    @NotNull
+    Object handle();
 
     /**
      * Gets entity id
+     * 
      * @return entity id
      */
     int id();
 
     /**
      * Checks source entity is dead
+     * 
      * @return dead
      */
     boolean dead();
 
     /**
      * Checks source entity is on the ground
+     * 
      * @return on the ground
      */
     boolean ground();
 
     /**
      * Checks source entity is invisible
+     * 
      * @return invisible
      */
     boolean invisible();
 
     /**
      * Check source entity is on a glow
+     * 
      * @return glow
      */
     boolean glow();
 
     /**
      * Check source entity is on a walk
+     * 
      * @return walk
      */
     boolean onWalk();
 
     /**
      * Check source entity is on the fly
+     * 
      * @return fly
      */
     boolean fly();
 
     /**
+     * Check source entity is on the swim
+     * 
+     * @return swim
+     */
+    boolean swim();
+
+    /**
      * Gets entity's scale
+     * 
      * @return scale
      */
     double scale();
 
     /**
      * Gets entity's pitch (x-rot)
+     * 
      * @return pitch
      */
     float pitch();
 
     /**
      * Gets entity's body yaw (y-rot)
+     * 
      * @return body yaw
      */
     float bodyYaw();
 
     /**
      * Gets entity's yaw (y-rot)
+     * 
      * @return yaw
      */
     float headYaw();
 
     /**
      * Gets entity's damage tick
+     * 
      * @return damage tick
      */
     float damageTick();
 
     /**
      * Gets entity's walk speed
+     * 
      * @return walk speed
      */
     float walkSpeed();
 
     /**
      * Gets entity's passenger point
+     * 
      * @param dest destination vector
      * @return passenger point
      */
-    @NotNull Vector3f passengerPosition(@NotNull Vector3f dest);
+    @NotNull
+    Vector3f passengerPosition(@NotNull Vector3f dest);
 
     /**
      * Gets tracked player set
+     * 
      * @return tracked player set
      */
-    @NotNull Stream<PlatformPlayer> trackedBy();
+    @NotNull
+    Stream<PlatformPlayer> trackedBy();
 
     /**
      * Gets main hand item
+     * 
      * @return main hand
      */
-    @NotNull TransformedItemStack mainHand();
+    @NotNull
+    TransformedItemStack mainHand();
 
     /**
      * Gets offhand item
+     * 
      * @return offhand
      */
-    @NotNull TransformedItemStack offHand();
+    @NotNull
+    TransformedItemStack offHand();
 
     /**
      * Gets tracker registry of this adapter
+     * 
      * @return optional tracker registry
      */
     default @NotNull Optional<EntityTrackerRegistry> registry() {
@@ -180,6 +217,7 @@ public interface BaseEntity extends Identifiable {
 
     /**
      * Checks this entity has controlling passenger
+     * 
      * @return has controlling passenger
      */
     default boolean hasControllingPassenger() {
@@ -189,6 +227,7 @@ public interface BaseEntity extends Identifiable {
 
     /**
      * Checks this entity has model data
+     * 
      * @return has model data
      */
     default boolean hasModelData() {
@@ -197,14 +236,16 @@ public interface BaseEntity extends Identifiable {
 
     /**
      * Gets this entity's model data
+     * 
      * @return model data
      */
-    @Nullable String modelData();
+    @Nullable
+    String modelData();
 
     /**
      * Sets this entity's model data
+     * 
      * @param modelData model data
      */
     void modelData(@Nullable String modelData);
 }
-

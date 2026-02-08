@@ -46,34 +46,40 @@ import java.util.stream.Stream;
 /**
  * Represents the core controller for a specific model instance.
  * <p>
- * A Tracker manages the lifecycle, rendering, animation, and player interaction of a model.
- * It coordinates with the {@link RenderPipeline} to update bone positions and send packets to players.
+ * A Tracker manages the lifecycle, rendering, animation, and player interaction
+ * of a model.
+ * It coordinates with the {@link RenderPipeline} to update bone positions and
+ * send packets to players.
  * </p>
  *
  * @since 1.15.2
  */
 public abstract class Tracker implements AutoCloseable {
 
-    private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2, new ThreadFactory() {
+    private static final ScheduledExecutorService EXECUTOR = Executors
+            .newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2, new ThreadFactory() {
 
-        private final AtomicInteger integer = new AtomicInteger();
+                private final AtomicInteger integer = new AtomicInteger();
 
-        @Override
-        public Thread newThread(@NotNull Runnable r) {
-            var thread = new Thread(r);
-            thread.setDaemon(true);
-            thread.setName("NaturalModels-Worker-" + integer.getAndIncrement());
-            thread.setUncaughtExceptionHandler((t, e) -> LogUtil.handleException("Exception has occurred in " + t.getName(), e));
-            return thread;
-        }
-    });
+                @Override
+                public Thread newThread(@NotNull Runnable r) {
+                    var thread = new Thread(r);
+                    thread.setDaemon(true);
+                    thread.setName("NaturalModels-Worker-" + integer.getAndIncrement());
+                    thread.setUncaughtExceptionHandler(
+                            (t, e) -> LogUtil.handleException("Exception has occurred in " + t.getName(), e));
+                    return thread;
+                }
+            });
     /**
      * The interval in milliseconds between tracker ticks.
+     * 
      * @since 1.15.2
      */
     public static final int TRACKER_TICK_INTERVAL = 10;
     /**
      * The multiplier to convert tracker ticks to Minecraft ticks (50ms).
+     * 
      * @since 1.15.2
      */
     public static final int MINECRAFT_TICK_MULTIPLIER = MathUtil.MINECRAFT_TICK_MILLS / TRACKER_TICK_INTERVAL;
@@ -90,19 +96,21 @@ public abstract class Tracker implements AutoCloseable {
     private final Runnable updater;
     private final BundlerSet bundlerSet;
     private final AnimationStateHandler<TimeScript> scriptProcessor = new AnimationStateHandler<>(
-        TimeScript.EMPTY,
-        (b, a) -> {
-            if (b == null) return;
-            if (b.isSync()) {
-                location().task(() -> b.accept(this));
-            } else b.accept(this);
-        }
-    );
+            TimeScript.EMPTY,
+            (b, a) -> {
+                if (b == null)
+                    return;
+                if (b.isSync()) {
+                    location().task(() -> b.accept(this));
+                } else
+                    b.accept(this);
+            });
     private volatile ScheduledFuture<?> task;
     protected ModelRotator rotator = ModelRotator.YAW;
     protected ModelScaler scaler = ModelScaler.entity();
     private Supplier<ModelRotation> rotationSupplier = () -> ModelRotation.EMPTY;
-    private BiConsumer<Tracker, CloseReason> closeEventHandler = (t, r) -> EventUtil.call(CloseTrackerEvent.class, () -> new CloseTrackerEvent(t, r));
+    private BiConsumer<Tracker, CloseReason> closeEventHandler = (t, r) -> EventUtil.call(CloseTrackerEvent.class,
+            () -> new CloseTrackerEvent(t, r));
 
     private ScheduledPacketHandler handler = (t, s) -> {
         if (!tickPause.get()) {
@@ -111,6 +119,12 @@ public abstract class Tracker implements AutoCloseable {
         }
     };
     private BiConsumer<Tracker, PlatformPlayer> perPlayerHandler = null;
+
+    /**
+     * State controller for this tracker.
+     */
+    @Getter
+    protected final StateController stateController = new StateController(this);
 
     /**
      * Creates a new tracker.
@@ -127,7 +141,8 @@ public abstract class Tracker implements AutoCloseable {
             try {
                 if (frame % MINECRAFT_TICK_MULTIPLIER == 0) {
                     Runnable task;
-                    while ((task = queuedTask.poll()) != null) task.run();
+                    while ((task = queuedTask.poll()) != null)
+                        task.run();
                 }
                 handler.handle(this, bundlerSet);
                 bundlerSet.send();
@@ -135,30 +150,35 @@ public abstract class Tracker implements AutoCloseable {
                 LogUtil.handleException("Ticking this tracker has been failed: " + name(), throwable);
             }
         };
-        if (modifier.sightTrace()) pipeline.viewFilter(p -> EntityUtil.canSee(p.eyeLocation(), location()));
+        if (modifier.sightTrace())
+            pipeline.viewFilter(p -> EntityUtil.canSee(p.eyeLocation(), location()));
         frame((t, s) -> {
-            if (readyForForceUpdate.compareAndSet(true, false)) t.pipeline.iterateTree(b -> b.dirtyUpdate(s.dataBundler));
+            if (readyForForceUpdate.compareAndSet(true, false))
+                t.pipeline.iterateTree(b -> b.dirtyUpdate(s.dataBundler));
         });
         tick((t, s) -> pipeline.rotate(
-            t.rotation(),
-            s.tickBundler
-        ));
+                t.rotation(),
+                s.tickBundler));
         tick((t, s) -> {
             var perPlayer = perPlayerHandler;
-            if (perPlayer != null) pipeline.nonHidePlayer().forEach(p -> perPlayer.accept(t, p));
+            if (perPlayer != null)
+                pipeline.nonHidePlayer().forEach(p -> perPlayer.accept(t, p));
         });
         pipeline.spawnPacketHandler(p -> start());
         pipeline.eventDispatcher().handleStateCreate((bone, uuid) -> bundlerSet.perPlayerViewBundler
-            .computeIfAbsent(uuid, PerPlayerCache::new)
-            .add());
+                .computeIfAbsent(uuid, PerPlayerCache::new)
+                .add());
         pipeline.eventDispatcher().handleStateRemove((bone, uuid) -> {
             var get = bundlerSet.perPlayerViewBundler.get(uuid);
-            if (get != null) get.remove();
+            if (get != null)
+                get.remove();
         });
-        LogUtil.debug(DebugConfig.DebugOption.TRACKER, () -> getClass().getSimpleName() + " tracker created: " + name());
+        LogUtil.debug(DebugConfig.DebugOption.TRACKER,
+                () -> getClass().getSimpleName() + " tracker created: " + name());
         animate("idle", AnimationModifier.builder().start(6).type(AnimationIterator.Type.LOOP).build());
         pipeline.getSource().completeContext().thenAccept(context -> {
-            if (pipeline.matchTree(bone -> bone.updateItem(context))) forceUpdate(true);
+            if (pipeline.matchTree(bone -> bone.updateItem(context)))
+                forceUpdate(true);
         });
     }
 
@@ -174,9 +194,11 @@ public abstract class Tracker implements AutoCloseable {
     }
 
     private void start() {
-        if (isScheduled()) return;
+        if (isScheduled())
+            return;
         synchronized (this) {
-            if (isScheduled()) return;
+            if (isScheduled())
+                return;
             updater.run();
             task = EXECUTOR.scheduleAtFixedRate(() -> {
                 if (playerCount() == 0 && !forRemoval.get()) {
@@ -186,18 +208,22 @@ public abstract class Tracker implements AutoCloseable {
                 frame++;
                 updater.run();
             }, TRACKER_TICK_INTERVAL, TRACKER_TICK_INTERVAL, TimeUnit.MILLISECONDS);
-            LogUtil.debug(DebugConfig.DebugOption.TRACKER, () -> getClass().getSimpleName() + " scheduler started: " + name());
+            LogUtil.debug(DebugConfig.DebugOption.TRACKER,
+                    () -> getClass().getSimpleName() + " scheduler started: " + name());
         }
     }
 
     private void shutdown() {
-        if (!isScheduled()) return;
+        if (!isScheduled())
+            return;
         synchronized (this) {
-            if (!isScheduled()) return;
+            if (!isScheduled())
+                return;
             task.cancel(true);
             task = null;
             frame = 0;
-            LogUtil.debug(DebugConfig.DebugOption.TRACKER, () -> getClass().getSimpleName() + " scheduler shutdown: " + name());
+            LogUtil.debug(DebugConfig.DebugOption.TRACKER,
+                    () -> getClass().getSimpleName() + " scheduler shutdown: " + name());
         }
     }
 
@@ -270,6 +296,7 @@ public abstract class Tracker implements AutoCloseable {
     public synchronized void frame(@NotNull ScheduledPacketHandler handler) {
         this.handler = this.handler.then(Objects.requireNonNull(handler));
     }
+
     /**
      * Registers a handler to run every Minecraft tick (50ms).
      *
@@ -279,10 +306,11 @@ public abstract class Tracker implements AutoCloseable {
     public void tick(@NotNull ScheduledPacketHandler handler) {
         tick(1, handler);
     }
+
     /**
      * Registers a handler to run every N Minecraft ticks.
      *
-     * @param tick the interval in Minecraft ticks
+     * @param tick    the interval in Minecraft ticks
      * @param handler the packet handler
      * @since 1.15.2
      */
@@ -304,15 +332,17 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Schedules a handler to run periodically.
      *
-     * @param period the period in tracker ticks
+     * @param period  the period in tracker ticks
      * @param handler the packet handler
      * @since 1.15.2
      */
     public void schedule(long period, @NotNull ScheduledPacketHandler handler) {
         Objects.requireNonNull(handler);
-        if (period <= 0) throw new RuntimeException("period cannot be <= 0");
+        if (period <= 0)
+            throw new RuntimeException("period cannot be <= 0");
         frame(period == 1 ? handler : (t, s) -> {
-            if (frame % period == 0) handler.handle(t, s);
+            if (frame % period == 0)
+                handler.handle(t, s);
         });
     }
 
@@ -338,11 +368,11 @@ public abstract class Tracker implements AutoCloseable {
      */
     public double height() {
         return bones()
-            .stream()
-            .filter(bone -> bone.name().tagged(BoneTags.HEAD, BoneTags.HEAD_WITH_CHILDREN))
-            .mapToDouble(bone -> bone.hitBoxPosition().y)
-            .max()
-            .orElse(0F);
+                .stream()
+                .filter(bone -> bone.name().tagged(BoneTags.HEAD, BoneTags.HEAD_WITH_CHILDREN))
+                .mapToDouble(bone -> bone.hitBoxPosition().y)
+                .max()
+                .orElse(0F);
     }
 
     /**
@@ -416,16 +446,19 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Spawns the model for a specific player.
      *
-     * @param player the target player
+     * @param player  the target player
      * @param bundler the packet bundler
      * @return true if spawned successfully
      * @since 1.15.2
      */
     protected boolean spawn(@NotNull PlatformPlayer player, @NotNull PacketBundler bundler) {
-        if (isClosed()) return false;
-        if (!EventUtil.call(ModelSpawnAtPlayerEvent.class, () -> new ModelSpawnAtPlayerEvent(player, this)).triggered()) return false;
+        if (isClosed())
+            return false;
+        if (!EventUtil.call(ModelSpawnAtPlayerEvent.class, () -> new ModelSpawnAtPlayerEvent(player, this)).triggered())
+            return false;
         return pipeline.spawn(player, bundler, spawned -> {
-            LogUtil.debug(DebugConfig.DebugOption.TRACKER, () -> getClass().getSimpleName() + " is spawned at player " + player.name() + ": " + name());
+            LogUtil.debug(DebugConfig.DebugOption.TRACKER,
+                    () -> getClass().getSimpleName() + " is spawned at player " + player.name() + ": " + name());
             task(spawned::load);
         });
     }
@@ -438,10 +471,13 @@ public abstract class Tracker implements AutoCloseable {
      * @since 1.15.2
      */
     public boolean remove(@NotNull PlatformPlayer player) {
-        if (isClosed()) return false;
+        if (isClosed())
+            return false;
         EventUtil.call(ModelDespawnAtPlayerEvent.class, () -> new ModelDespawnAtPlayerEvent(player, this));
         var result = pipeline.remove(player);
-        if (result) LogUtil.debug(DebugConfig.DebugOption.TRACKER, () -> getClass().getSimpleName() + " is despawned at player " + player.name() + ": " + name());
+        if (result)
+            LogUtil.debug(DebugConfig.DebugOption.TRACKER,
+                    () -> getClass().getSimpleName() + " is despawned at player " + player.name() + ": " + name());
         return result;
     }
 
@@ -488,24 +524,26 @@ public abstract class Tracker implements AutoCloseable {
      * Plays an animation by name with a modifier.
      *
      * @param animation the animation name
-     * @param modifier the animation modifier
+     * @param modifier  the animation modifier
      * @return true if the animation started
      * @since 1.15.2
      */
     public boolean animate(@NotNull String animation, @NotNull AnimationModifier modifier) {
-        return animate(animation, modifier, () -> {});
+        return animate(animation, modifier, () -> {
+        });
     }
 
     /**
      * Plays an animation by name with a modifier and a completion task.
      *
-     * @param animation the animation name
-     * @param modifier the animation modifier
+     * @param animation  the animation name
+     * @param modifier   the animation modifier
      * @param removeTask the task to run when the animation ends
      * @return true if the animation started
      * @since 1.15.2
      */
-    public boolean animate(@NotNull String animation, @NotNull AnimationModifier modifier, @NotNull Runnable removeTask) {
+    public boolean animate(@NotNull String animation, @NotNull AnimationModifier modifier,
+            @NotNull Runnable removeTask) {
         return animate(b -> true, animation, modifier, removeTask);
     }
 
@@ -513,85 +551,94 @@ public abstract class Tracker implements AutoCloseable {
      * Plays a blueprint animation with a modifier.
      *
      * @param animation the blueprint animation
-     * @param modifier the animation modifier
+     * @param modifier  the animation modifier
      * @return true if the animation started
      * @since 1.15.2
      */
     public boolean animate(@NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier) {
-        return animate(animation, modifier, () -> {});
+        return animate(animation, modifier, () -> {
+        });
     }
 
     /**
      * Plays a blueprint animation with a modifier and a completion task.
      *
-     * @param animation the blueprint animation
-     * @param modifier the animation modifier
+     * @param animation  the blueprint animation
+     * @param modifier   the animation modifier
      * @param removeTask the task to run when the animation ends
      * @return true if the animation started
      * @since 1.15.2
      */
-    public boolean animate(@NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier, @NotNull Runnable removeTask) {
+    public boolean animate(@NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier,
+            @NotNull Runnable removeTask) {
         return animate(b -> true, animation, modifier, removeTask);
     }
 
     /**
      * Plays an animation on filtered bones.
      *
-     * @param filter the bone filter
-     * @param animation the animation name
-     * @param modifier the animation modifier
+     * @param filter     the bone filter
+     * @param animation  the animation name
+     * @param modifier   the animation modifier
      * @param removeTask the task to run when the animation ends
      * @return true if the animation started
      * @since 1.15.2
      */
-    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull String animation, @NotNull AnimationModifier modifier, @NotNull Runnable removeTask) {
+    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull String animation,
+            @NotNull AnimationModifier modifier, @NotNull Runnable removeTask) {
         return animate(filter, animation, modifier, AnimationEventHandler.start().onAnimationRemove(removeTask));
     }
 
     /**
      * Plays an animation on filtered bones with an event handler.
      *
-     * @param filter the bone filter
-     * @param animation the animation name
-     * @param modifier the animation modifier
+     * @param filter       the bone filter
+     * @param animation    the animation name
+     * @param modifier     the animation modifier
      * @param eventHandler the animation event handler
      * @return true if the animation started
      * @since 1.15.2
      */
-    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull String animation, @NotNull AnimationModifier modifier, @NotNull AnimationEventHandler eventHandler) {
+    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull String animation,
+            @NotNull AnimationModifier modifier, @NotNull AnimationEventHandler eventHandler) {
         return renderer().animation(animation)
-            .map(get -> animate(filter, get, modifier, eventHandler))
-            .orElse(false);
+                .map(get -> animate(filter, get, modifier, eventHandler))
+                .orElse(false);
     }
 
     /**
      * Plays a blueprint animation on filtered bones.
      *
-     * @param filter the bone filter
-     * @param animation the blueprint animation
-     * @param modifier the animation modifier
+     * @param filter     the bone filter
+     * @param animation  the blueprint animation
+     * @param modifier   the animation modifier
      * @param removeTask the task to run when the animation ends
      * @return true if the animation started
      * @since 1.15.2
      */
-    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier, @NotNull Runnable removeTask) {
+    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull BlueprintAnimation animation,
+            @NotNull AnimationModifier modifier, @NotNull Runnable removeTask) {
         return animate(filter, animation, modifier, AnimationEventHandler.start().onAnimationRemove(removeTask));
     }
 
     /**
      * Plays a blueprint animation on filtered bones with an event handler.
      *
-     * @param filter the bone filter
-     * @param animation the blueprint animation
-     * @param modifier the animation modifier
+     * @param filter       the bone filter
+     * @param animation    the blueprint animation
+     * @param modifier     the animation modifier
      * @param eventHandler the animation event handler
      * @return true if the animation started
      * @since 1.15.2
      */
-    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier, @NotNull AnimationEventHandler eventHandler) {
+    public boolean animate(@NotNull Predicate<RenderedBone> filter, @NotNull BlueprintAnimation animation,
+            @NotNull AnimationModifier modifier, @NotNull AnimationEventHandler eventHandler) {
         var script = animation.script(modifier);
-        if (script != null) scriptProcessor.addAnimation(animation.name(), script.iterator(modifier), modifier, AnimationEventHandler.start());
-        return pipeline.matchTree(AnimationPredicate.of(filter), (b, a) -> b.addAnimation(a, animation, modifier, eventHandler));
+        if (script != null)
+            scriptProcessor.addAnimation(animation.name(), script.iterator(modifier), modifier,
+                    AnimationEventHandler.start());
+        return pipeline.matchTree(AnimationPredicate.of(filter),
+                (b, a) -> b.addAnimation(a, animation, modifier, eventHandler));
     }
 
     /**
@@ -608,7 +655,7 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Stops an animation on filtered bones.
      *
-     * @param filter the bone filter
+     * @param filter    the bone filter
      * @param animation the animation name
      * @return true if the animation was stopped
      * @since 1.15.2
@@ -620,13 +667,14 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Stops an animation on filtered bones for a specific player (optional).
      *
-     * @param filter the bone filter
+     * @param filter    the bone filter
      * @param animation the animation name
-     * @param player the player (can be null)
+     * @param player    the player (can be null)
      * @return true if the animation was stopped
      * @since 1.15.2
      */
-    public boolean stopAnimation(@NotNull Predicate<RenderedBone> filter, @NotNull String animation, @Nullable PlatformPlayer player) {
+    public boolean stopAnimation(@NotNull Predicate<RenderedBone> filter, @NotNull String animation,
+            @Nullable PlatformPlayer player) {
         var script = scriptProcessor.stopAnimation(animation);
         return pipeline.matchTree(b -> b.stopAnimation(filter, animation, player)) || script;
     }
@@ -634,9 +682,9 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Replaces a running animation with a new one.
      *
-     * @param target the name of the animation to replace
+     * @param target    the name of the animation to replace
      * @param animation the name of the new animation
-     * @param modifier the modifier for the new animation
+     * @param modifier  the modifier for the new animation
      * @return true if the replacement occurred
      * @since 1.15.2
      */
@@ -647,65 +695,73 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Replaces a running animation on filtered bones.
      *
-     * @param filter the bone filter
-     * @param target the name of the animation to replace
+     * @param filter    the bone filter
+     * @param target    the name of the animation to replace
      * @param animation the name of the new animation
-     * @param modifier the modifier for the new animation
+     * @param modifier  the modifier for the new animation
      * @return true if the replacement occurred
      * @since 1.15.2
      */
-    public boolean replace(@NotNull Predicate<RenderedBone> filter, @NotNull String target, @NotNull String animation, @NotNull AnimationModifier modifier) {
+    public boolean replace(@NotNull Predicate<RenderedBone> filter, @NotNull String target, @NotNull String animation,
+            @NotNull AnimationModifier modifier) {
         return renderer().animation(animation)
-            .map(get -> replace(filter, target, get, modifier))
-            .orElse(false);
+                .map(get -> replace(filter, target, get, modifier))
+                .orElse(false);
     }
 
     /**
      * Replaces a running animation on filtered bones with a blueprint animation.
      *
-     * @param filter the bone filter
-     * @param target the name of the animation to replace
+     * @param filter    the bone filter
+     * @param target    the name of the animation to replace
      * @param animation the new blueprint animation
-     * @param modifier the modifier for the new animation
+     * @param modifier  the modifier for the new animation
      * @return true if the replacement occurred
      * @since 1.15.2
      */
-    public boolean replace(@NotNull Predicate<RenderedBone> filter, @NotNull String target, @NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier) {
+    public boolean replace(@NotNull Predicate<RenderedBone> filter, @NotNull String target,
+            @NotNull BlueprintAnimation animation, @NotNull AnimationModifier modifier) {
         var script = animation.script(modifier);
-        if (script != null) scriptProcessor.replaceAnimation(target, script.iterator(modifier), modifier);
-        return pipeline.matchTree(AnimationPredicate.of(filter), (b, a) -> b.replaceAnimation(a, target, animation, modifier));
+        if (script != null)
+            scriptProcessor.replaceAnimation(target, script.iterator(modifier), modifier);
+        return pipeline.matchTree(AnimationPredicate.of(filter),
+                (b, a) -> b.replaceAnimation(a, target, animation, modifier));
     }
 
-    //--- Update action ---
+    // --- Update action ---
 
     /**
      * Creates a hitbox for bones matching a predicate.
      *
-     * @param entity the source entity for the hitbox
-     * @param listener the hitbox listener
+     * @param entity    the source entity for the hitbox
+     * @param listener  the hitbox listener
      * @param predicate the bone predicate
      * @return true if any hitboxes were created
      * @since 1.15.2
      */
-    public boolean createHitBox(@NotNull BaseEntity entity, @Nullable HitBoxListener listener, @NotNull BonePredicate predicate) {
+    public boolean createHitBox(@NotNull BaseEntity entity, @Nullable HitBoxListener listener,
+            @NotNull BonePredicate predicate) {
         return tryUpdate((b, p) -> b.createHitBox(entity, p, listener), predicate);
     }
 
     /**
      * Retrieves or creates a hitbox for a specific bone.
      *
-     * @param entity the source entity
-     * @param listener the hitbox listener
+     * @param entity    the source entity
+     * @param listener  the hitbox listener
      * @param predicate the bone predicate
      * @return the hitbox, or null if not found/created
      * @since 1.15.2
      */
-    public @Nullable HitBox hitbox(@NotNull BaseEntity entity, @Nullable HitBoxListener listener, @NotNull Predicate<RenderedBone> predicate) {
+    public @Nullable HitBox hitbox(@NotNull BaseEntity entity, @Nullable HitBoxListener listener,
+            @NotNull Predicate<RenderedBone> predicate) {
         return pipeline.firstNotNull(bone -> {
             if (predicate.test(bone)) {
-                if (bone.getHitBox() == null) bone.createHitBox(entity, BonePredicate.TRUE, listener);
+                if (bone.getHitBox() == null)
+                    bone.createHitBox(entity, BonePredicate.TRUE, listener);
                 return bone.getHitBox();
-            } else return null;
+            } else
+                return null;
         });
     }
 
@@ -713,15 +769,18 @@ public abstract class Tracker implements AutoCloseable {
      * Creates a nametag for bones matching a predicate.
      *
      * @param predicate the bone predicate
-     * @param consumer a consumer to configure the nametag
+     * @param consumer  a consumer to configure the nametag
      * @return true if any nametags were created
      * @since 1.15.2
      */
-    public boolean createNametag(@NotNull BonePredicate predicate, @NotNull BiConsumer<RenderedBone, ModelNametag> consumer) {
+    public boolean createNametag(@NotNull BonePredicate predicate,
+            @NotNull BiConsumer<RenderedBone, ModelNametag> consumer) {
         return tryUpdate((b, p) -> b.createNametag(p, tag -> {
             consumer.accept(b, tag);
             perPlayerTick((tracker, player) -> {
-                if (pipeline.getSource() instanceof RenderSource.Entity entity && entity.entity().uuid().equals(player.uuid())) return;
+                if (pipeline.getSource() instanceof RenderSource.Entity entity
+                        && entity.entity().uuid().equals(player.uuid()))
+                    return;
                 tag.teleport(tracker.location());
                 tag.send(player);
             });
@@ -732,7 +791,7 @@ public abstract class Tracker implements AutoCloseable {
      * Forces an update action on all bones.
      *
      * @param action the update action
-     * @param <T> the action type
+     * @param <T>    the action type
      * @since 1.15.2
      */
     public <T extends TrackerUpdateAction> void update(@NotNull T action) {
@@ -742,9 +801,9 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Forces an update action on filtered bones.
      *
-     * @param action the update action
+     * @param action    the update action
      * @param predicate the bone predicate
-     * @param <T> the action type
+     * @param <T>       the action type
      * @since 1.15.2
      */
     public <T extends TrackerUpdateAction> void update(@NotNull T action, @NotNull Predicate<RenderedBone> predicate) {
@@ -754,24 +813,26 @@ public abstract class Tracker implements AutoCloseable {
     /**
      * Forces an update action on filtered bones.
      *
-     * @param action the update action
+     * @param action    the update action
      * @param predicate the bone predicate
-     * @param <T> the action type
+     * @param <T>       the action type
      * @since 1.15.2
      */
     public <T extends TrackerUpdateAction> void update(@NotNull T action, @NotNull BonePredicate predicate) {
-        if (tryUpdate(action, predicate)) forceUpdate(true);
+        if (tryUpdate(action, predicate))
+            forceUpdate(true);
     }
 
     /**
      * Tries to apply an update action to bones matching a predicate.
      *
-     * @param action the update action
+     * @param action    the update action
      * @param predicate the bone predicate
      * @return true if any bones were updated
      * @since 1.15.2
      */
-    public boolean tryUpdate(@NotNull BiPredicate<RenderedBone, BonePredicate> action, @NotNull BonePredicate predicate) {
+    public boolean tryUpdate(@NotNull BiPredicate<RenderedBone, BonePredicate> action,
+            @NotNull BonePredicate predicate) {
         return pipeline.matchTree(predicate, action);
     }
 
@@ -806,9 +867,9 @@ public abstract class Tracker implements AutoCloseable {
      */
     public @Nullable RenderedBone bone(@NotNull Predicate<RenderedBone> predicate) {
         return bones().stream()
-            .filter(predicate)
-            .findFirst()
-            .orElse(null);
+                .filter(predicate)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -829,8 +890,8 @@ public abstract class Tracker implements AutoCloseable {
      */
     public @NotNull Stream<ModelDisplay> displays() {
         return bones().stream()
-            .map(RenderedBone::getDisplay)
-            .filter(Objects::nonNull);
+                .map(RenderedBone::getDisplay)
+                .filter(Objects::nonNull);
     }
 
     /**
@@ -841,7 +902,8 @@ public abstract class Tracker implements AutoCloseable {
      * @since 1.15.2
      */
     public boolean hide(@NotNull PlatformPlayer player) {
-        return EventUtil.call(PlayerHideTrackerEvent.class, () -> new PlayerHideTrackerEvent(this, player)).triggered() && pipeline.hide(player);
+        return EventUtil.call(PlayerHideTrackerEvent.class, () -> new PlayerHideTrackerEvent(this, player)).triggered()
+                && pipeline.hide(player);
     }
 
     /**
@@ -863,7 +925,8 @@ public abstract class Tracker implements AutoCloseable {
      * @since 1.15.2
      */
     public boolean show(@NotNull PlatformPlayer player) {
-        return EventUtil.call(PlayerShowTrackerEvent.class, () -> new PlayerShowTrackerEvent(this, player)).triggered() && pipeline.show(player);
+        return EventUtil.call(PlayerShowTrackerEvent.class, () -> new PlayerShowTrackerEvent(this, player)).triggered()
+                && pipeline.show(player);
     }
 
     /**
@@ -932,8 +995,10 @@ public abstract class Tracker implements AutoCloseable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof Tracker tracker)) return false;
+        if (o == this)
+            return true;
+        if (!(o instanceof Tracker tracker))
+            return false;
         return name().equals(tracker.name());
     }
 
@@ -952,7 +1017,7 @@ public abstract class Tracker implements AutoCloseable {
         /**
          * Handles packets for a tracker.
          *
-         * @param tracker the tracker
+         * @param tracker    the tracker
          * @param bundlerSet the set of packet bundlers
          * @since 1.15.2
          */
@@ -1013,7 +1078,8 @@ public abstract class Tracker implements AutoCloseable {
                 dataBundler = pipeline.createLazyBundler();
             }
             if (viewBundler.isNotEmpty()) {
-                pipeline.viewedPlayer().filter(p -> !perPlayerViewBundler.containsKey(p.uuid())).forEach(viewBundler::send);
+                pipeline.viewedPlayer().filter(p -> !perPlayerViewBundler.containsKey(p.uuid()))
+                        .forEach(viewBundler::send);
                 viewBundler = pipeline.createParallelBundler();
             }
         }
@@ -1031,7 +1097,8 @@ public abstract class Tracker implements AutoCloseable {
 
         public void add() {
             if (counter.getAndIncrement() == 0) {
-                channel().ifPresent(handler -> EventUtil.call(PlayerPerAnimationStartEvent.class, () -> new PlayerPerAnimationStartEvent(Tracker.this, handler.player())));
+                channel().ifPresent(handler -> EventUtil.call(PlayerPerAnimationStartEvent.class,
+                        () -> new PlayerPerAnimationStartEvent(Tracker.this, handler.player())));
             }
         }
 
@@ -1042,7 +1109,8 @@ public abstract class Tracker implements AutoCloseable {
                     var bundler = pipeline.createBundler();
                     pipeline.iterateTree(bone -> bone.forceTransformation(bundler));
                     bundler.send(handler.player());
-                    EventUtil.call(PlayerPerAnimationEndEvent.class, () -> new PlayerPerAnimationEndEvent(Tracker.this, handler.player()));
+                    EventUtil.call(PlayerPerAnimationEndEvent.class,
+                            () -> new PlayerPerAnimationEndEvent(Tracker.this, handler.player()));
                 });
             }
         }
@@ -1069,20 +1137,23 @@ public abstract class Tracker implements AutoCloseable {
     public enum CloseReason {
         /**
          * The tracker was manually removed.
+         * 
          * @since 1.15.2
          */
         REMOVE(false),
         /**
          * The plugin is being disabled.
+         * 
          * @since 1.15.2
          */
         PLUGIN_DISABLE(true),
         /**
          * The entity or tracker was despawned.
+         * 
          * @since 1.15.2
          */
-        DESPAWN(true)
-        ;
+        DESPAWN(true);
+
         private final boolean save;
 
         /**
@@ -1096,4 +1167,3 @@ public abstract class Tracker implements AutoCloseable {
         }
     }
 }
-
