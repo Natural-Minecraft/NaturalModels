@@ -1,15 +1,12 @@
 package id.naturalsmp.naturalmodels.bukkit.manager
 
-import id.naturalsmp.naturalmodels.api.NaturalModels
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier
 import id.naturalsmp.naturalmodels.api.bone.BoneName
-import id.naturalsmp.naturalmodels.api.bukkit.util.BukkitAdapter
+import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter
 import id.naturalsmp.naturalmodels.api.data.renderer.ModelRenderer
 import id.naturalsmp.naturalmodels.api.pack.PackZipper
 import id.naturalsmp.naturalmodels.api.tracker.DummyTracker
-import id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry
 import id.naturalsmp.naturalmodels.api.tracker.TrackerModifier
-import id.naturalsmp.naturalmodels.bukkit.nms.v1_21_R7.wrap
 import id.naturalsmp.naturalmodels.bukkit.util.registerListener
 import id.naturalsmp.naturalmodels.manager.GlobalManager
 import id.naturalsmp.naturalmodels.manager.ReloadPipeline
@@ -34,8 +31,6 @@ import java.util.concurrent.ConcurrentHashMap
 object HeldItemDisplayManager : GlobalManager, Listener {
 
     private val MODEL_KEY = NamespacedKey("naturalmodels", "model")
-    private val MMOITEMS_MODEL_KEY = "MMOITEMS_NATURAL_MODEL"
-    
     private val mainHandTrackers = ConcurrentHashMap<UUID, DummyTracker>()
     private val offHandTrackers = ConcurrentHashMap<UUID, DummyTracker>()
     
@@ -107,8 +102,8 @@ object HeldItemDisplayManager : GlobalManager, Listener {
     }
 
     private fun updateTrackerPosition(player: Player, slot: EquipmentSlot, tracker: DummyTracker) {
-        val registry = EntityTrackerRegistry.registry(player.uniqueId)
-        val modeledPlayer = registry?.trackers()?.firstOrNull { it.renderer().type == ModelRenderer.Type.PLAYER }
+        val registry = id.naturalsmp.naturalmodels.api.tracker.EntityTrackerRegistry.registry(player.uniqueId)
+        val modeledPlayer = registry?.trackers()?.firstOrNull { it.renderer().type() == ModelRenderer.Type.PLAYER }
 
         if (modeledPlayer != null) {
             // Modeled player: follow hand bone

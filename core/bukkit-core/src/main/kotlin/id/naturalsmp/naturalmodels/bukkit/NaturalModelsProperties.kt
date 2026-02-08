@@ -17,6 +17,7 @@ import id.naturalsmp.naturalmodels.api.pack.PackZipper
 import id.naturalsmp.naturalmodels.api.version.MinecraftVersion.*
 import id.naturalsmp.naturalmodels.bukkit.configuration.PluginConfiguration
 import id.naturalsmp.naturalmodels.bukkit.manager.CompatibilityManager
+import id.naturalsmp.naturalmodels.bukkit.manager.DamageIndicatorManager
 import id.naturalsmp.naturalmodels.bukkit.manager.EntityManager
 import id.naturalsmp.naturalmodels.bukkit.manager.HeldItemDisplayManager
 import id.naturalsmp.naturalmodels.bukkit.manager.PlayerManagerImpl
