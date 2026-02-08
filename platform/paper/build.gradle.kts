@@ -79,6 +79,16 @@ paperPluginYaml {
             required = false,
             load = PaperPluginYaml.Load.OMIT
         )
+        server(
+            name = "MMOItems",
+            required = false,
+            load = PaperPluginYaml.Load.BEFORE
+        )
+        server(
+            name = "MythicLib",
+            required = false,
+            load = PaperPluginYaml.Load.BEFORE
+        )
     }
     permissions.create("NaturalModels") {
         default = Permission.Default.OP

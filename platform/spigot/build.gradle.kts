@@ -36,7 +36,9 @@ bukkitPluginYaml {
     softDepend = listOf(
         "MythicMobs",
         "Citizens",
-        "SkinsRestorer"
+        "SkinsRestorer",
+        "MMOItems",
+        "MythicLib"
     )
     libraries = libs.bundles.library.map {
         it.map(Any::toString)
