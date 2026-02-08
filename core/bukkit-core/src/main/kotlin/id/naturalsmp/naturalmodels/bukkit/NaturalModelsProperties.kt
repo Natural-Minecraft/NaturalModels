@@ -18,6 +18,7 @@ import id.naturalsmp.naturalmodels.api.version.MinecraftVersion.*
 import id.naturalsmp.naturalmodels.bukkit.configuration.PluginConfiguration
 import id.naturalsmp.naturalmodels.bukkit.manager.CompatibilityManager
 import id.naturalsmp.naturalmodels.bukkit.manager.EntityManager
+import id.naturalsmp.naturalmodels.bukkit.manager.HeldItemDisplayManager
 import id.naturalsmp.naturalmodels.bukkit.manager.PlayerManagerImpl
 import id.naturalsmp.naturalmodels.bukkit.scheduler.BukkitScheduler
 import id.naturalsmp.naturalmodels.bukkit.scheduler.PaperScheduler
@@ -86,7 +87,9 @@ internal class NaturalModelsProperties(
             ModelManagerImpl,
             PlayerManagerImpl,
             EntityManager,
-            ScriptManagerImpl
+            ScriptManagerImpl,
+            HeldItemDisplayManager,
+            DamageIndicatorManager
         )
     }
 

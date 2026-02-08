@@ -8,6 +8,7 @@ package id.naturalsmp.naturalmodels.bukkit
 
 import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
 import id.naturalsmp.naturalmodels.api.bukkit.platform.BukkitAdapter
+import id.naturalsmp.naturalmodels.api.config.DamageIndicatorConfig
 import id.naturalsmp.naturalmodels.api.config.DebugConfig
 import id.naturalsmp.naturalmodels.api.config.IndicatorConfig
 import id.naturalsmp.naturalmodels.api.config.ModuleConfig
@@ -38,6 +39,14 @@ class NaturalModelsConfigImpl(yaml: ConfigurationSection) : NaturalModelsConfig 
     private val pack = yaml.getConfigurationSection("pack")?.let {
         PackConfig.from(it::getBoolean)
     } ?: PackConfig.DEFAULT
+    private val damageIndicator = yaml.getConfigurationSection("damage-indicator")?.let {
+        DamageIndicatorConfig(
+            it.getBoolean("enabled", false),
+            it.getInt("duration", 20),
+            it.getString("format", "<red>-<damage>") ?: "<red>-<damage>",
+            it.getDouble("offset-y", 1.5)
+        )
+    } ?: DamageIndicatorConfig.DEFAULT
     private val metrics = yaml.getBoolean("metrics", true)
     private val sightTrace = yaml.getBoolean("sight-trace", true)
     private val mergeWithExternalResources = yaml.getBoolean("merge-with-external-resources", true)
@@ -76,6 +85,7 @@ class NaturalModelsConfigImpl(yaml: ConfigurationSection) : NaturalModelsConfig 
 
     override fun debug(): DebugConfig = debug
     override fun indicator(): IndicatorConfig = indicator
+    override fun damageIndicator(): DamageIndicatorConfig = damageIndicator
     override fun module(): ModuleConfig = module
     override fun pack(): PackConfig = pack
     override fun item(): Supplier<PlatformItemStack> = item

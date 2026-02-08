@@ -20,6 +20,17 @@ indicator:
   # Shows a progress bar during resource pack generation.
   progress_bar: true
 
+# Damage indicator settings.
+damage-indicator:
+  # Toggles the damage indicators.
+  enabled: true
+  # The time in ticks before the indicator disappears.
+  duration: 20
+  # The format for the indicator text.
+  format: "<red>-<damage>"
+  # The vertical offset for the indicator.
+  offset-y: 1.5
+
 # Core feature modules.
 # Disable modules you don't need to save resources.
 module:

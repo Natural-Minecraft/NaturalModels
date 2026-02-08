@@ -6,6 +6,7 @@
  */
 package id.naturalsmp.naturalmodels.api;
 
+import id.naturalsmp.naturalmodels.api.config.DamageIndicatorConfig;
 import id.naturalsmp.naturalmodels.api.config.DebugConfig;
 import id.naturalsmp.naturalmodels.api.config.IndicatorConfig;
 import id.naturalsmp.naturalmodels.api.config.ModuleConfig;
@@ -240,6 +241,15 @@ public interface NaturalModelsConfig {
      * @since 1.15.2
      */
     boolean enableStrictLoading();
+
+    /**
+     * Returns the damage indicator configuration.
+     *
+     * @return the damage indicator config
+     * @since 2.1.0
+     */
+    @NotNull
+    DamageIndicatorConfig damageIndicator();
 
     /**
      * Enumerates the types of resource pack generation.
