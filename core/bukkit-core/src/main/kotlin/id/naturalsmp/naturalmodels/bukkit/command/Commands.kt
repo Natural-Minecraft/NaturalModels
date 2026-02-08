@@ -23,6 +23,7 @@ import id.naturalsmp.naturalmodels.bukkit.util.PLUGIN
 import id.naturalsmp.naturalmodels.bukkit.util.toRegistry
 import id.naturalsmp.naturalmodels.bukkit.util.toTracker
 import id.naturalsmp.naturalmodels.bukkit.util.wrap
+import id.naturalsmp.naturalmodels.bukkit.manager.PreviewManager
 import id.naturalsmp.naturalmodels.command.command
 import id.naturalsmp.naturalmodels.command.limb
 import id.naturalsmp.naturalmodels.command.model
@@ -180,6 +181,21 @@ fun startBukkitCommand() {
         ) {
             handler(::version)
         }
+        create(
+            "preview",
+            "Previews a model in front of you",
+            "pv"
+        ) {
+            literal("clear") {
+                senderType(AudiencePlayer::class.java)
+                handler(::previewClear)
+            }
+            required("model", stringParser(), MODEL_SUGGESTION)
+                .optional("animation", stringParser(), blockingStrings { ctx, _ -> ctx.nullableString("model") { NaturalModels.modelOrNull(it)?.animations()?.keys } ?: emptySet() })
+                .optional("scale", doubleParser(0.0625, 16.0))
+                .senderType(AudiencePlayer::class.java)
+                .handler(::preview)
+        }
     }
 }
 
@@ -321,6 +337,23 @@ private fun test(context: CommandContext<Audience>) {
     model.create(location.wrap()).run {
         spawn(player.wrap())
         animate(animation, AnimationModifier(0, 0, AnimationIterator.Type.PLAY_ONCE), ::close)
+    }
+}
+
+private fun preview(context: CommandContext<AudiencePlayer>) {
+    val player = context.sender().sender
+    val modelId = context.get<String>("model")
+    val animation = context.nullable<String>("animation")
+    val scale = context.nullable("scale", 1.0).toFloat()
+    PreviewManager.startPreview(player, modelId, animation, scale)
+}
+
+private fun previewClear(context: CommandContext<AudiencePlayer>) {
+    val player = context.sender().sender
+    if (PreviewManager.clearPreview(player)) {
+        player.sendMessage("§aPreview cleared.")
+    } else {
+        player.sendMessage("§cYou don't have any active preview.")
     }
 }
 

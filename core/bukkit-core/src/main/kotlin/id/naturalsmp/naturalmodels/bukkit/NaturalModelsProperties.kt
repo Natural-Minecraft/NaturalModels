@@ -21,6 +21,7 @@ import id.naturalsmp.naturalmodels.bukkit.manager.DamageIndicatorManager
 import id.naturalsmp.naturalmodels.bukkit.manager.EntityManager
 import id.naturalsmp.naturalmodels.bukkit.manager.HeldItemDisplayManager
 import id.naturalsmp.naturalmodels.bukkit.manager.PlayerManagerImpl
+import id.naturalsmp.naturalmodels.bukkit.manager.PreviewManager
 import id.naturalsmp.naturalmodels.bukkit.scheduler.BukkitScheduler
 import id.naturalsmp.naturalmodels.bukkit.scheduler.PaperScheduler
 import id.naturalsmp.naturalmodels.manager.*
