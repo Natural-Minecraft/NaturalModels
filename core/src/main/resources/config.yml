@@ -65,6 +65,7 @@ namespace: "naturalmodels"
 # The format of the generated resource pack.
 # 'zip': A standard .zip file.
 # 'folder': A raw folder structure (useful for merging or debugging).
+# 'itemsadder': Delegate resource pack generation to ItemsAdder.
 pack-type: zip
 
 # The location where the resource pack file or folder will be generated, relative to the server root.

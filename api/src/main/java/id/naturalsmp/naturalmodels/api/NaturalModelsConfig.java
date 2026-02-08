@@ -19,7 +19,8 @@ import java.util.function.Supplier;
 /**
  * Represents the main configuration interface for NaturalModels.
  * <p>
- * This interface provides access to various configuration settings, including debug options,
+ * This interface provides access to various configuration settings, including
+ * debug options,
  * pack generation settings, module toggles, and runtime behaviors.
  * </p>
  *
@@ -33,7 +34,8 @@ public interface NaturalModelsConfig {
      * @return the debug config
      * @since 1.15.2
      */
-    @NotNull DebugConfig debug();
+    @NotNull
+    DebugConfig debug();
 
     /**
      * Returns the indicator configuration.
@@ -41,7 +43,8 @@ public interface NaturalModelsConfig {
      * @return the indicator config
      * @since 1.15.2
      */
-    @NotNull IndicatorConfig indicator();
+    @NotNull
+    IndicatorConfig indicator();
 
     /**
      * Returns the module configuration.
@@ -49,7 +52,8 @@ public interface NaturalModelsConfig {
      * @return the module config
      * @since 1.15.2
      */
-    @NotNull ModuleConfig module();
+    @NotNull
+    ModuleConfig module();
 
     /**
      * Returns the resource pack configuration.
@@ -57,7 +61,8 @@ public interface NaturalModelsConfig {
      * @return the pack config
      * @since 1.15.2
      */
-    @NotNull PackConfig pack();
+    @NotNull
+    PackConfig pack();
 
     /**
      * Checks if metrics collection is enabled.
@@ -76,7 +81,8 @@ public interface NaturalModelsConfig {
     boolean sightTrace();
 
     /**
-     * Checks if NaturalModels should attempt to merge its resource pack with external plugins/mods.
+     * Checks if NaturalModels should attempt to merge its resource pack with
+     * external plugins/mods.
      *
      * @return true to merge, false otherwise
      * @since 1.15.2
@@ -84,20 +90,24 @@ public interface NaturalModelsConfig {
     boolean mergeWithExternalResources();
 
     /**
-     * Returns a supplier for the platform item stack used as the base for model items.
+     * Returns a supplier for the platform item stack used as the base for model
+     * items.
      *
      * @return a supplier providing the target item stack
      * @since 2.0.0
      */
-    @NotNull Supplier<PlatformItemStack> item();
+    @NotNull
+    Supplier<PlatformItemStack> item();
 
     /**
-     * Returns the item model string identifier used for the resource pack target item.
+     * Returns the item model string identifier used for the resource pack target
+     * item.
      *
      * @return the item model string
      * @since 2.0.0
      */
-    @NotNull String itemModel();
+    @NotNull
+    String itemModel();
 
     /**
      * Returns the namespace used for the target item.
@@ -105,7 +115,8 @@ public interface NaturalModelsConfig {
      * @return the item namespace
      * @since 1.15.2
      */
-    @NotNull String itemNamespace();
+    @NotNull
+    String itemNamespace();
 
     /**
      * Returns the maximum range for sight tracing.
@@ -129,7 +140,8 @@ public interface NaturalModelsConfig {
      * @return the namespace
      * @since 1.15.2
      */
-    @NotNull String namespace();
+    @NotNull
+    String namespace();
 
     /**
      * Returns the type of resource pack generation (Folder, Zip, or None).
@@ -137,7 +149,8 @@ public interface NaturalModelsConfig {
      * @return the pack type
      * @since 1.15.2
      */
-    @NotNull PackType packType();
+    @NotNull
+    PackType packType();
 
     /**
      * Returns the location of the build folder for resource packs.
@@ -145,10 +158,12 @@ public interface NaturalModelsConfig {
      * @return the build folder path
      * @since 1.15.2
      */
-    @NotNull String buildFolderLocation();
+    @NotNull
+    String buildFolderLocation();
 
     /**
-     * Checks if model trackers should follow the source entity's invisibility status.
+     * Checks if model trackers should follow the source entity's invisibility
+     * status.
      *
      * @return true to follow invisibility, false otherwise
      * @since 1.15.2
@@ -178,7 +193,8 @@ public interface NaturalModelsConfig {
      * @see id.naturalsmp.naturalmodels.api.mount.MountControllers
      * @since 1.15.2
      */
-    @NotNull MountController defaultMountController();
+    @NotNull
+    MountController defaultMountController();
 
     /**
      * Returns the interpolation frame time (lerp) in milliseconds.
@@ -189,7 +205,8 @@ public interface NaturalModelsConfig {
     int lerpFrameTime();
 
     /**
-     * Checks if inventory swap packets should be cancelled for players with active models.
+     * Checks if inventory swap packets should be cancelled for players with active
+     * models.
      *
      * @return true to cancel, false otherwise
      * @since 1.15.2
@@ -197,7 +214,8 @@ public interface NaturalModelsConfig {
     boolean cancelPlayerModelInventory();
 
     /**
-     * Returns the delay in ticks before hiding a player's model after they become invisible.
+     * Returns the delay in ticks before hiding a player's model after they become
+     * invisible.
      *
      * @return the hide delay
      * @since 1.15.2
@@ -231,19 +249,27 @@ public interface NaturalModelsConfig {
     enum PackType {
         /**
          * Generate the resource pack as a folder structure.
+         * 
          * @since 1.15.2
          */
         FOLDER,
         /**
          * Generate the resource pack as a ZIP archive.
+         * 
          * @since 1.15.2
          */
         ZIP,
         /**
          * Do not generate a resource pack.
+         * 
          * @since 1.15.2
          */
-        NONE
+        NONE,
+        /**
+         * Delegate resource pack generation to ItemsAdder.
+         * 
+         * @since 2.0.0
+         */
+        ITEMSADDER
     }
 }
-

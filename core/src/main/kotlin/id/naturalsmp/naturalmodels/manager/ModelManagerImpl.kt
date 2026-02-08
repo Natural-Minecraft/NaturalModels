@@ -35,6 +35,9 @@ object ModelManagerImpl : ModelManager, GlobalManager {
     private val playerModelView = playerModelMap.toImmutableView()
     private val modelExtensions = setOf("bbmodel", "ajmodel")
 
+    // Map to store ModelName -> CustomModelData ID
+    val modelIdMap = ConcurrentHashMap<String, Int>()
+
     private fun importModels(
         type: ModelRenderer.Type,
         pipeline: ReloadPipeline,
@@ -83,6 +86,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
     }
 
     private fun loadModels(pipeline: ReloadPipeline, zipper: PackZipper) {
+        modelIdMap.clear() // Clear previous mappings
         ModelPipeline(zipper).use {
             if (CONFIG.module().model) it.addModelTo(
                 generalModelMap,
@@ -209,7 +213,11 @@ object ModelManagerImpl : ModelManager, GlobalManager {
                             ?.let { build(listOf(it), size) }
                     }
                 ).run {
-                    if (isNotEmpty()) indexer++ else null
+                    if (isNotEmpty()) {
+                        val id = indexer++
+                        modelIdMap[blueprint.name] = id
+                        id
+                    } else null
                 }
             }.apply {
                 debugPack {
