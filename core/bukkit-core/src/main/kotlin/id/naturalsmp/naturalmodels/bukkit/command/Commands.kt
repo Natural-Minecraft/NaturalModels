@@ -183,13 +183,18 @@ fun startBukkitCommand() {
         }
         create(
             "preview",
+            "Clears active preview",
+            "pv"
+        ) {
+            literal("clear")
+                .senderType(AudiencePlayer::class.java)
+                .handler(::previewClear)
+        }
+        create(
+            "preview",
             "Previews a model in front of you",
             "pv"
         ) {
-            literal("clear") {
-                senderType(AudiencePlayer::class.java)
-                handler(::previewClear)
-            }
             required("model", stringParser(), MODEL_SUGGESTION)
                 .optional("animation", stringParser(), blockingStrings { ctx, _ -> ctx.nullableString("model") { NaturalModels.modelOrNull(it)?.animations()?.keys } ?: emptySet() })
                 .optional("scale", doubleParser(0.0625, 16.0))
