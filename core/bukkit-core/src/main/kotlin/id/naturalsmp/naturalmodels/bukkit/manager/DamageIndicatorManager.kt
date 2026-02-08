@@ -72,7 +72,7 @@ object DamageIndicatorManager : GlobalManager, Listener {
             // Create nametag on the root bone (usually the first one or named "root")
             val rootBone = tracker.renderer().rendererGroups().values.firstOrNull()?.name()
             if (rootBone != null) {
-                tracker.createNametag(BonePredicate.name(rootBone)) { _, nametag ->
+                tracker.createNametag(BonePredicate.name(rootBone.name).withoutChildren()) { _, nametag ->
                     nametag.component(component)
                     nametag.alwaysVisible(true)
                 }
@@ -102,4 +102,3 @@ object DamageIndicatorManager : GlobalManager, Listener {
 
     private data class IndicatorTask(val tracker: DummyTracker, var ticks: Int)
 }
-```
