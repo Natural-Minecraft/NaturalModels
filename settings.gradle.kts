@@ -29,6 +29,7 @@ dependencyResolutionManagement {
         maven("https://mvn.lumine.io/repository/maven-public/")
         maven("https://repo.nexomc.com/releases/")
         maven("https://maven.nucleoid.xyz/")
+        maven("https://nexus.phoenixdevt.fr/repository/maven-public/")
     }
 }
 
