@@ -10,7 +10,6 @@ import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
 import id.naturalsmp.naturalmodels.api.NaturalModelsConfig.PackType.*
 import id.naturalsmp.naturalmodels.api.pack.*
 import id.naturalsmp.naturalmodels.manager.ModelManagerImpl
-import id.naturalsmp.naturalmodels.manager.ModelManagerImpl
 import id.naturalsmp.naturalmodels.manager.ReloadPipeline
 import net.kyori.adventure.text.format.NamedTextColor
 import java.io.File
@@ -35,7 +34,6 @@ class ItemsAdderGenerator : PackGenerator {
 
     override fun create(zipper: PackZipper, pipeline: ReloadPipeline): PackResult {
         val build = zipper.build()
-        // We return a "dummy" file location or the IA folder root
         val pack = PackResult(build.meta(), iaData)
         val changed = AtomicBoolean()
 
@@ -43,10 +41,7 @@ class ItemsAdderGenerator : PackGenerator {
             val bytes = it.get()
             pack[it.overlay()] = PackByte(it.path(), bytes)
             
-            // Map asset path: "assets/namespace/..." -> "ItemsAdder/data/resource_pack/assets/namespace/..."
-            // The zipper paths likely start with "assets/"
             val relativePath = it.path().path
-
             val targetFile = File(iaData, relativePath)
             
             if (!targetFile.exists() || targetFile.length() != bytes.size.toLong()) {
@@ -93,67 +88,7 @@ class ItemsAdderGenerator : PackGenerator {
         if (!modelsFile.exists() || modelsFile.readText() != sb.toString()) {
             modelsFile.parentFile.mkdirs()
             modelsFile.writeText(sb.toString())
-            id.naturalsmp.naturalmodels.api.NaturalModels.platform().logger().info(
-                net.kyori.adventure.text.Component.text("Generated ItemsAdder models.yml at: " + modelsFile.path, NamedTextColor.GREEN)
-            )
-        }
-    }
-}
-    private fun generateModelsYml() {
-        val modelsFile = File(DATA_FOLDER.parent, "ItemsAdder/contents/naturalmodels/configs/models.yml")
-        val ns = CONFIG.namespace()
-        val itemMaterial = CONFIG.itemModel()
-        
-        val sb = StringBuilder()
-        sb.append("info:\n")
-        sb.append("  namespace: ").append(ns).append("\n")
-        sb.append("items:\n")
-
-        ModelManagerImpl.modelIdMap.forEach { (name, id) ->
-            sb.append("  ").append(name).append(":\n")
-            sb.append("    display_name: \"").append(name).append("\"\n")
-            sb.append("    permission: \"").append(ns).append(".model.").append(name).append("\"\n")
-            sb.append("    resource:\n")
-            sb.append("      material: ").append(itemMaterial).append("\n")
-            sb.append("      generate: false\n")
-            sb.append("      model_path: \"").append(ns).append(":modern_item/").append(name).append("\"\n")
-            sb.append("      model_id: ").append(id).append("\n")
-        }
-
-        if (!modelsFile.exists() || modelsFile.readText() != sb.toString()) {
-            modelsFile.parentFile.mkdirs()
-            modelsFile.writeText(sb.toString())
-            id.naturalsmp.naturalmodels.api.NaturalModels.platform().logger().info(
-                net.kyori.adventure.text.Component.text("Generated ItemsAdder models.yml at: " + modelsFile.path, NamedTextColor.GREEN)
-            )
-        }
-    }
-}
-    private fun generateModelsYml() {
-        val modelsFile = File(DATA_FOLDER.parent, "ItemsAdder/contents/naturalmodels/configs/models.yml")
-        val ns = CONFIG.namespace()
-        val itemMaterial = CONFIG.itemModel()
-        
-        val sb = StringBuilder()
-        sb.append("info:\n")
-        sb.append("  namespace: ").append(ns).append("\n")
-        sb.append("items:\n")
-
-        ModelManagerImpl.modelIdMap.forEach { (name, id) ->
-            sb.append("  ").append(name).append(":\n")
-            sb.append("    display_name: \"").append(name).append("\"\n")
-            sb.append("    permission: \"").append(ns).append(".model.").append(name).append("\"\n")
-            sb.append("    resource:\n")
-            sb.append("      material: ").append(itemMaterial).append("\n")
-            sb.append("      generate: false\n")
-            sb.append("      model_path: \"").append(ns).append(":modern_item/").append(name).append("\"\n")
-            sb.append("      model_id: ").append(id).append("\n")
-        }
-
-        if (!modelsFile.exists() || modelsFile.readText() != sb.toString()) {
-            modelsFile.parentFile.mkdirs()
-            modelsFile.writeText(sb.toString())
-            id.naturalsmp.naturalmodels.api.NaturalModels.logger().info(
+            info(
                 net.kyori.adventure.text.Component.text("Generated ItemsAdder models.yml at: " + modelsFile.path, NamedTextColor.GREEN)
             )
         }
@@ -281,5 +216,3 @@ fun PackZipper.writeToResult(pipeline: ReloadPipeline, dir: File? = null): PackR
         }
     }
 }
-
-
