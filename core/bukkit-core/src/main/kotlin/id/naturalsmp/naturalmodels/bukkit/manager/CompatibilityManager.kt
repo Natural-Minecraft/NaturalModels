@@ -38,9 +38,6 @@ object CompatibilityManager : GlobalManager {
         },
         "Nexo" to {
             NexoCompatibility()
-        },
-        "MMOItems" to {
-            id.naturalsmp.naturalmodels.bukkit.compatibility.mmoitems.MMOItemsCompatibility()
         }
     )
 
