@@ -40,7 +40,10 @@ object CompatibilityManager : GlobalManager {
             NexoCompatibility()
         },
         "MMOItems" to {
-            id.naturalsmp.naturalmodels.bukkit.compatibility.mmoitems.MMOItemsCompatibility()
+            // Use reflection to avoid NoClassDefFoundError when MMOItems is not installed
+            Class.forName("id.naturalsmp.naturalmodels.bukkit.compatibility.mmoitems.MMOItemsCompatibility")
+                .getDeclaredConstructor()
+                .newInstance() as id.naturalsmp.naturalmodels.bukkit.compatibility.Compatibility
         }
     )
 
