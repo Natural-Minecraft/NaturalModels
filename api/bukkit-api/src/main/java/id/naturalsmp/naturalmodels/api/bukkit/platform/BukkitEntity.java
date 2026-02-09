@@ -55,5 +55,22 @@ public class BukkitEntity implements PlatformEntity {
     public @NotNull PlatformLocation location() {
         return BukkitAdapter.adapt(source.getLocation());
     }
-}
 
+    @Override
+    public void teleport(@NotNull PlatformLocation location) {
+        if (location instanceof BukkitLocation bukkitLocation) {
+            source.teleport(bukkitLocation.source());
+        } else {
+            var world = location.world();
+            if (world instanceof BukkitWorld bukkitWorld) {
+                source.teleport(new org.bukkit.Location(
+                        bukkitWorld.source(),
+                        location.x(),
+                        location.y(),
+                        location.z(),
+                        location.yaw(),
+                        location.pitch()));
+            }
+        }
+    }
+}

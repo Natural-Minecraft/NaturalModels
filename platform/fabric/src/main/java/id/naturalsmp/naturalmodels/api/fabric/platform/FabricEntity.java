@@ -45,5 +45,11 @@ public record FabricEntity(@NotNull Entity source) implements PlatformEntity {
     public @NotNull PlatformLocation location() {
         return FabricLocation.of(source);
     }
-}
 
+    @Override
+    public void teleport(@NotNull PlatformLocation location) {
+        source.setPos(location.x(), location.y(), location.z());
+        source.setYRot(location.yaw());
+        source.setXRot(location.pitch());
+    }
+}

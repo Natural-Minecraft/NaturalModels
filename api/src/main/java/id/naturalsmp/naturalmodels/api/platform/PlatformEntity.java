@@ -19,7 +19,8 @@ import java.util.UUID;
 /**
  * Represents an entity in the underlying platform.
  * <p>
- * This interface provides access to basic entity properties like UUID and location,
+ * This interface provides access to basic entity properties like UUID and
+ * location,
  * as well as integration with the {@link EntityTrackerRegistry}.
  * </p>
  *
@@ -33,7 +34,8 @@ public interface PlatformEntity extends PlatformRegionHolder {
      * @return the UUID
      * @since 2.0.0
      */
-    @NotNull UUID uuid();
+    @NotNull
+    UUID uuid();
 
     /**
      * Returns the current location of the entity.
@@ -41,7 +43,16 @@ public interface PlatformEntity extends PlatformRegionHolder {
      * @return the location
      * @since 2.0.0
      */
-    @NotNull PlatformLocation location();
+    @NotNull
+    PlatformLocation location();
+
+    /**
+     * Teleports the entity to the specified location.
+     *
+     * @param location the target location
+     * @since 2.0.0
+     */
+    void teleport(@NotNull PlatformLocation location);
 
     @Override
     default @Nullable ModelTask task(@NotNull Runnable runnable) {
@@ -74,4 +85,3 @@ public interface PlatformEntity extends PlatformRegionHolder {
         return registry().map(registry -> registry.tracker(name));
     }
 }
-
