@@ -52,7 +52,7 @@ internal data class BaseEntityImpl(
     override fun bodyYaw(): Float = handle().yRot
     override fun headYaw(): Float = if (handle() is LivingEntity) handle().yHeadRot else bodyYaw()
     override fun fly(): Boolean = handle().isFlying
-    override fun swim(): Boolean = handle().isInWaterOrBubble
+    override fun swim(): Boolean = handle().isInWater
 
     override fun damageTick(): Float {
         val handle = handle()
