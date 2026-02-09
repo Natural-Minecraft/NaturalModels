@@ -58,6 +58,7 @@ public final class RenderedBone implements BoneEventHandler {
     @NotNull
     final RendererGroup group;
     private final BoneMovement defaultFrame;
+    @Getter
     private volatile BoneRenderContext renderContext;
     private final BoneEventDispatcher eventDispatcher = new BoneEventDispatcher();
 
