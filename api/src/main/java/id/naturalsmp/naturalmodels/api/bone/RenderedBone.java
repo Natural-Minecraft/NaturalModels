@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import id.naturalsmp.naturalmodels.api.NaturalModels;
 import id.naturalsmp.naturalmodels.api.animation.*;
+import id.naturalsmp.naturalmodels.api.attachment.BoneAttachment;
 import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintAnimation;
 import id.naturalsmp.naturalmodels.api.data.blueprint.BlueprintElement;
 import id.naturalsmp.naturalmodels.api.data.blueprint.ModelBoundingBox;
@@ -37,6 +38,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -76,7 +78,7 @@ public final class RenderedBone implements BoneEventHandler {
     private final boolean dummyBone;
     private final Object itemLock = new Object();
 
-    //Resource
+    // Resource
     @Getter
     @Nullable
     private final ModelDisplay display;
@@ -87,16 +89,17 @@ public final class RenderedBone implements BoneEventHandler {
     @Nullable
     private ModelNametag nametag;
 
-    //Item
+    // Item
     @Getter
     @Setter
     private BoneItemMapper itemMapper;
     private volatile int previousTint = INITIAL_TINT_VALUE, tint = INITIAL_TINT_VALUE;
     private volatile TransformedItemStack itemStack;
 
-    //Animation
+    // Animation
     private final BoneStateHandler globalState;
     private final Map<UUID, BoneStateHandler> perPlayerState = new ConcurrentHashMap<>();
+    private final List<BoneAttachment> attachments = new CopyOnWriteArrayList<>();
     private volatile ModelRotation rotation = ModelRotation.EMPTY;
 
     private Supplier<Vector3f> defaultPosition = FunctionUtil.asSupplier(EMPTY_VECTOR);
@@ -109,20 +112,20 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Creates entity.
-     * @param group group
-     * @param parent parent entity
-     * @param context render context
-     * @param movement spawn movement
+     * 
+     * @param group          group
+     * @param parent         parent entity
+     * @param context        render context
+     * @param movement       spawn movement
      * @param childrenMapper mapper
      */
     @ApiStatus.Internal
     public RenderedBone(
-        @NotNull RendererGroup group,
-        @Nullable RenderedBone parent,
-        @NotNull BoneRenderContext context,
-        @NotNull BoneMovement movement,
-        @NotNull Function<RenderedBone, Map<BoneName, RenderedBone>> childrenMapper
-    ) {
+            @NotNull RendererGroup group,
+            @Nullable RenderedBone parent,
+            @NotNull BoneRenderContext context,
+            @NotNull BoneMovement movement,
+            @NotNull Function<RenderedBone, Map<BoneName, RenderedBone>> childrenMapper) {
         this.group = group;
         this.parent = parent;
         this.renderContext = context;
@@ -133,20 +136,24 @@ public final class RenderedBone implements BoneEventHandler {
         defaultFrame = movement;
         children = childrenMapper.apply(this);
         if (!dummyBone) {
-            display = NaturalModels.nms().create(context.source().location(), context.source() instanceof RenderSource.Entity ? -4096 : 0, d -> {
-                d.display(itemMapper.transform());
-                d.invisible(!group.getParent().visibility());
-                d.viewRange(EntityUtil.entityModelViewRadius());
-                applyItem(d);
-            });
-        } else display = null;
-        globalState = new BoneStateHandler(null, uuid -> {});
+            display = NaturalModels.nms().create(context.source().location(),
+                    context.source() instanceof RenderSource.Entity ? -4096 : 0, d -> {
+                        d.display(itemMapper.transform());
+                        d.invisible(!group.getParent().visibility());
+                        d.viewRange(EntityUtil.entityModelViewRadius());
+                        applyItem(d);
+                    });
+        } else
+            display = null;
+        globalState = new BoneStateHandler(null, uuid -> {
+        });
     }
 
     public void locator(@NotNull BoneIKSolver solver) {
         if (getGroup().getParent() instanceof BlueprintElement.NullObject nullObject) {
             var ikTarget = nullObject.ikTarget();
-            if (ikTarget == null) return;
+            if (ikTarget == null)
+                return;
             solver.addLocator(nullObject.ikSource(), ikTarget, this);
         }
     }
@@ -155,7 +162,8 @@ public final class RenderedBone implements BoneEventHandler {
         return state(player != null ? player.uuid() : null);
     }
 
-    @NotNull BoneStateHandler state(@Nullable UUID uuid) {
+    @NotNull
+    BoneStateHandler state(@Nullable UUID uuid) {
         return uuid == null ? globalState : perPlayerState.getOrDefault(uuid, globalState);
     }
 
@@ -192,20 +200,26 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Creates hit box.
-     * @param entity target entity
+     * 
+     * @param entity    target entity
      * @param predicate predicate
-     * @param listener hit box listener
+     * @param listener  hit box listener
      * @return success
      */
-    public boolean createHitBox(@NotNull BaseEntity entity, @NotNull Predicate<RenderedBone> predicate, @Nullable HitBoxListener listener) {
+    public boolean createHitBox(@NotNull BaseEntity entity, @NotNull Predicate<RenderedBone> predicate,
+            @Nullable HitBoxListener listener) {
         if (predicate.test(this)) {
             var previous = hitBox;
             synchronized (this) {
-                if (previous != hitBox) return false;
+                if (previous != hitBox)
+                    return false;
                 var h = group.getHitBox();
-                if (h == null) h = ModelBoundingBox.MIN;
-                var l = eventDispatcher.onCreateHitBox(this, (listener != null ? listener : HitBoxListener.EMPTY).toBuilder()).build();
-                if (hitBox != null) hitBox.removeHitBox();
+                if (h == null)
+                    h = ModelBoundingBox.MIN;
+                var l = eventDispatcher
+                        .onCreateHitBox(this, (listener != null ? listener : HitBoxListener.EMPTY).toBuilder()).build();
+                if (hitBox != null)
+                    hitBox.removeHitBox();
                 hitBox = NaturalModels.nms().createHitBox(entity, this, h, group.getMountController(), l);
                 return hitBox != null;
             }
@@ -215,14 +229,16 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Creates nametag
+     * 
      * @param predicate predicate
-     * @param consumer nametag consumer
+     * @param consumer  nametag consumer
      * @return success
      */
     public boolean createNametag(@NotNull Predicate<RenderedBone> predicate, @NotNull Consumer<ModelNametag> consumer) {
         if (nametag == null && predicate.test(this)) {
             synchronized (this) {
-                if (nametag != null) return false;
+                if (nametag != null)
+                    return false;
                 nametag = NaturalModels.nms().createNametag(this, consumer);
             }
             return true;
@@ -232,8 +248,9 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Make item has enchantment or not
+     * 
      * @param predicate predicate
-     * @param enchant should enchant
+     * @param enchant   should enchant
      * @return success or not
      */
     public boolean enchant(@NotNull Predicate<RenderedBone> predicate, boolean enchant) {
@@ -242,6 +259,7 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Sets the scale of this bone
+     * 
      * @param scale scale
      */
     public void scale(@NotNull FloatSupplier scale) {
@@ -250,11 +268,13 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Applies some function at display
+     * 
      * @param predicate predicate
-     * @param consumer consumer
+     * @param consumer  consumer
      * @return success or not
      */
-    public boolean applyAtDisplay(@NotNull Predicate<RenderedBone> predicate, @NotNull Consumer<ModelDisplay> consumer) {
+    public boolean applyAtDisplay(@NotNull Predicate<RenderedBone> predicate,
+            @NotNull Consumer<ModelDisplay> consumer) {
         if (display != null && predicate.test(this)) {
             consumer.accept(display);
             return true;
@@ -264,6 +284,7 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Changes displayed item
+     * 
      * @param predicate predicate
      * @param itemStack target item
      * @return success
@@ -271,9 +292,11 @@ public final class RenderedBone implements BoneEventHandler {
     public boolean itemStack(@NotNull Predicate<RenderedBone> predicate, @NotNull TransformedItemStack itemStack) {
         if (this.itemStack != itemStack && predicate.test(this)) {
             synchronized (itemLock) {
-                if (this.itemStack == itemStack) return false;
+                if (this.itemStack == itemStack)
+                    return false;
                 this.itemStack = itemStack;
-                if (display != null) display.invisible(itemStack.isAir());
+                if (display != null)
+                    display.invisible(itemStack.isAir());
                 tintCacheMap.clear();
                 return applyItem();
             }
@@ -283,11 +306,13 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Adds rotation modifier.
+     * 
      * @param predicate predicate
-     * @param function animation consumer
+     * @param function  animation consumer
      * @return whether to success
      */
-    public synchronized boolean addRotationModifier(@NotNull Predicate<RenderedBone> predicate, @NotNull Function<Quaternionf, Quaternionf> function) {
+    public synchronized boolean addRotationModifier(@NotNull Predicate<RenderedBone> predicate,
+            @NotNull Function<Quaternionf, Quaternionf> function) {
         if (predicate.test(this)) {
             rotationModifier = rotationModifier.andThen(function);
             return true;
@@ -297,11 +322,13 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Adds position modifier.
+     * 
      * @param predicate predicate
-     * @param function animation consumer
+     * @param function  animation consumer
      * @return whether to success
      */
-    public synchronized boolean addPositionModifier(@NotNull Predicate<RenderedBone> predicate, @NotNull Function<Vector3f, Vector3f> function) {
+    public synchronized boolean addPositionModifier(@NotNull Predicate<RenderedBone> predicate,
+            @NotNull Function<Vector3f, Vector3f> function) {
         if (predicate.test(this)) {
             positionModifier = positionModifier.andThen(function);
             return true;
@@ -329,17 +356,20 @@ public final class RenderedBone implements BoneEventHandler {
 
     public void dirtyUpdate(@NotNull PacketBundler bundler) {
         var d = display;
-        if (d != null) d.sendDirtyEntityData(bundler);
+        if (d != null)
+            d.sendDirtyEntityData(bundler);
     }
 
     public void forceUpdate(boolean showItem, @NotNull PacketBundler bundler) {
         var d = display;
-        if (d != null) d.sendEntityData(showItem, bundler);
+        if (d != null)
+            d.sendEntityData(showItem, bundler);
     }
 
     public void forceUpdate(@NotNull PacketBundler bundler) {
         var d = display;
-        if (d != null) d.sendEntityData(!d.invisible(), bundler);
+        if (d != null)
+            d.sendEntityData(!d.invisible(), bundler);
     }
 
     public void sendTransformation(@Nullable UUID uuid, @NotNull PacketBundler bundler) {
@@ -348,7 +378,8 @@ public final class RenderedBone implements BoneEventHandler {
 
     public void forceTransformation(@NotNull PacketBundler bundler) {
         var d = globalState.transformer;
-        if (d != null) d.sendTransformation(bundler);
+        if (d != null)
+            d.sendTransformation(bundler);
     }
 
     public int interpolationDuration() {
@@ -367,7 +398,8 @@ public final class RenderedBone implements BoneEventHandler {
         return worldPosition(localOffset, globalOffset, null);
     }
 
-    public @NotNull Vector3f worldPosition(@NotNull Vector3f localOffset, @NotNull Vector3f globalOffset, @Nullable UUID uuid) {
+    public @NotNull Vector3f worldPosition(@NotNull Vector3f localOffset, @NotNull Vector3f globalOffset,
+            @Nullable UUID uuid) {
         return state(uuid).worldPosition(localOffset, globalOffset);
     }
 
@@ -384,11 +416,13 @@ public final class RenderedBone implements BoneEventHandler {
     }
 
     private @NotNull Vector3f modifiedPosition(boolean preventModifierUpdate) {
-        return preventModifierUpdate ? lastModifiedPosition : (lastModifiedPosition = positionModifier.apply(lastModifiedPosition.set(EMPTY_VECTOR)));
+        return preventModifierUpdate ? lastModifiedPosition
+                : (lastModifiedPosition = positionModifier.apply(lastModifiedPosition.set(EMPTY_VECTOR)));
     }
 
     private @NotNull Quaternionf modifiedRotation(boolean preventModifierUpdate) {
-        return preventModifierUpdate ? lastModifiedRotation : (lastModifiedRotation = rotationModifier.apply(lastModifiedRotation.set(EMPTY_QUATERNION)));
+        return preventModifierUpdate ? lastModifiedRotation
+                : (lastModifiedRotation = rotationModifier.apply(lastModifiedRotation.set(EMPTY_QUATERNION)));
     }
 
     public boolean tint(@NotNull Predicate<RenderedBone> predicate) {
@@ -398,7 +432,8 @@ public final class RenderedBone implements BoneEventHandler {
     public boolean tint(@NotNull Predicate<RenderedBone> predicate, int tint) {
         if (this.tint != tint && predicate.test(this)) {
             synchronized (itemLock) {
-                if (this.tint == tint) return false;
+                if (this.tint == tint)
+                    return false;
                 this.previousTint = this.tint;
                 this.tint = tint;
                 return applyItem();
@@ -416,23 +451,29 @@ public final class RenderedBone implements BoneEventHandler {
     }
 
     private void applyItem(@NotNull ModelDisplay targetDisplay) {
-        targetDisplay.item(itemStack.isAir() ? itemStack.itemStack() : tintCacheMap.computeIfAbsent(tint, i -> NaturalModels.nms().tint(itemStack.itemStack(), i)));
+        targetDisplay.item(itemStack.isAir() ? itemStack.itemStack()
+                : tintCacheMap.computeIfAbsent(tint, i -> NaturalModels.nms().tint(itemStack.itemStack(), i)));
     }
 
     public void teleport(@NotNull PlatformLocation location, @NotNull PacketBundler bundler) {
-        if (display != null) display.teleport(location, bundler);
+        if (display != null)
+            display.teleport(location, bundler);
     }
 
     public void spawn(boolean hide, @NotNull PacketBundler bundler) {
-        if (display != null) display.spawn(!hide && !display.invisible(), bundler);
+        if (display != null)
+            display.spawn(!hide && !display.invisible(), bundler);
         var transformer = globalState.transformer;
-        if (transformer != null) transformer.sendTransformation(bundler);
+        if (transformer != null)
+            transformer.sendTransformation(bundler);
     }
 
-    public boolean addAnimation(@NotNull AnimationPredicate filter, @NotNull BlueprintAnimation animator, @NotNull AnimationModifier modifier, @NotNull AnimationEventHandler eventHandler) {
+    public boolean addAnimation(@NotNull AnimationPredicate filter, @NotNull BlueprintAnimation animator,
+            @NotNull AnimationModifier modifier, @NotNull AnimationEventHandler eventHandler) {
         if (filter.test(this)) {
             var get = animator.animator().get(name());
-            if (get == null && modifier.override(animator.override()) && !filter.isChildren()) return false;
+            if (get == null && modifier.override(animator.override()) && !filter.isChildren())
+                return false;
             var type = modifier.type(animator.loop());
             var iterator = get != null ? get.iterator(type) : animator.emptyIterator(type);
             getOrCreateState(modifier.player()).state.addAnimation(animator.name(), iterator, modifier, eventHandler);
@@ -441,10 +482,12 @@ public final class RenderedBone implements BoneEventHandler {
         return false;
     }
 
-    public boolean replaceAnimation(@NotNull AnimationPredicate filter, @NotNull String target, @NotNull BlueprintAnimation animator, @NotNull AnimationModifier modifier) {
+    public boolean replaceAnimation(@NotNull AnimationPredicate filter, @NotNull String target,
+            @NotNull BlueprintAnimation animator, @NotNull AnimationModifier modifier) {
         if (filter.test(this)) {
             var get = animator.animator().get(name());
-            if (get == null && modifier.override(animator.override()) && !filter.isChildren()) return false;
+            if (get == null && modifier.override(animator.override()) && !filter.isChildren())
+                return false;
             var type = modifier.type(animator.loop());
             var iterator = get != null ? get.iterator(type) : animator.emptyIterator(type);
             state(modifier.player()).state.replaceAnimation(target, iterator, modifier);
@@ -455,21 +498,28 @@ public final class RenderedBone implements BoneEventHandler {
 
     /**
      * Stops bone's animation
+     * 
      * @param filter filter
-     * @param name animation's name
+     * @param name   animation's name
      * @param player player
      */
-    public boolean stopAnimation(@NotNull Predicate<RenderedBone> filter, @NotNull String name, @Nullable PlatformPlayer player) {
+    public boolean stopAnimation(@NotNull Predicate<RenderedBone> filter, @NotNull String name,
+            @Nullable PlatformPlayer player) {
         return filter.test(this) && state(player).state.stopAnimation(name);
     }
 
     /**
      * Removes model's display
+     * 
      * @param bundler packet bundler
      */
     public void remove(@NotNull PacketBundler bundler) {
-        if (display != null) display.remove(bundler);
-        if (nametag != null) nametag.remove(bundler);
+        if (display != null)
+            display.remove(bundler);
+        if (nametag != null)
+            nametag.remove(bundler);
+        attachments.forEach(BoneAttachment::remove);
+        attachments.clear();
     }
 
     public @NotNull Stream<RenderedBone> flatten() {
@@ -477,13 +527,15 @@ public final class RenderedBone implements BoneEventHandler {
     }
 
     public @NotNull SequencedSet<RenderedBone> flattenBones() {
-        if (flattenBones != null) return flattenBones;
+        if (flattenBones != null)
+            return flattenBones;
         synchronized (this) {
-            if (flattenBones != null) return flattenBones;
+            if (flattenBones != null)
+                return flattenBones;
             var set = Stream.concat(
-                Stream.of(this),
-                children.values().stream().flatMap(RenderedBone::flatten)
-            ).collect(Collectors.toCollection(LinkedHashSet::new));
+                    Stream.of(this),
+                    children.values().stream().flatMap(RenderedBone::flatten))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
             return flattenBones = Collections.unmodifiableSequencedSet(set);
         }
     }
@@ -498,42 +550,81 @@ public final class RenderedBone implements BoneEventHandler {
     public boolean matchTree(@NotNull Predicate<RenderedBone> bonePredicate) {
         var result = bonePredicate.test(this);
         for (RenderedBone value : children.values()) {
-            if (value.matchTree(bonePredicate)) result = true;
+            if (value.matchTree(bonePredicate))
+                result = true;
         }
         return result;
     }
 
-    public boolean matchTree(@NotNull BonePredicate predicate, @NotNull BiPredicate<RenderedBone, BonePredicate> mapper) {
+    public boolean matchTree(@NotNull BonePredicate predicate,
+            @NotNull BiPredicate<RenderedBone, BonePredicate> mapper) {
         var parentResult = mapper.test(this, predicate);
         var childPredicate = predicate.children(parentResult);
         for (RenderedBone value : children.values()) {
-            if (value.matchTree(childPredicate, mapper)) parentResult = true;
+            if (value.matchTree(childPredicate, mapper))
+                parentResult = true;
         }
         return parentResult;
     }
 
-    public boolean matchTree(@NotNull AnimationPredicate predicate, @NotNull BiPredicate<RenderedBone, AnimationPredicate> mapper) {
+    public boolean matchTree(@NotNull AnimationPredicate predicate,
+            @NotNull BiPredicate<RenderedBone, AnimationPredicate> mapper) {
         var parentResult = mapper.test(this, predicate);
         var childPredicate = predicate;
-        if (parentResult) childPredicate = childPredicate.children();
+        if (parentResult)
+            childPredicate = childPredicate.children();
         for (RenderedBone value : children.values()) {
-            if (value.matchTree(childPredicate, mapper)) parentResult = true;
+            if (value.matchTree(childPredicate, mapper))
+                parentResult = true;
         }
         return parentResult;
+    }
+
+    /**
+     * Attaches an object to this bone.
+     *
+     * @param attachment the attachment
+     * @since 1.15.2
+     */
+    public void attach(@NotNull BoneAttachment attachment) {
+        attachments.add(attachment);
+    }
+
+    /**
+     * Detaches an object from this bone.
+     *
+     * @param attachment the attachment
+     * @since 1.15.2
+     */
+    public void detach(@NotNull BoneAttachment attachment) {
+        if (attachments.remove(attachment)) {
+            attachment.remove();
+        }
+    }
+
+    /**
+     * Returns an unmodifiable list of attachments on this bone.
+     *
+     * @return the attachments
+     * @since 1.15.2
+     */
+    public @NotNull @Unmodifiable List<BoneAttachment> attachments() {
+        return Collections.unmodifiableList(attachments);
     }
 
     @NotNull
     public Vector3f hitBoxPosition() {
         var box = getGroup().getHitBox();
-        if (box != null) return worldPosition(box.centerPoint());
+        if (box != null)
+            return worldPosition(box.centerPoint());
         return worldPosition();
     }
 
     @NotNull
     public Quaternionf hitBoxViewRotation() {
         return MathUtil.toQuaternion(worldRotation())
-            .rotateLocalX(-rotation.radianX())
-            .rotateLocalY(-rotation.radianY());
+                .rotateLocalX(-rotation.radianX())
+                .rotateLocalY(-rotation.radianY());
     }
 
     public float hitBoxScale() {
@@ -550,32 +641,32 @@ public final class RenderedBone implements BoneEventHandler {
         private final @Nullable UUID uuid;
         private final Consumer<UUID> consumer;
 
-        //States
+        // States
         private final AnimationStateHandler<AnimationProgress> state;
         private final BoneMovement beforeTransform = new BoneMovement(), afterTransform = new BoneMovement();
         private BoneMovement currentTransform;
         private final DisplayTransformer transformer = display != null ? display.createTransformer() : null;
 
-        //Flags
+        // Flags
         private boolean firstTick = true;
         private boolean skipInterpolation = false;
         private final AtomicBoolean updateAfterTransform = new AtomicBoolean();
 
-        //Caches
+        // Caches
         private final BoneMovement movementCache = new BoneMovement();
         private final Vector3f positionCache = new Vector3f(), scaleCache = new Vector3f();
         private final Quaternionf rotationCache = new Quaternionf();
 
-        //Lock
+        // Lock
         private final DuplexLock lock = new DuplexLock();
 
         private BoneStateHandler(@Nullable UUID uuid, @NotNull Consumer<UUID> consumer) {
             this.uuid = uuid;
             this.consumer = consumer;
             state = new AnimationStateHandler<>(
-                AnimationProgress.EMPTY,
-                (b, a) -> skipInterpolation = (a != null && a.skipInterpolation()) || (parent != null && parent.state(uuid).skipInterpolation)
-            );
+                    AnimationProgress.EMPTY,
+                    (b, a) -> skipInterpolation = (a != null && a.skipInterpolation())
+                            || (parent != null && parent.state(uuid).skipInterpolation));
         }
 
         private @NotNull BoneMovement before() {
@@ -587,8 +678,10 @@ public final class RenderedBone implements BoneEventHandler {
             return current != null ? current : after();
         }
 
-        @NotNull BoneMovement after() {
-            if (!updateAfterTransform.compareAndSet(true, false)) return afterTransform;
+        @NotNull
+        BoneMovement after() {
+            if (!updateAfterTransform.compareAndSet(true, false))
+                return afterTransform;
             var keyframe = state.afterKeyframe(AnimationProgress.EMPTY);
             var preventModifierUpdate = interpolationDuration() < 1;
             var def = keyframe.animate(defaultFrame, movementCache);
@@ -597,13 +690,14 @@ public final class RenderedBone implements BoneEventHandler {
                 MathUtil.fma(
                         def.position().rotate(p.rotation()),
                         p.scale(),
-                        p.position()
-                    ).sub(parent.lastModifiedPosition)
-                    .add(modifiedPosition(preventModifierUpdate));
+                        p.position()).sub(parent.lastModifiedPosition)
+                        .add(modifiedPosition(preventModifierUpdate));
                 def.scale().mul(p.scale());
-                def.rotation().set((keyframe.globalRotation() ? rotationCache.identity() : p.rotation().div(parent.lastModifiedRotation, rotationCache))
-                    .mul(def.rotation())
-                    .mul(modifiedRotation(preventModifierUpdate)));
+                def.rotation()
+                        .set((keyframe.globalRotation() ? rotationCache.identity()
+                                : p.rotation().div(parent.lastModifiedRotation, rotationCache))
+                                .mul(def.rotation())
+                                .mul(modifiedRotation(preventModifierUpdate)));
             } else {
                 def.position().add(modifiedPosition(preventModifierUpdate));
                 def.rotation().mul(modifiedRotation(preventModifierUpdate));
@@ -631,33 +725,34 @@ public final class RenderedBone implements BoneEventHandler {
         }
 
         private int interpolationDuration() {
-            if (skipInterpolation) return 0;
+            if (skipInterpolation)
+                return 0;
             var frame = state.frame() / (float) Tracker.MINECRAFT_TICK_MULTIPLIER;
             return Math.round(frame + MathUtil.FLOAT_COMPARISON_EPSILON);
         }
 
         private void sendTransformation(@NotNull PacketBundler bundler) {
-            if (transformer == null) return;
+            if (transformer == null)
+                return;
             var boneMovement = after();
-            if (currentTransform == boneMovement) return;
+            if (currentTransform == boneMovement)
+                return;
             currentTransform = boneMovement;
             var mul = scale.getAsFloat();
             transformer.transform(
-                interpolationDuration(),
-                MathUtil.fma(
-                    itemStack.offset().rotate(boneMovement.rotation(), positionCache)
-                        .add(boneMovement.position())
-                        .add(root.group.getPosition()),
-                    mul,
-                    itemStack.position()
-                ).add(defaultPosition.get()),
-                boneMovement.scale()
-                    .mul(itemStack.scale(), scaleCache)
-                    .mul(mul)
-                    .max(EMPTY_VECTOR),
-                boneMovement.rotation(),
-                bundler
-            );
+                    interpolationDuration(),
+                    MathUtil.fma(
+                            itemStack.offset().rotate(boneMovement.rotation(), positionCache)
+                                    .add(boneMovement.position())
+                                    .add(root.group.getPosition()),
+                            mul,
+                            itemStack.position()).add(defaultPosition.get()),
+                    boneMovement.scale()
+                            .mul(itemStack.scale(), scaleCache)
+                            .mul(mul)
+                            .max(EMPTY_VECTOR),
+                    boneMovement.rotation(),
+                    bundler);
         }
 
         private @NotNull Vector3f worldPosition(@NotNull Vector3f localOffset, @NotNull Vector3f globalOffset) {
@@ -666,26 +761,27 @@ public final class RenderedBone implements BoneEventHandler {
             var before = before();
             return lock.accessToReadLock(() -> MathUtil.fma(
                     InterpolationUtil.lerp(before.position(), current.position(), progress)
-                        .add(itemStack.offset())
-                        .add(localOffset)
-                        .rotate(
-                            MathUtil.toQuaternion(InterpolationUtil.lerp(before.rawRotation(), current.rawRotation(), progress))
-                        ),
+                            .add(itemStack.offset())
+                            .add(localOffset)
+                            .rotate(
+                                    MathUtil.toQuaternion(InterpolationUtil.lerp(before.rawRotation(),
+                                            current.rawRotation(), progress))),
                     InterpolationUtil.lerp(before.scale(), current.scale(), progress),
                     globalOffset
 
-                )
-                .add(root.getGroup().getPosition())
-                .mul(scale.getAsFloat())
-                .rotateX(-rotation.radianX())
-                .rotateY(-rotation.radianY()));
+            )
+                    .add(root.getGroup().getPosition())
+                    .mul(scale.getAsFloat())
+                    .rotateX(-rotation.radianX())
+                    .rotateY(-rotation.radianY()));
         }
 
         private @NotNull Vector3f worldRotation() {
             var progress = progress();
             var current = current();
             var before = before();
-            return lock.accessToReadLock(() -> InterpolationUtil.lerp(before.rawRotation(), current.rawRotation(), progress));
+            return lock.accessToReadLock(
+                    () -> InterpolationUtil.lerp(before.rawRotation(), current.rawRotation(), progress));
         }
     }
 
@@ -699,8 +795,10 @@ public final class RenderedBone implements BoneEventHandler {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (!(obj instanceof RenderedBone bone)) return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof RenderedBone bone))
+            return false;
         return uuid().equals(bone.uuid());
     }
 
@@ -714,4 +812,3 @@ public final class RenderedBone implements BoneEventHandler {
         return name().toString();
     }
 }
-

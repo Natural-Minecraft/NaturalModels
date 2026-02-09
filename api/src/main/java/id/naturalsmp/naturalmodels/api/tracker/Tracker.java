@@ -159,10 +159,14 @@ public abstract class Tracker implements AutoCloseable {
         tick((t, s) -> pipeline.rotate(
                 t.rotation(),
                 s.tickBundler));
+        tick((t, s) -> pipeline.iterateTree(bone -> bone.attachments().forEach(a -> a.update(bone, null))));
         tick((t, s) -> {
             var perPlayer = perPlayerHandler;
-            if (perPlayer != null)
-                pipeline.nonHidePlayer().forEach(p -> perPlayer.accept(t, p));
+            pipeline.nonHidePlayer().forEach(p -> {
+                if (perPlayer != null)
+                    perPlayer.accept(t, p);
+                pipeline.iterateTree(bone -> bone.attachments().forEach(a -> a.update(bone, p.uuid())));
+            });
         });
         pipeline.spawnPacketHandler(p -> start());
         pipeline.eventDispatcher().handleStateCreate((bone, uuid) -> bundlerSet.perPlayerViewBundler
