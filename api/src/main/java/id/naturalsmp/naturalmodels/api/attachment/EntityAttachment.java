@@ -46,7 +46,7 @@ public class EntityAttachment implements BoneAttachment {
     @Override
     public void update(@NotNull RenderedBone bone, @Nullable UUID player) {
         var pos = bone.worldPosition(localOffset, globalOffset, player);
-        var loc = bone.getRenderContext().source().location().clone().add(pos.x, pos.y, pos.z);
+        var loc = bone.getRenderContext().source().location().add(pos.x, pos.y, pos.z);
 
         // Use immediate teleport for the entity.
         entity.teleport(loc);
