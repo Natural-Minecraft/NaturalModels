@@ -9,6 +9,7 @@ package id.naturalsmp.naturalmodels.api.tracker;
 import id.naturalsmp.naturalmodels.api.NaturalModels;
 import id.naturalsmp.naturalmodels.api.animation.AnimationIterator;
 import id.naturalsmp.naturalmodels.api.animation.AnimationModifier;
+import id.naturalsmp.naturalmodels.api.animation.AnimationState;
 import id.naturalsmp.naturalmodels.api.bone.BoneTags;
 import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
 import id.naturalsmp.naturalmodels.api.data.renderer.RenderPipeline;
@@ -126,6 +127,7 @@ public class EntityTracker extends Tracker {
         pipeline.addRotationModifier(HEAD_WITH_CHILDREN_PREDICATE, headRotator);
 
         var damageTickProvider = FunctionUtil.throttleTickFloat(entity::damageTick);
+        var walkSpeedSupplier = FunctionUtil.throttleTickFloat(entity::walkSpeed);
         var walkSupplier = FunctionUtil.throttleTickBoolean(() -> entity.onWalk()
                 || damageTickProvider.getAsFloat() > 0.25 || pipeline.bones().stream().anyMatch(e -> {
                     var hitBox = e.getHitBox();
