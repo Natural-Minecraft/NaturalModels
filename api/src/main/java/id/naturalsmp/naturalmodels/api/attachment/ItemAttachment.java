@@ -51,7 +51,7 @@ public class ItemAttachment implements BoneAttachment {
     @Override
     public void update(@NotNull RenderedBone bone, @Nullable UUID player) {
         var pos = bone.worldPosition(localOffset, globalOffset, player);
-        var loc = bone.renderContext().source().location().clone().add(pos.x, pos.y, pos.z);
+        var loc = bone.getRenderContext().source().location().clone().add(pos.x, pos.y, pos.z);
 
         // We use a dummy packet bundler for now if we want it synced immediately,
         // but normally this should be called with a bundler?
