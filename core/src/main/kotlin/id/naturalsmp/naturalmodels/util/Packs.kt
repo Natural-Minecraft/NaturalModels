@@ -42,7 +42,11 @@ class ItemsAdderGenerator : PackGenerator {
             pack[it.overlay()] = PackByte(it.path(), bytes)
             
             val relativePath = it.path().path
-            val targetFile = File(iaData, "assets/$relativePath")
+            val targetFile = if (relativePath.contains("assets/")) {
+                File(iaData, "assets/${relativePath.substringAfter("assets/")}")
+            } else {
+                File(iaData, relativePath)
+            }
             
             if (!targetFile.exists() || targetFile.length() != bytes.size.toLong()) {
                 targetFile.parentFile.mkdirs()
