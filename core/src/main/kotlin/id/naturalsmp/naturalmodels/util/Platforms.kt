@@ -35,7 +35,7 @@ private val LATEST_VERSION_CACHE = Caffeine.newBuilder()
     .expireAfterWrite(5, TimeUnit.MINUTES)
     .build<Any, HttpUtil.LatestVersion> { HttpUtil.versionList() }
 
-private val GSON = GsonBuilder().disableHtmlEscaping().create()
+internal val GSON = GsonBuilder().disableHtmlEscaping().create()
 
 val LATEST_VERSION: HttpUtil.LatestVersion get() = LATEST_VERSION_CACHE.get(Unit)
 

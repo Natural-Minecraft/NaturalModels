@@ -6,6 +6,7 @@
  */
 package id.naturalsmp.naturalmodels.util
 
+import com.google.gson.JsonObject
 import id.naturalsmp.naturalmodels.api.NaturalModelsConfig
 import id.naturalsmp.naturalmodels.api.NaturalModelsConfig.PackType.*
 import id.naturalsmp.naturalmodels.api.pack.*
@@ -38,15 +39,28 @@ class ItemsAdderGenerator : PackGenerator {
         val changed = AtomicBoolean()
 
         pipeline.forEachParallel(build.resources(), PackResource::estimatedSize) {
-            val bytes = it.get()
-            pack[it.overlay()] = PackByte(it.path(), bytes)
-            
+            var bytes = it.get()
             val relativePath = it.path().path
-            val targetFile = if (relativePath.contains("assets/")) {
-                File(iaData, "assets/${relativePath.substringAfter("assets/")}")
-            } else {
-                File(iaData, relativePath)
+            
+            // For ItemsAdder, we flatten the pack by stripping overlay prefixes from the path.
+            // and more importantly, we must strip the "overlays" section from pack.mcmeta.
+            
+            val targetPath = if (relativePath.contains("assets/")) {
+                "assets/${relativePath.substringAfter("assets/")}"
+            } else relativePath
+            
+            if (relativePath == "pack.mcmeta") {
+                runCatching {
+                    val json = GSON.fromJson(bytes.toString(Charsets.UTF_8), JsonObject::class.java)
+                    if (json.has("overlays")) {
+                        json.remove("overlays")
+                        bytes = json.toString().toByteArray(Charsets.UTF_8)
+                    }
+                }
             }
+            
+            pack[it.overlay()] = PackByte(it.path(), bytes)
+            val targetFile = File(iaData, targetPath)
             
             if (!targetFile.exists() || targetFile.length() != bytes.size.toLong()) {
                 targetFile.parentFile.mkdirs()
@@ -55,7 +69,7 @@ class ItemsAdderGenerator : PackGenerator {
                 debugPack {
                     componentOf(
                         "Exported to ItemsAdder: ".toComponent(),
-                        relativePath.toComponent(NamedTextColor.GREEN)
+                        targetPath.toComponent(NamedTextColor.GREEN)
                     )
                 }
             }
