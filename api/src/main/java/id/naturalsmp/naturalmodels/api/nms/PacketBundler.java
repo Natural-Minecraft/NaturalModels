@@ -12,13 +12,34 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Collects multiple packets to be sent together to a player.
  * <p>
- * This helps optimize network traffic by grouping related updates (e.g., bone movements)
+ * This helps optimize network traffic by grouping related updates (e.g., bone
+ * movements)
  * into a single bundle or batch.
  * </p>
  *
  * @since 1.15.2
  */
 public interface PacketBundler {
+
+    /**
+     * An empty packet bundler that does nothing.
+     */
+    PacketBundler EMPTY = new PacketBundler() {
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public void send(@NotNull PlatformPlayer player, @NotNull Runnable onSuccess) {
+            onSuccess.run();
+        }
+    };
 
     /**
      * Checks if the bundler contains no packets.
@@ -53,16 +74,17 @@ public interface PacketBundler {
      * @since 1.15.2
      */
     default void send(@NotNull PlatformPlayer player) {
-        send(player, () -> {});
+        send(player, () -> {
+        });
     }
 
     /**
-     * Sends all collected packets to the specified player and executes a callback on success.
+     * Sends all collected packets to the specified player and executes a callback
+     * on success.
      *
-     * @param player the target player
+     * @param player    the target player
      * @param onSuccess the callback to run after sending
      * @since 1.15.2
      */
     void send(@NotNull PlatformPlayer player, @NotNull Runnable onSuccess);
 }
-
