@@ -30,37 +30,34 @@ fun NaturalModelsConfig.PackType.toGenerator() = when (this) {
 }
 
 class ItemsAdderGenerator : PackGenerator {
-    private val iaData = File(DATA_FOLDER.parent, "ItemsAdder/data/resource_pack")
-    override val exists: Boolean = iaData.exists()
+    private val iaContents = File(DATA_FOLDER.parent, "ItemsAdder/contents/naturalmodels/resourcepack")
+    override val exists: Boolean = File(DATA_FOLDER.parent, "ItemsAdder").exists()
 
     override fun create(zipper: PackZipper, pipeline: ReloadPipeline): PackResult {
         val build = zipper.build()
-        val pack = PackResult(build.meta(), iaData)
+        val pack = PackResult(build.meta(), iaContents)
         val changed = AtomicBoolean()
 
         pipeline.forEachParallel(build.resources(), PackResource::estimatedSize) {
             var bytes = it.get()
             val relativePath = it.path().path
             
-            // For ItemsAdder, we flatten the pack by stripping overlay prefixes from the path.
-            // and more importantly, we must strip the "overlays" section from pack.mcmeta.
+            // For ItemsAdder contents, we flatten the pack by stripping overlay prefixes
+            // so that e.g. "naturalmodels_modern/assets/naturalmodels/models/..." becomes
+            // "assets/naturalmodels/models/..." which is the standard resource pack structure.
             
             val targetPath = if (relativePath.contains("assets/")) {
                 "assets/${relativePath.substringAfter("assets/")}"
             } else relativePath
             
-            if (relativePath == "pack.mcmeta") {
-                runCatching {
-                    val json = GSON.fromJson(bytes.toString(Charsets.UTF_8), JsonObject::class.java)
-                    if (json.has("overlays")) {
-                        json.remove("overlays")
-                        bytes = json.toString().toByteArray(Charsets.UTF_8)
-                    }
-                }
+            // Skip pack.mcmeta and pack.png for contents mode — IA generates its own
+            if (relativePath == "pack.mcmeta" || relativePath == "pack.png") {
+                pack[it.overlay()] = PackByte(it.path(), bytes)
+                return@forEachParallel
             }
             
             pack[it.overlay()] = PackByte(it.path(), bytes)
-            val targetFile = File(iaData, targetPath)
+            val targetFile = File(iaContents, targetPath)
             
             if (!targetFile.exists() || targetFile.length() != bytes.size.toLong()) {
                 targetFile.parentFile.mkdirs()
@@ -68,7 +65,7 @@ class ItemsAdderGenerator : PackGenerator {
                 changed.set(true)
                 debugPack {
                     componentOf(
-                        "Exported to ItemsAdder: ".toComponent(),
+                        "Exported to ItemsAdder contents: ".toComponent(),
                         targetPath.toComponent(NamedTextColor.GREEN)
                     )
                 }
