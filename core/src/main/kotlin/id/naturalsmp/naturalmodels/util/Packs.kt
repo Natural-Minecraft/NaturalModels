@@ -99,7 +99,7 @@ class ItemsAdderGenerator : PackGenerator {
             sb.append("    resource:\n")
             sb.append("      material: ").append(itemMaterial).append("\n")
             sb.append("      generate: false\n")
-            sb.append("      model_path: \"").append(ns).append(":modern_item/").append(name).append("\"\n")
+            sb.append("      model_path: \"").append("modern_item/").append(name).append("\"\n")
             sb.append("      model_id: ").append(id).append("\n")
         }
 
