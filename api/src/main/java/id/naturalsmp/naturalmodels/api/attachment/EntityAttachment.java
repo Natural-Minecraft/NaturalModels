@@ -8,6 +8,7 @@ package id.naturalsmp.naturalmodels.api.attachment;
 
 import id.naturalsmp.naturalmodels.api.bone.RenderedBone;
 import id.naturalsmp.naturalmodels.api.platform.PlatformEntity;
+import id.naturalsmp.naturalmodels.api.platform.PlatformLocation;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;

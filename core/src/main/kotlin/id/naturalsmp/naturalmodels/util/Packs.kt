@@ -101,17 +101,6 @@ class ItemsAdderGenerator : PackGenerator {
             sb.append("      generate: false\n")
             sb.append("      model_path: \"").append("modern_item/").append(name).append("\"\n")
             sb.append("      model_id: ").append(id).append("\n")
-
-            // Generate a placeholder model JSON so ItemsAdder validation passes.
-            // NaturalModels only generates per-bone files (e.g. demon_knight_h_head_18.json),
-            // but never a single composite file (demon_knight.json) that model_path references.
-            // The actual model rendering is handled by NaturalModels display entities at runtime.
-            val modelJson = File(modelsDir, "$name.json")
-            val placeholder = """{"parent":"minecraft:item/generated"}"""
-            if (!modelJson.exists() || modelJson.readText() != placeholder) {
-                modelJson.parentFile.mkdirs()
-                modelJson.writeText(placeholder)
-            }
         }
 
         if (!modelsFile.exists() || modelsFile.readText() != sb.toString()) {

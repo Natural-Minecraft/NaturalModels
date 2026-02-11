@@ -216,6 +216,15 @@ object ModelManagerImpl : ModelManager, GlobalManager {
                     if (isNotEmpty()) {
                         val id = indexer++
                         modelIdMap[blueprint.name] = id
+                        
+                        // Root model for the entire blueprint
+                        modernModel.ifAvailable {
+                            val composite = flatMap { it }.toModernJson()
+                            models.add("${blueprint.name}.json", size) {
+                                composite.toByteArray()
+                            }
+                        }
+                        
                         id
                     } else null
                 }
@@ -265,7 +274,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
             }
         }
 
-        private fun List<BlueprintJson>.toModernJson() = if (size == 1) first().toModernJson() else jsonObjectOf(
+        fun List<BlueprintJson>.toModernJson() = if (size == 1) first().toModernJson() else jsonObjectOf(
             "type" to "minecraft:composite",
             "models" to fold(JsonArray(size)) { array, element -> array.apply { add(element.toModernJson()) } }
         )
