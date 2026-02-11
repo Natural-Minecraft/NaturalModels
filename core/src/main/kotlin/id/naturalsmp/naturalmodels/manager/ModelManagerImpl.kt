@@ -194,6 +194,14 @@ object ModelManagerImpl : ModelManager, GlobalManager {
             model.forEach { addModelTo(targetMap, it) }
         }
 
+        private fun addModelTo(
+            targetMap: MutableMap<String, ModelRenderer>,
+            importedModel: ImportedModel
+        ) {
+            val size = importedModel.jsonSize
+            val blueprint = importedModel.blueprint
+            val hasTexture = blueprint.hasTexture()
+
             // Collect all modern JSONs for the entire blueprint to create a composite root model.
             // This is used for inventory icons and held items so they don't appear transparent.
             val allModernJsons = mutableListOf<BlueprintJson>()
