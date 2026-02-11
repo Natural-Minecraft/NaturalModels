@@ -194,13 +194,39 @@ object ModelManagerImpl : ModelManager, GlobalManager {
             model.forEach { addModelTo(targetMap, it) }
         }
 
-        private fun addModelTo(
-            targetMap: MutableMap<String, ModelRenderer>,
-            importedModel: ImportedModel
-        ) {
-            val size = importedModel.jsonSize
-            val blueprint = importedModel.blueprint
-            val hasTexture = blueprint.hasTexture()
+            // Collect all modern JSONs for the entire blueprint to create a composite root model.
+            // This is used for inventory icons and held items so they don't appear transparent.
+            val allModernJsons = mutableListOf<BlueprintJson>()
+            
+            fun BlueprintElement.Group.collectModern(obfuscator: id.naturalsmp.naturalmodels.api.pack.PackObfuscator.Pair, parent: id.naturalsmp.naturalmodels.api.data.blueprint.ModelBlueprint) {
+                buildModernJson(obfuscator, parent)?.let { allModernJsons.addAll(it) }
+                children.filterIsInstance<BlueprintElement.Group>().forEach { it.collectModern(obfuscator, parent) }
+            }
+
+            if (hasTexture) {
+                modernModel.ifAvailable {
+                    blueprint.elements.filterIsInstance<BlueprintElement.Group>().forEach { it.collectModern(obfuscator, blueprint) }
+                    
+                    if (allModernJsons.isNotEmpty()) {
+                        val rootId = indexer++
+                        modelIdMap[blueprint.name] = rootId
+                        
+                        val compositeJson = allModernJsons.toModernJson()
+                        
+                        // Add to item overrides for inventory/hand display
+                        entries += jsonObjectOf(
+                            "threshold" to rootId,
+                            "model" to compositeJson
+                        )
+                        
+                        // Root model file for ItemsAdder/MMOItems path reference
+                        models.add("${blueprint.name}.json", size) {
+                            compositeJson.toByteArray()
+                        }
+                    }
+                }
+            }
+
             targetMap[blueprint.name] = blueprint.toRenderer(importedModel.type) render@ { group ->
                 if (!hasTexture) return@render null
                 listOfNotNull(
@@ -214,18 +240,7 @@ object ModelManagerImpl : ModelManager, GlobalManager {
                     }
                 ).run {
                     if (isNotEmpty()) {
-                        val id = indexer++
-                        modelIdMap[blueprint.name] = id
-                        
-                        // Root model for the entire blueprint
-                        modernModel.ifAvailable {
-                            val composite = flatMap { it }.toModernJson()
-                            models.add("${blueprint.name}.json", size) {
-                                composite.toByteArray()
-                            }
-                        }
-                        
-                        id
+                        indexer++
                     } else null
                 }
             }.apply {
